@@ -6,6 +6,7 @@ Conversion program from hipo to root format.
 
 ```
 git clone https://github.com/tylern4/hipo2root.git
+cd hipo2root
 scons
 make
 ```
