@@ -16,10 +16,10 @@ make
 ./hipo2root infile.hipo outfile.root
 ```
 
-
-### TODO
+## TODO
 
 * Allow bank configuration with file.
+* Add banks to directories.
 * Check branch types are converted properly:
   - Look into "vector3f" typed branches
 * Look into  fixing:
