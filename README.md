@@ -15,3 +15,12 @@ make
 ```
 ./hipo2root infile.hipo outfile.root
 ```
+
+
+### TODO
+
+* Allow bank configuration with file.
+* Check branch types are converted properly:
+  - Look into "vector3f" typed branches
+* Look into  fixing:
+  - "note: variable tracking size limit exceeded with -fvar-tracking-assignments, retrying without"
