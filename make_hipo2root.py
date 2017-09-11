@@ -65,7 +65,7 @@ middle = """
     int size = 0;
     int nrecords = reader.getRecordCount();
     for (int event_num = 0; event_num < nrecords; event_num++) {
-        \\\\cout << \"[\" << int(100 * event_num/nrecords) << \"%]\" << endl;
+        //cout << \"[\" << int(100 * event_num/nrecords) << \"%]\" << endl;
 
         reader.readRecord(event_num);
         int gpart = reader.getEventCount();
