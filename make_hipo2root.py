@@ -6,12 +6,12 @@ import glob
 import os
 
 
-# files = ["bankdefs/hipo/ECAL.json", "bankdefs/hipo/EVENT.json",
-#         "bankdefs/hipo/TOF.json", "bankdefs/hipo/DC.json",
-#         "bankdefs/hipo/CVT.json", "bankdefs/hipo/SVT.json"]
+# TODO: get the needed banks from config file
+files = ["bankdefs/hipo/ECAL.json", "bankdefs/hipo/EVENT.json",
+         "bankdefs/hipo/TOF.json", "bankdefs/hipo/DC.json",
+         "bankdefs/hipo/CVT.json", "bankdefs/hipo/SVT.json"]
 
-files = ["bankdefs/hipo/EVENT.json"]
-
+# TODO: Make sure all types are being converted properly
 type_check = {"int8": "int",
               "int16": "int16_t",
               "int32": "int32_t",
@@ -20,20 +20,24 @@ type_check = {"int8": "int",
               "vector3f": "TVector3"}
 
 begining = """
+//Standard libs
 #include <vector>
 #include <cstdlib>
 #include <time.h>
 #include <iostream>
+//ROOT libs
 #include "TH1.h"
 #include "TVector3.h"
+#include "TTree.h"
+#include "TFile.h"
+//Hipo libs
 #include "reader.h"
 #include "writer.h"
 #include "event.h"
 #include "node.h"
 #include "text.h"
 #include "data.h"
-#include "TTree.h"
-#include "TFile.h"
+
 
 using namespace std;
 
