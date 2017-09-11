@@ -1,0 +1,4 @@
+
+*.log
+.sconf_temp
+.sconsign.dblite
