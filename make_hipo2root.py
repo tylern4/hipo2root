@@ -65,7 +65,7 @@ middle = """
     int size = 0;
     int nrecords = reader.getRecordCount();
     for (int event_num = 0; event_num < nrecords; event_num++) {
-        cout << \"[\" << int(100 * event_num/nrecords) << \"%]\" << endl;
+        \\\\cout << \"[\" << int(100 * event_num/nrecords) << \"%]\" << endl;
 
         reader.readRecord(event_num);
         int gpart = reader.getEventCount();
@@ -82,11 +82,11 @@ loop = """
 
 ending = """
     }
-OutputFile->cd();
-clas12->Write();
-OutputFile->Close();
+    OutputFile->cd();
+    clas12->Write();
+    OutputFile->Close();
 
-return 0;
+    return 0;
 }
 """
 
@@ -139,3 +139,6 @@ def make_hipo2root():
         map(write, clear_vec)
         write("\n\t\t}\n")
         write(ending)
+
+if __name__ == '__main__':
+    make_hipo2root()

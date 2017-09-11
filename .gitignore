@@ -8,3 +8,5 @@ hipo2root.cpp
 *.pyc
 
 make_hipo2root.pyc
+
+hipo2root.cpp
