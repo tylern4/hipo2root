@@ -1,18 +1,18 @@
 
-#include <vector>
-#include <cstdlib>
-#include <time.h>
-#include <iostream>
-#include "TH1.h"
-#include "TVector3.h"
-#include "reader.h"
-#include "writer.h"
-#include "event.h"
-#include "node.h"
-#include "text.h"
-#include "data.h"
-#include "TTree.h"
-#include "TFile.h"
+# include <vector>
+# include <cstdlib>
+# include <time.h>
+# include <iostream>
+# include "TH1.h"
+# include "TVector3.h"
+# include "reader.h"
+# include "writer.h"
+# include "event.h"
+# include "node.h"
+# include "text.h"
+# include "data.h"
+# include "TTree.h"
+# include "TFile.h"
 
 using namespace std;
 
@@ -38,8 +38,6 @@ int main(int argc, char **argv) {
     TFile *OutputFile = new TFile(OutFileName, "RECREATE");
     OutputFile->SetCompressionSettings(9);
     TTree *clas12 = new TTree("clas12", "clas12");
-
-    int size = 0;
 
 
 	hipo::node<int32_t> *MC_Particle_pid_node = reader.getNode<int32_t>(20,1); 
@@ -105,7 +103,68 @@ int main(int argc, char **argv) {
 	hipo::node<double> *REC_Detector_energy_node = reader.getNode<double>(25,15); 
 
 
-	std::vector<int32_t> MC_Particle_pid;	std::vector<double> MC_Particle_px;	std::vector<double> MC_Particle_py;	std::vector<double> MC_Particle_pz;	std::vector<double> MC_Particle_vx;	std::vector<double> MC_Particle_vy;	std::vector<double> MC_Particle_vz;	std::vector<int32_t> RECHB_Particle_pid;	std::vector<double> RECHB_Particle_px;	std::vector<double> RECHB_Particle_py;	std::vector<double> RECHB_Particle_pz;	std::vector<double> RECHB_Particle_vx;	std::vector<double> RECHB_Particle_vy;	std::vector<double> RECHB_Particle_vz;	std::vector<int> RECHB_Particle_charge;	std::vector<double> RECHB_Particle_mass;	std::vector<double> RECHB_Particle_beta;	std::vector<double> RECHB_Particle_chi2pid;	std::vector<int> RECHB_Particle_status;	std::vector<int16_t> RECHB_Detector_index;	std::vector<int16_t> RECHB_Detector_pindex;	std::vector<int16_t> RECHB_Detector_detector;	std::vector<int16_t> RECHB_Detector_sector;	std::vector<int16_t> RECHB_Detector_layer;	std::vector<int16_t> RECHB_Detector_component;	std::vector<double> RECHB_Detector_x;	std::vector<double> RECHB_Detector_y;	std::vector<double> RECHB_Detector_z;	std::vector<double> RECHB_Detector_hx;	std::vector<double> RECHB_Detector_hy;	std::vector<double> RECHB_Detector_hz;	std::vector<double> RECHB_Detector_path;	std::vector<double> RECHB_Detector_time;	std::vector<double> RECHB_Detector_energy;	std::vector<int32_t> REC_Particle_pid;	std::vector<double> REC_Particle_px;	std::vector<double> REC_Particle_py;	std::vector<double> REC_Particle_pz;	std::vector<double> REC_Particle_vx;	std::vector<double> REC_Particle_vy;	std::vector<double> REC_Particle_vz;	std::vector<int> REC_Particle_charge;	std::vector<double> REC_Particle_mass;	std::vector<double> REC_Particle_beta;	std::vector<double> REC_Particle_chi2pid;	std::vector<int> REC_Particle_status;	std::vector<int16_t> REC_Detector_index;	std::vector<int16_t> REC_Detector_pindex;	std::vector<int16_t> REC_Detector_detector;	std::vector<int16_t> REC_Detector_sector;	std::vector<int16_t> REC_Detector_layer;	std::vector<int16_t> REC_Detector_component;	std::vector<double> REC_Detector_x;	std::vector<double> REC_Detector_y;	std::vector<double> REC_Detector_z;	std::vector<double> REC_Detector_hx;	std::vector<double> REC_Detector_hy;	std::vector<double> REC_Detector_hz;	std::vector<double> REC_Detector_path;	std::vector<double> REC_Detector_time;	std::vector<double> REC_Detector_energy;
+	std::vector<int32_t> MC_Particle_pid;  
+	std::vector<double> MC_Particle_px;  
+	std::vector<double> MC_Particle_py;  
+	std::vector<double> MC_Particle_pz;  
+	std::vector<double> MC_Particle_vx;  
+	std::vector<double> MC_Particle_vy;  
+	std::vector<double> MC_Particle_vz;  
+	std::vector<int32_t> RECHB_Particle_pid;  
+	std::vector<double> RECHB_Particle_px;  
+	std::vector<double> RECHB_Particle_py;  
+	std::vector<double> RECHB_Particle_pz;  
+	std::vector<double> RECHB_Particle_vx;  
+	std::vector<double> RECHB_Particle_vy;  
+	std::vector<double> RECHB_Particle_vz;  
+	std::vector<int> RECHB_Particle_charge;  
+	std::vector<double> RECHB_Particle_mass;  
+	std::vector<double> RECHB_Particle_beta;  
+	std::vector<double> RECHB_Particle_chi2pid;  
+	std::vector<int> RECHB_Particle_status;  
+	std::vector<int16_t> RECHB_Detector_index;  
+	std::vector<int16_t> RECHB_Detector_pindex;  
+	std::vector<int16_t> RECHB_Detector_detector;  
+	std::vector<int16_t> RECHB_Detector_sector;  
+	std::vector<int16_t> RECHB_Detector_layer;  
+	std::vector<int16_t> RECHB_Detector_component;  
+	std::vector<double> RECHB_Detector_x;  
+	std::vector<double> RECHB_Detector_y;  
+	std::vector<double> RECHB_Detector_z;  
+	std::vector<double> RECHB_Detector_hx;  
+	std::vector<double> RECHB_Detector_hy;  
+	std::vector<double> RECHB_Detector_hz;  
+	std::vector<double> RECHB_Detector_path;  
+	std::vector<double> RECHB_Detector_time;  
+	std::vector<double> RECHB_Detector_energy;  
+	std::vector<int32_t> REC_Particle_pid;  
+	std::vector<double> REC_Particle_px;  
+	std::vector<double> REC_Particle_py;  
+	std::vector<double> REC_Particle_pz;  
+	std::vector<double> REC_Particle_vx;  
+	std::vector<double> REC_Particle_vy;  
+	std::vector<double> REC_Particle_vz;  
+	std::vector<int> REC_Particle_charge;  
+	std::vector<double> REC_Particle_mass;  
+	std::vector<double> REC_Particle_beta;  
+	std::vector<double> REC_Particle_chi2pid;  
+	std::vector<int> REC_Particle_status;  
+	std::vector<int16_t> REC_Detector_index;  
+	std::vector<int16_t> REC_Detector_pindex;  
+	std::vector<int16_t> REC_Detector_detector;  
+	std::vector<int16_t> REC_Detector_sector;  
+	std::vector<int16_t> REC_Detector_layer;  
+	std::vector<int16_t> REC_Detector_component;  
+	std::vector<double> REC_Detector_x;  
+	std::vector<double> REC_Detector_y;  
+	std::vector<double> REC_Detector_z;  
+	std::vector<double> REC_Detector_hx;  
+	std::vector<double> REC_Detector_hy;  
+	std::vector<double> REC_Detector_hz;  
+	std::vector<double> REC_Detector_path;  
+	std::vector<double> REC_Detector_time;  
+	std::vector<double> REC_Detector_energy;  
+
 
 	clas12->Branch("MC_Particle_pid",&MC_Particle_pid); 
 	clas12->Branch("MC_Particle_px",&MC_Particle_px); 
@@ -169,10 +228,10 @@ int main(int argc, char **argv) {
 	clas12->Branch("REC_Detector_time",&REC_Detector_time); 
 	clas12->Branch("REC_Detector_energy",&REC_Detector_energy); 
 
+    int size = 0;
     int nrecords = reader.getRecordCount();
     for (int event_num = 0; event_num < nrecords; event_num++) {
-        cout << "[" << int(100 * event_num/nrecords) << "%]\\
-" << endl;
+        cout << "[" << int(100 * event_num/nrecords) << "%]" << endl;
 
         reader.readRecord(event_num);
         int gpart = reader.getEventCount();
@@ -545,8 +604,71 @@ int main(int argc, char **argv) {
                 REC_Detector_energy.push_back(REC_Detector_energy_node->getValue(s_num));
             }
 
-        }
-        clas12->Fill();
+		clas12 -> Fill();
+		MC_Particle_pid.clear();  
+		MC_Particle_px.clear();  
+		MC_Particle_py.clear();  
+		MC_Particle_pz.clear();  
+		MC_Particle_vx.clear();  
+		MC_Particle_vy.clear();  
+		MC_Particle_vz.clear();  
+		RECHB_Particle_pid.clear();  
+		RECHB_Particle_px.clear();  
+		RECHB_Particle_py.clear();  
+		RECHB_Particle_pz.clear();  
+		RECHB_Particle_vx.clear();  
+		RECHB_Particle_vy.clear();  
+		RECHB_Particle_vz.clear();  
+		RECHB_Particle_charge.clear();  
+		RECHB_Particle_mass.clear();  
+		RECHB_Particle_beta.clear();  
+		RECHB_Particle_chi2pid.clear();  
+		RECHB_Particle_status.clear();  
+		RECHB_Detector_index.clear();  
+		RECHB_Detector_pindex.clear();  
+		RECHB_Detector_detector.clear();  
+		RECHB_Detector_sector.clear();  
+		RECHB_Detector_layer.clear();  
+		RECHB_Detector_component.clear();  
+		RECHB_Detector_x.clear();  
+		RECHB_Detector_y.clear();  
+		RECHB_Detector_z.clear();  
+		RECHB_Detector_hx.clear();  
+		RECHB_Detector_hy.clear();  
+		RECHB_Detector_hz.clear();  
+		RECHB_Detector_path.clear();  
+		RECHB_Detector_time.clear();  
+		RECHB_Detector_energy.clear();  
+		REC_Particle_pid.clear();  
+		REC_Particle_px.clear();  
+		REC_Particle_py.clear();  
+		REC_Particle_pz.clear();  
+		REC_Particle_vx.clear();  
+		REC_Particle_vy.clear();  
+		REC_Particle_vz.clear();  
+		REC_Particle_charge.clear();  
+		REC_Particle_mass.clear();  
+		REC_Particle_beta.clear();  
+		REC_Particle_chi2pid.clear();  
+		REC_Particle_status.clear();  
+		REC_Detector_index.clear();  
+		REC_Detector_pindex.clear();  
+		REC_Detector_detector.clear();  
+		REC_Detector_sector.clear();  
+		REC_Detector_layer.clear();  
+		REC_Detector_component.clear();  
+		REC_Detector_x.clear();  
+		REC_Detector_y.clear();  
+		REC_Detector_z.clear();  
+		REC_Detector_hx.clear();  
+		REC_Detector_hy.clear();  
+		REC_Detector_hz.clear();  
+		REC_Detector_path.clear();  
+		REC_Detector_time.clear();  
+		REC_Detector_energy.clear();  
+
+		}
+
     }
 OutputFile->cd();
 clas12->Write();

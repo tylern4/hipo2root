@@ -2,3 +2,9 @@
 *.log
 .sconf_temp
 .sconsign.dblite
+
+hipo2root.cpp
+
+*.pyc
+
+make_hipo2root.pyc

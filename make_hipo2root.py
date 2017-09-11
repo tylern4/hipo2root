@@ -59,11 +59,13 @@ int main(int argc, char **argv) {
     TFile *OutputFile = new TFile(OutFileName, "RECREATE");
     OutputFile->SetCompressionSettings(9);
     TTree *clas12 = new TTree("clas12", "clas12");
+"""
 
+middle = """
     int size = 0;
     int nrecords = reader.getRecordCount();
     for (int event_num = 0; event_num < nrecords; event_num++) {
-        cout << \"[\" << int(100 * event_num/nrecords) << \"%]\\\r\\\n" << endl;
+        cout << \"[\" << int(100 * event_num/nrecords) << \"%]\" << endl;
 
         reader.readRecord(event_num);
         int gpart = reader.getEventCount();
@@ -77,9 +79,8 @@ loop = """
                 %s.push_back(%s_node->getValue(s_num));
             }
 """
+
 ending = """
-        }
-        clas12->Fill();
     }
 OutputFile->cd();
 clas12->Write();
@@ -95,6 +96,7 @@ def make_hipo2root():
     root_branches = []
     root_types = []
     loops = []
+    clear_vec = []
     for filename in files:
         with open(filename) as data_file:
             data = json.load(data_file)
@@ -104,7 +106,7 @@ def make_hipo2root():
                 bank_name = str(bank["bank"])
                 group = str(bank["group"])
                 info = str(bank["info"])
-                #print("/* \n", group, "\n", bank_name, "\n", info, "\n*/ \n")
+                # print("/* \n", group, "\n", bank_name, "\n", info, "\n*/ \n")
                 items = bank["items"]
                 for item in items:
                     type = type_check[str(item["type"])]
@@ -116,11 +118,11 @@ def make_hipo2root():
                     hipo_nodes.append("\t" + "hipo::node<" + type + "> *" + name +
                                       "_node = reader.getNode<" + type +
                                       ">(" + group + "," + str(item["id"]) + "); \n")
-
                     root_types.append("\tstd::vector<" +
                                       type + "> " + name + ";  \n")
                     root_branches.append("\t" + "clas12->Branch(\"" +
                                          name + "\",&" + name + "); \n")
+                    clear_vec.append("\t\t" + name + ".clear();  \n")
 
     with open("hipo2root.cpp", 'w') as outfile:
         write = lambda x: outfile.write(x)
@@ -131,6 +133,9 @@ def make_hipo2root():
         map(write, root_types)
         write("\n\n")
         map(write, root_branches)
-        write(middle)
+        map(write, middle)
         map(write, loops)
+        write("\n\t\tclas12 -> Fill();\n")
+        map(write, clear_vec)
+        write("\n\t\t}\n")
         write(ending)
