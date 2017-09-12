@@ -12,12 +12,12 @@ files = ["bankdefs/hipo/ECAL.json", "bankdefs/hipo/EVENT.json",
          "bankdefs/hipo/CVT.json", "bankdefs/hipo/SVT.json"]
 
 # TODO: Make sure all types are being converted properly
-type_check = {"int8": "int",
-              "int16": "int16_t",
-              "int32": "int32_t",
-              "float": "double",
-              "int64": "Int_t",
-              "vector3f": "TVector3"}
+type_check = {"int8": "std::int8_t",
+              "int16": "std::int16_t",
+              "int32": "std::int32_t",
+              "float": "float",
+              "int64": "std::int64_t",
+              "vector3f": "double"}
 
 begining = """
 //Standard libs
@@ -80,7 +80,7 @@ loop = """
             size = 0;
             size = %s_node->getLength();
             for (int s_num = 0; s_num < size; s_num++) {
-                %s.push_back(%s_node->getValue(s_num));
+                (%s.at(i))->push_back(%s_node->getValue(s_num));
             }
 """
 
@@ -104,26 +104,21 @@ def make_hipo2root():
     for filename in files:
         with open(filename) as data_file:
             data = json.load(data_file)
-
             for bank in data:
-                # pprint.pprint(bank)
                 bank_name = str(bank["bank"])
                 group = str(bank["group"])
                 info = str(bank["info"])
-                # print("/* \n", group, "\n", bank_name, "\n", info, "\n*/ \n")
                 items = bank["items"]
                 for item in items:
                     type = type_check[str(item["type"])]
-
                     name = bank_name.replace(
                         "::", "_") + "_" + str(item["name"])
-
                     loops.append(loop % (name, name, name))
                     hipo_nodes.append("\t" + "hipo::node<" + type + "> *" + name +
                                       "_node = reader.getNode<" + type +
                                       ">(" + group + "," + str(item["id"]) + "); \n")
-                    root_types.append("\tstd::vector<" +
-                                      type + "> " + name + ";  \n")
+                    root_types.append("\tstd::vector<std::vector<" +
+                                      type + ">* > " + name + ";  \n")
                     root_branches.append("\t" + "clas12->Branch(\"" +
                                          name + "\",&" + name + "); \n")
                     clear_vec.append("\t\t" + name + ".clear();  \n")
