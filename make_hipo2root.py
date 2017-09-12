@@ -80,7 +80,7 @@ loop = """
             size = 0;
             size = %s_node->getLength();
             for (int s_num = 0; s_num < size; s_num++) {
-                (%s.at(i))->push_back(%s_node->getValue(s_num));
+                %s.push_back(%s_node->getValue(s_num));
             }
 """
 
@@ -117,8 +117,8 @@ def make_hipo2root():
                     hipo_nodes.append("\t" + "hipo::node<" + type + "> *" + name +
                                       "_node = reader.getNode<" + type +
                                       ">(" + group + "," + str(item["id"]) + "); \n")
-                    root_types.append("\tstd::vector<std::vector<" +
-                                      type + ">* > " + name + ";  \n")
+                    root_types.append("\tstd::vector<" +
+                                      type + "> " + name + ";  \n")
                     root_branches.append("\t" + "clas12->Branch(\"" +
                                          name + "\",&" + name + "); \n")
                     clear_vec.append("\t\t" + name + ".clear();  \n")
