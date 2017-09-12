@@ -12,11 +12,11 @@ files = ["bankdefs/hipo/ECAL.json", "bankdefs/hipo/EVENT.json",
          "bankdefs/hipo/CVT.json", "bankdefs/hipo/SVT.json"]
 
 # TODO: Make sure all types are being converted properly
-type_check = {"int8": "std::int8_t",
-              "int16": "std::int16_t",
-              "int32": "std::int32_t",
-              "float": "float",
-              "int64": "std::int64_t",
+type_check = {"int8": "Int_t",
+              "int16": "Int_t",
+              "int32": "Int_t",
+              "float": "Float_t",
+              "int64": "Int_t",
               "vector3f": "double"}
 
 begining = """
@@ -38,9 +38,6 @@ begining = """
 #include "text.h"
 #include "data.h"
 
-
-using namespace std;
-
 int main(int argc, char **argv) {
 
     char InFileName[128];
@@ -49,12 +46,12 @@ int main(int argc, char **argv) {
     if (argc == 2) {
         sprintf(InFileName, \"%s\", argv[1]);
         sprintf(OutFileName, \"%s.root\", argv[1]);
-        cout << OutFileName << endl;
+        std::cout << OutFileName << std::endl;
     } else if (argc == 3) {
         sprintf(InFileName, \"%s\", argv[1]);
         sprintf(OutFileName, \"%s\", argv[2]);
     } else {
-        cout << \"Please provide a filename to read....\" << endl;
+        std::cout << \"Please provide a filename to read....\" << std::endl;
         exit(0);
     }
 
@@ -63,14 +60,13 @@ int main(int argc, char **argv) {
     TFile *OutputFile = new TFile(OutFileName, "RECREATE");
     OutputFile->SetCompressionSettings(9);
     TTree *clas12 = new TTree("clas12", "clas12");
+
+    int size = 0;
+    int nrecords = reader.getRecordCount();
 """
 
 middle = """
-    int size = 0;
-    int nrecords = reader.getRecordCount();
     for (int event_num = 0; event_num < nrecords; event_num++) {
-        //cout << \"[\" << int(100 * event_num/nrecords) << \"%]\" << endl;
-
         reader.readRecord(event_num);
         int gpart = reader.getEventCount();
         for (int i = 0; i < gpart; i++) {
@@ -118,9 +114,9 @@ def make_hipo2root():
                                       "_node = reader.getNode<" + type +
                                       ">(" + group + "," + str(item["id"]) + "); \n")
                     root_types.append("\tstd::vector<" +
-                                      type + "> " + name + ";  \n")
+                                      type + "> " + name + "; \n")
                     root_branches.append("\t" + "clas12->Branch(\"" +
-                                         name + "\",&" + name + "); \n")
+                                         name + "\",\"std::vector<" + type + ">\",&" + name + "); \n")
                     clear_vec.append("\t\t" + name + ".clear();  \n")
 
     with open("hipo2root.cpp", 'w') as outfile:
@@ -134,7 +130,7 @@ def make_hipo2root():
         map(write, root_branches)
         map(write, middle)
         map(write, loops)
-        write("\n\t\tclas12 -> Fill();\n")
+        write("\n\t\tclas12->Fill();\n")
         map(write, clear_vec)
         write("\n\t\t}\n")
         write(ending)
