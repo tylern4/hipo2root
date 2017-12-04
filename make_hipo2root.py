@@ -26,7 +26,6 @@ begining = """
 #include <time.h>
 #include <iostream>
 //ROOT libs
-#include "TH1.h"
 #include "TVector3.h"
 #include "TTree.h"
 #include "TFile.h"
@@ -76,7 +75,7 @@ loop = """
             size = 0;
             size = %s_node->getLength();
             for (int s_num = 0; s_num < size; s_num++) {
-                %s.push_back(%s_node->getValue(s_num));
+                %s[s_num] = %s_node->getValue(s_num);
             }
 """
 
@@ -113,11 +112,11 @@ def make_hipo2root():
                     hipo_nodes.append("\t" + "hipo::node<" + type + "> *" + name +
                                       "_node = reader.getNode<" + type +
                                       ">(" + group + "," + str(item["id"]) + "); \n")
-                    root_types.append("\tstd::vector<" +
-                                      type + "> " + name + "; \n")
+                    root_types.append("\t" +
+                                      type + " " + name + "[100]; \n")
                     root_branches.append("\t" + "clas12->Branch(\"" +
-                                         name + "\",\"std::vector<" + type + ">\",&" + name + "); \n")
-                    clear_vec.append("\t\t" + name + ".clear();  \n")
+                                         name + "\"," + name + "); \n")
+                    #clear_vec.append("\t\t" + name + ".clear();  \n")
 
     with open("hipo2root.cpp", 'w') as outfile:
         write = lambda x: outfile.write(x)
