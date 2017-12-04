@@ -1,6 +1,7 @@
 ROOTLIBS	= $(shell root-config --libs)
 HIPOLIBS = -Llibcpp -lhipo
 HIPOINC = -Ilibcpp
+HIPOOBJ = libcpp/libhipo.o
 
 CXX = g++
 CXXFLAGS = -O2 -fPIC -w -g $(shell root-config --cflags) $(HIPOINC)
@@ -13,7 +14,7 @@ libcpp:
 	scons
 
 main:	$(FILENAME).o
-	$(CXX) $(FILENAME).o -L. $(CXXFLAGS) $(HIPOLIBS) $(ROOTLIBS) -o $(TARGET)
+	$(CXX) $(FILENAME).o $(HIPOOBJ) -L. $(CXXFLAGS)  $(ROOTLIBS) -o $(TARGET)
 
 clean:
 	-rm -f $(TARGET) $(FILENAME).o
