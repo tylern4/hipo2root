@@ -35,23 +35,22 @@ type_check = {"int8": "Int_t",
               "int64": "Int_t",
               "vector3f": "double"}
 
-begining = """
-//Standard libs
-#include <vector>
-#include <cstdlib>
-#include <time.h>
-#include <iostream>
+begining = """//Standard libs
+# include <vector>
+# include <cstdlib>
+# include <time.h>
+# include <iostream>
 //ROOT libs
-#include "TVector3.h"
-#include "TTree.h"
-#include "TFile.h"
+# include "TVector3.h"
+# include "TTree.h"
+# include "TFile.h"
 //Hipo libs
-#include "reader.h"
-#include "writer.h"
-#include "event.h"
-#include "node.h"
-#include "text.h"
-#include "data.h"
+# include "reader.h"
+# include "writer.h"
+# include "event.h"
+# include "node.h"
+# include "text.h"
+# include "data.h"
 
 int main(int argc, char **argv) {
 
@@ -132,7 +131,7 @@ def make_hipo2root():
                                       type + " " + name + "[100]; \n")
                     root_branches.append("\t" + "clas12->Branch(\"" +
                                          name + "\"," + name + "); \n")
-                    #clear_vec.append("\t\t" + name + ".clear();  \n")
+                    # clear_vec.append("\t\t" + name + ".clear();  \n")
 
     with open("hipo2root.cpp", 'w') as outfile:
         write = lambda x: outfile.write(x)
