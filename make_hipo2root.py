@@ -7,15 +7,31 @@ import os
 
 
 # TODO: get the needed banks from config file
-files = ["bankdefs/hipo/ECAL.json", "bankdefs/hipo/EVENT.json",
-         "bankdefs/hipo/TOF.json", "bankdefs/hipo/DC.json",
-         "bankdefs/hipo/CVT.json", "bankdefs/hipo/SVT.json"]
+files = ["bankdefs/hipo/BST.json",
+         "bankdefs/hipo/DC.json",
+         "bankdefs/hipo/MC.json",
+         "bankdefs/hipo/CND.json",
+         "bankdefs/hipo/CLAS6EVENT.json",
+         "bankdefs/hipo/ECAL.json",
+         "bankdefs/hipo/HTCC.json",
+         "bankdefs/hipo/TOF.json",
+         "bankdefs/hipo/HEADER.json",
+         "bankdefs/hipo/DETECTOR.json",
+         "bankdefs/hipo/FMT.json",
+         "bankdefs/hipo/EVENT.json",
+         "bankdefs/hipo/BMT.json",
+         "bankdefs/hipo/CVT.json",
+         "bankdefs/hipo/DATA.json",
+         "bankdefs/hipo/FT.json",
+         "bankdefs/hipo/LTCC.json"]
+
 
 # TODO: Make sure all types are being converted properly
 type_check = {"int8": "Int_t",
               "int16": "Int_t",
               "int32": "Int_t",
               "float": "Float_t",
+              "double": "Double_t",
               "int64": "Int_t",
               "vector3f": "double"}
 
