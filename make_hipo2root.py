@@ -21,10 +21,10 @@ def make_hipo2root():
                 for item in items:
                     type = type_check[str(item["type"])]
                     name = bank_name.replace("::", "_") + "_" + str(item["name"])
-                    loops.append(loop % (type, name+"_vec", type.title(),group,str(item["id"]),name+"_vec",name,name+"_vec"))
-                    root_types.append("\t" + type + " " + name + "[200]; \n")
-                    root_branches.append("\t" + "clas12->Branch(\"" + name + "\"," + name + "); \n")
-                    # clear_vec.append("\t\t" + name + ".clear();  \n")
+                    loops.append(loop % (name+"_vec", type.title(),group,str(item["id"])))
+                    root_types.append("\tstd::vector<" + type + "> " + name + "_vec; \n")
+                    root_branches.append("\t" + "clas12->Branch(\"" + name + "\",&" + name + "_vec); \n")
+                    clear_vec.append("\t\t" + name+"_vec.clear();  \n")
 
     with open("hipo2root.cpp", 'w') as outfile:
         write = lambda x: outfile.write(x)
@@ -35,9 +35,9 @@ def make_hipo2root():
         map(write, root_branches)
         map(write, middle)
         map(write, loops)
-        #write("\n\t\tclas12->Fill();\n")
-        #map(write, clear_vec)
-        #write("\n\t\t}\n")
+        write("\n\t\tclas12->Fill();\n")
+        map(write, clear_vec)
+        write("\n\t\t}\n")
         write(ending)
 
 # TODO: get the needed banks from config file
@@ -80,16 +80,10 @@ middle = """
       record.readHipoEvent(event, i);
 """
 loop = """
-      std::vector<%s> %s = event.get%s(%s, %s);
-      for (int i = 0; i < %s.size(); i++) {
-        %s[i] = %s[i];
-      }
+    %s = event.get%s(%s, %s);
 """
 
 ending = """
-
-      clas12->Fill();
-    }
   }
   OutputFile->cd();
   clas12->Write();
