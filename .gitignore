@@ -10,3 +10,5 @@
 *.root
 hipo2root.cpp
 hipo2root
+*.hipo
+test.cpp
