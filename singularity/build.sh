@@ -37,6 +37,6 @@ if [ -f "${IMAGE}" ]; then
 fi
 
 #Create image and build software inside it
-sudo singularity create --size 3584 ${IMAGE}
-sudo singularity bootstrap ${IMAGE} hipo2root.def
+sudo singularity image.create --size 3584 ${IMAGE}
+sudo singularity build ${IMAGE} hipo2root.def
 #sudo singularity exec -B `pwd`:/mnt -w ${IMAGE} sh /mnt/hipo2root.sh
