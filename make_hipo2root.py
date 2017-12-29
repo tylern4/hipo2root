@@ -41,7 +41,7 @@ def make_hipo2root():
         write(ending)
 
 # TODO: get the needed banks from config file
-files = ["bankdefs/hipo/BST.json",
+all_files = ["bankdefs/hipo/BST.json",
          "bankdefs/hipo/DC.json",
          "bankdefs/hipo/MC.json",
          "bankdefs/hipo/CND.json",
@@ -60,7 +60,7 @@ files = ["bankdefs/hipo/BST.json",
 
 clas6 = ["bankdefs/hipo/CLAS6EVENT.json"]
 
-
+files = ["bankdefs/hipo/EVENT.json"]
 # TODO: Make sure all types are being converted properly
 type_check = {"int8": "int",
               "int16": "int",
