@@ -20,7 +20,7 @@ namespace hipo {
   */
   reader::reader(){
     printWarning();
-    hipoutils.printLogo();
+    //hipoutils.printLogo();
   }
   /**
    * Default destructor. Does nothing
