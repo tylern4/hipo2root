@@ -12,7 +12,7 @@ from make_hipo2root import make_hipo2root
 env = Environment(CPPPATH=[".", "include"])
 
 env.Append(ENV = os.environ)
-env.Append(CCFLAGS=["-O2","-fPIC","-m64","-fmessage-length=0","-g","-std=c++14"])
+env.Append(CCFLAGS=["-O2","-fPIC","-m64","-fmessage-length=0","-g"])
 make_hipo2root()
 #=================================================
 # Check for compression libraries.
@@ -27,7 +27,7 @@ if conf.CheckLib('libz'):
 #
 #=================================================
 codeList_CPP  = glob.glob('libcpp/*.cpp')
-solib   = env.SharedLibrary(target="libcpp/libhipo.so", source = codeList_CPP)
+#solib   = env.SharedLibrary(target="libcpp/libhipo.so", source = codeList_CPP)
 lib   = env.Library(target="libcpp/libhipo.o", source = codeList_CPP)
 
 make_hipo2root()
