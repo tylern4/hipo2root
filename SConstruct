@@ -13,7 +13,7 @@ env = Environment(CPPPATH=[".", "include"])
 
 env.Append(ENV = os.environ)
 env.Append(CCFLAGS=["-O2","-fPIC","-m64","-fmessage-length=0","-g"])
-make_hipo2root()
+
 #=================================================
 # Check for compression libraries.
 #=================================================
