@@ -27,7 +27,4 @@ if conf.CheckLib('libz'):
 #
 #=================================================
 codeList_CPP  = glob.glob('libcpp/*.cpp')
-#solib   = env.SharedLibrary(target="libcpp/libhipo.so", source = codeList_CPP)
 lib   = env.Library(target="libcpp/libhipo.o", source = codeList_CPP)
-
-make_hipo2root()
