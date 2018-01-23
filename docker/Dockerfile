@@ -6,7 +6,7 @@ WORKDIR /tmp/
 RUN git clone https://github.com/tylern4/hipo2root.git \
     && cd hipo2root \
     && ./make_hipo2root.py --ALL \
-    && make \
+    && make -j$(nproc) \
     && mv hipo2root /usr/bin/ \
     && rm -rf /tmp/*
 
