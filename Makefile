@@ -1,11 +1,8 @@
 ROOTLIBS	= $(shell root-config --libs)
-HIPOLIBS = -Llibcpp -lhipo
-HIPOINC = -Ilibcpp
-HIPOOBJ = libcpp/libhipo.o
 LIBFLAG = -c -O2 -fPIC -m64 -fmessage-length=0 -g -D__LZ4__ -D__LIBZ__
 LIB = $(patsubst %.cpp,%.o,$(wildcard libcpp/*.cpp))
 CXX = g++
-CXXFLAGS = -O2 -fPIC -w -g $(shell root-config --cflags) $(HIPOINC)
+CXXFLAGS = -O2 -fPIC -w -g $(shell root-config --cflags) -Ilibcpp
 PROG =	hipo2root
 
 .PHONY: clean

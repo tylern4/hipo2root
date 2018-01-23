@@ -148,44 +148,44 @@ def make_hipo2root(files):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Make cpp file for converting hipo to root format')
+    parser.add_argument('-a', '--ALL', action='store_true',
+                        help='Add all banks from bankdefs/hipo/*.json, overrides all other options')
     parser.add_argument('--json', nargs='+',
                         help='Specify json file/files for bank information, overrides all other options')
-    parser.add_argument('--ALL', action='store_true',
-                        help='Add all banks from bankdefs/hipo/*.json, overrides all other options')
     parser.add_argument('--clas6', action='store_true',
                         help="Add banks from clas6")
     parser.add_argument('--BST', action='store_true',
-                        help='Add bank with same name')
+                        help='Add bank BST')
     parser.add_argument('--DC', action='store_true',
-                        help='Add bank with same name')
+                        help='Add bank DC')
     parser.add_argument('--MC', action='store_true',
-                        help='Add bank with same name')
+                        help='Add bank MC')
     parser.add_argument('--CND', action='store_true',
-                        help='Add bank with same name')
+                        help='Add bank CND')
     parser.add_argument('--ECAL', action='store_true',
-                        help='Add bank with same name')
+                        help='Add bank ECAL')
     parser.add_argument('--HTCC', action='store_true',
-                        help='Add bank with same name')
+                        help='Add bank HTCC')
     parser.add_argument('--TOF', action='store_true',
-                        help='Add bank with same name')
+                        help='Add bank TOF')
     parser.add_argument('--HEADER',
-                        action='store_true', help='Add bank with same name')
+                        action='store_true', help='Add bank HEADER')
     parser.add_argument('--DETECTOR',
-                        action='store_true', help='Add bank with same name')
+                        action='store_true', help='Add bank DETECTOR')
     parser.add_argument('--FMT', action='store_true',
-                        help='Add bank with same name')
+                        help='Add bank FMT')
     parser.add_argument('--EVENT',
-                        action='store_true', help='Add bank with same name')
+                        action='store_true', help='Add bank EVENT')
     parser.add_argument('--BMT', action='store_true',
-                        help='Add bank with same name')
+                        help='Add bank BMT')
     parser.add_argument('--CVT', action='store_true',
-                        help='Add bank with same name')
+                        help='Add bank CVT')
     parser.add_argument('--DATA', action='store_true',
-                        help='Add bank with same name')
+                        help='Add bank DATA')
     parser.add_argument('--FT', action='store_true',
-                        help='Add bank with same name')
+                        help='Add bank FT')
     parser.add_argument('--LTCC', action='store_true',
-                        help='Add bank with same name')
+                        help='Add bank LTCC')
 
     args = parser.parse_args()
     files = []
@@ -198,5 +198,5 @@ if __name__ == '__main__':
             if arg is not 'ALL' and arg is not 'json':
                 if getattr(args, arg):
                     files.append('bankdefs/hipo/' + str(arg) + '.json')
-
+    print(files)
     make_hipo2root(files)
