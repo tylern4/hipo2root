@@ -7,20 +7,18 @@ Conversion program from hipo to root format.
 ```
 git clone https://github.com/tylern4/hipo2root.git
 cd hipo2root
-scons
+./make_hipo2root.py
 make
 ```
-## To use
 
+## To use
 ```
 ./hipo2root infile.hipo outfile.root
 ```
 
 ## TODO
 
-* Allow bank configuration with file.
-* Add banks to directories.
-* Check branch types are converted properly:
-  - Look into "vector3f" typed branches
-* Look into  fixing:
-  - "note: variable tracking size limit exceeded with -fvar-tracking-assignments, retrying without"
+- [x] Allow bank configuration with file.
+- [x] Add banks to directories.
+- [ ] Look into  fixing:
+    - "note: variable tracking size limit exceeded with -fvar-tracking-assignments, retrying without"
