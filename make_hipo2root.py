@@ -38,6 +38,7 @@ type_check = {"int8": "int",
 
 
 middle = """
+#pragma omp parallel for private(event_num)
   for (int event_num = 0; event_num < nrecords; event_num++) {
     reader.readRecord(record, event_num);
     int gpart = record.getEventCount();
