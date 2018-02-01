@@ -198,5 +198,7 @@ if __name__ == '__main__':
             if arg is not 'ALL' and arg is not 'json':
                 if getattr(args, arg):
                     files.append('bankdefs/hipo/' + str(arg) + '.json')
-    #print(files)
+    if len(files) == 0:
+        files = ['bankdefs/hipo/EVENT.json']
+    print(files)
     make_hipo2root(files)
