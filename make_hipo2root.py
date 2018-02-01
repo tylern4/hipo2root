@@ -200,5 +200,5 @@ if __name__ == '__main__':
                     files.append('bankdefs/hipo/' + str(arg) + '.json')
     if len(files) == 0:
         files = ['bankdefs/hipo/EVENT.json']
-    print(files)
+    #print(files)
     make_hipo2root(files)
