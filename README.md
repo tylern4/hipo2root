@@ -5,7 +5,7 @@ Conversion program from hipo to root format.
 ## To build:
 
 ```
-git clone --recurse-submodules https://github.com/tylern4/hipo2root.git
+git clone -b jlab --recurse-submodules https://github.com/tylern4/hipo2root.git
 cd hipo2root
 ./make_hipo2root.py -a
 make
