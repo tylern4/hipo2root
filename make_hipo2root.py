@@ -36,7 +36,6 @@ type_check = {"int8": "int",
               "int64": "int",
               "vector3f": "float"}
 
-
 middle = """
   for (int event_num = 0; event_num < nrecords; event_num++) {
     reader.readRecord(record, event_num);
@@ -199,6 +198,6 @@ if __name__ == '__main__':
                 if getattr(args, arg):
                     files.append('bankdefs/hipo/' + str(arg) + '.json')
     if len(files) == 0:
-        files = ['bankdefs/hipo/EVENT.json']
-    #print(files)
+        files = small
+    # print(files)
     make_hipo2root(files)
