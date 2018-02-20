@@ -17,8 +17,8 @@ $(LZ4):
 	make -C lz4
 
 $(PROG): $(LZ4) $(LIB)
-	$(CXX) $@.cpp $(LIB) $(LZ4) $(CXXFLAGS) -o $@ $(ROOTLIBS)
+	$(CXX) -O3 $@.cpp $(LIB) $(LZ4) $(CXXFLAGS) -o $@ $(ROOTLIBS)
 
 clean:
 	-rm -f $(PROG) $(HIPOOBJ) $(LIB)
-	make clean -C lz4 
+	make clean -C lz4

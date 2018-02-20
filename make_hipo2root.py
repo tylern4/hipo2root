@@ -7,41 +7,41 @@ import os
 import argparse
 
 # TODO: get the needed banks from config file
-all_files = ["bankdefs/hipo/BST.json",
-             "bankdefs/hipo/DC.json",
-             "bankdefs/hipo/MC.json",
-             "bankdefs/hipo/CND.json",
-             "bankdefs/hipo/ECAL.json",
-             "bankdefs/hipo/HTCC.json",
-             "bankdefs/hipo/TOF.json",
-             "bankdefs/hipo/HEADER.json",
-             "bankdefs/hipo/DETECTOR.json",
-             "bankdefs/hipo/FMT.json",
-             "bankdefs/hipo/EVENT.json",
-             "bankdefs/hipo/BMT.json",
-             "bankdefs/hipo/CVT.json",
-             "bankdefs/hipo/DATA.json",
-             "bankdefs/hipo/FT.json",
-             "bankdefs/hipo/LTCC.json"]
+all_files = [
+    "bankdefs/hipo/BST.json", "bankdefs/hipo/DC.json", "bankdefs/hipo/MC.json",
+    "bankdefs/hipo/CND.json", "bankdefs/hipo/ECAL.json",
+    "bankdefs/hipo/HTCC.json", "bankdefs/hipo/TOF.json",
+    "bankdefs/hipo/HEADER.json", "bankdefs/hipo/DETECTOR.json",
+    "bankdefs/hipo/FMT.json", "bankdefs/hipo/EVENT.json",
+    "bankdefs/hipo/BMT.json", "bankdefs/hipo/CVT.json",
+    "bankdefs/hipo/DATA.json", "bankdefs/hipo/FT.json",
+    "bankdefs/hipo/LTCC.json"
+]
 
 clas6 = ["bankdefs/hipo/CLAS6EVENT.json"]
 
 small = ["bankdefs/hipo/EVENT.json"]
 
-type_check = {"int8": "int",
-              "int16": "int",
-              "int32": "int",
-              "float": "float",
-              "double": "float",
-              "int64": "int",
-              "vector3f": "float"}
+type_check = {
+    "int8": "int",
+    "int16": "int",
+    "int32": "int",
+    "float": "float",
+    "double": "float",
+    "int64": "int",
+    "vector3f": "float"
+}
 
 middle = """
   for (int event_num = 0; event_num < nrecords; event_num++) {
     reader.readRecord(record, event_num);
+    
+    double per = ((double)event_num / (double)nrecords);
+    std::cerr << "\\t\\t" << std::floor(100 * per) << "%\\r\\r" << std::flush;
+
     int gpart = record.getEventCount();
     for (int i = 0; i < gpart; i++) {
-      record.readHipoEvent(event, i);
+        record.readHipoEvent(event, i);
 """
 loop = """
     %s = event.get%s(%s, %s);
@@ -127,14 +127,14 @@ def make_hipo2root(files):
                 items = bank["items"]
                 for item in items:
                     type = type_check[str(item["type"])]
-                    name = bank_name.replace(
-                        "::", "_") + "_" + str(item["name"])
-                    loops.append(
-                        loop % (name + "_vec", type.title(), group, str(item["id"])))
-                    root_types.append("\tstd::vector<" +
-                                      type + "> " + name + "_vec; \n")
-                    root_branches.append(
-                        "\t" + "clas12->Branch(\"" + name + "\",&" + name + "_vec); \n")
+                    name = bank_name.replace("::", "_") + "_" + str(
+                        item["name"])
+                    loops.append(loop % (name + "_vec", type.title(), group,
+                                         str(item["id"])))
+                    root_types.append(
+                        "\tstd::vector<" + type + "> " + name + "_vec; \n")
+                    root_branches.append("\t" + "clas12->Branch(\"" + name +
+                                         "\",&" + name + "_vec); \n")
                     clear_vec.append("\t\t" + name + "_vec.clear();  \n")
 
     with open("hipo2root.cpp", 'w') as outfile:
@@ -151,53 +151,48 @@ def make_hipo2root(files):
         write("\n\t\t}\n")
         write(ending)
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Make cpp file for converting hipo to root format')
-    parser.add_argument('-a', '--ALL', action='store_true',
-                        help='Add all banks from bankdefs/hipo/*.json, overrides all other options')
-    parser.add_argument('--json', nargs='+',
-                        help='Specify json file/files for bank information, overrides all other options')
-    parser.add_argument('--clas6', action='store_true',
-                        help="Add banks from clas6")
-    parser.add_argument('--BST', action='store_true',
-                        help='Add bank BST')
-    parser.add_argument('--DC', action='store_true',
-                        help='Add bank DC')
-    parser.add_argument('--MC', action='store_true',
-                        help='Add bank MC')
-    parser.add_argument('--CND', action='store_true',
-                        help='Add bank CND')
-    parser.add_argument('--ECAL', action='store_true',
-                        help='Add bank ECAL')
-    parser.add_argument('--HTCC', action='store_true',
-                        help='Add bank HTCC')
-    parser.add_argument('--TOF', action='store_true',
-                        help='Add bank TOF')
-    parser.add_argument('--HEADER',
-                        action='store_true', help='Add bank HEADER')
-    parser.add_argument('--DETECTOR',
-                        action='store_true', help='Add bank DETECTOR')
-    parser.add_argument('--FMT', action='store_true',
-                        help='Add bank FMT')
-    parser.add_argument('--EVENT',
-                        action='store_true', help='Add bank EVENT')
-    parser.add_argument('--BMT', action='store_true',
-                        help='Add bank BMT')
-    parser.add_argument('--CVT', action='store_true',
-                        help='Add bank CVT')
-    parser.add_argument('--DATA', action='store_true',
-                        help='Add bank DATA')
-    parser.add_argument('--FT', action='store_true',
-                        help='Add bank FT')
-    parser.add_argument('--LTCC', action='store_true',
-                        help='Add bank LTCC')
+    parser.add_argument(
+        '-a',
+        '--ALL',
+        action='store_true',
+        help=
+        'Add all banks from bankdefs/hipo/*.json, overrides all other options')
+    parser.add_argument(
+        '--json',
+        nargs='+',
+        help=
+        'Specify json file/files for bank information, overrides all other options'
+    )
+    parser.add_argument(
+        '--clas6', action='store_true', help="Add banks from clas6")
+    parser.add_argument('--BST', action='store_true', help='Add bank BST')
+    parser.add_argument('--DC', action='store_true', help='Add bank DC')
+    parser.add_argument('--MC', action='store_true', help='Add bank MC')
+    parser.add_argument('--CND', action='store_true', help='Add bank CND')
+    parser.add_argument('--ECAL', action='store_true', help='Add bank ECAL')
+    parser.add_argument('--HTCC', action='store_true', help='Add bank HTCC')
+    parser.add_argument('--TOF', action='store_true', help='Add bank TOF')
+    parser.add_argument(
+        '--HEADER', action='store_true', help='Add bank HEADER')
+    parser.add_argument(
+        '--DETECTOR', action='store_true', help='Add bank DETECTOR')
+    parser.add_argument('--FMT', action='store_true', help='Add bank FMT')
+    parser.add_argument('--EVENT', action='store_true', help='Add bank EVENT')
+    parser.add_argument('--BMT', action='store_true', help='Add bank BMT')
+    parser.add_argument('--CVT', action='store_true', help='Add bank CVT')
+    parser.add_argument('--DATA', action='store_true', help='Add bank DATA')
+    parser.add_argument('--FT', action='store_true', help='Add bank FT')
+    parser.add_argument('--LTCC', action='store_true', help='Add bank LTCC')
 
     args = parser.parse_args()
     files = []
-    if(args.ALL):
+    if (args.ALL):
         files = all_files
-    elif(args.json):
+    elif (args.json):
         files = args.json
     else:
         for arg in vars(args):
