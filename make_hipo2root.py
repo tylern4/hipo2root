@@ -74,12 +74,12 @@ begining = """
 #include \"TFile.h\"
 #include \"TTree.h\"
 // Hipo libs
-#include \"data.h\"
-#include \"event.h\"
-#include \"node.h\"
+//#include \"data.h\"
+//#include \"event.h\"
+//#include \"node.h\"
 #include \"reader.h\"
-#include \"text.h\"
-#include \"writer.h\"
+//#include \"text.h\"
+//#include \"writer.h\"
 
 int main(int argc, char **argv) {
 
