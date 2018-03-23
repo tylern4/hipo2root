@@ -199,7 +199,9 @@ void dictionary::parse(std::string dictString) {
   // int group = std::stoi(tokens[0]);
   int group = std::atoi(tokens[0].c_str());
   schema.setGroup(group);
-  // printf("schema found %s  %d\n", tokens[1].c_str(),group);
+#ifdef __DEBUG__
+// printf("schema found %s  %d\n", tokens[1].c_str(), group);
+#endif
   bool status = true;
   int counter = 0;
   int order = 0;
@@ -217,11 +219,14 @@ void dictionary::parse(std::string dictString) {
       if (type != 0) {
         schema.addEntry(tokens[1].c_str(), item, type);
       } else {
-        // printf("** error ** entry %s int schema %s has undefined type.\n", schema.getName().c_str(),
-        //       tokens[1].c_str());
+#ifdef __DEBUG__
+        printf("** error ** entry %s int schema %s has undefined type.\n", schema.getName().c_str(),
+               tokens[1].c_str());
+#endif
       }
-      /*printf("\t found item %s %s %s\n",tokens[0].c_str(),tokens[1].c_str(),
-             tokens[2].c_str());*/
+#ifdef __DEBUG__
+// printf("\t found item %s %s %s\n", tokens[0].c_str(), tokens[1].c_str(), tokens[2].c_str());
+#endif
     }
   }
   unordered_mapDict[schema.getName()] = schema;

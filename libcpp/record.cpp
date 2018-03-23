@@ -65,9 +65,9 @@ void record::readRecord(std::ifstream &stream, long position, int dataOffset) {
 
   if (dataBufferLengthBytes > recordCompressedBuffer.size()) {
     int newSize = dataBufferLengthBytes + 5 * 1024;
-#ifndef __DEBUG__
-// printf("---> resizing internal compressed buffer size to from %ld to %d\n",
-// recordCompressedBuffer.size(),newSize);
+#ifdef __DEBUG__
+    printf("---> resizing internal compressed buffer size to from %ld to %d\n", recordCompressedBuffer.size(),
+           newSize);
 #endif
     recordCompressedBuffer.resize(newSize);
   }
@@ -83,8 +83,8 @@ void record::readRecord(std::ifstream &stream, long position, int dataOffset) {
                            recordHeader.userHeaderLengthPadding + recordHeader.recordDataLength;
 
   if (recordBuffer.size() < decompressedLength) {
-#ifndef __DEBUG__
-// printf(" resizing internal buffer from %lu to %d\n", recordBuffer.size(), recordHeader.recordDataLength);
+#ifdef __DEBUG__
+    printf(" resizing internal buffer from %lu to %d\n", recordBuffer.size(), recordHeader.recordDataLength);
 #endif
     recordBuffer.resize(decompressedLength + 1024);
   }
@@ -259,8 +259,10 @@ void record::getData(hipo::data &data, int index) {
 void record::readHipoEvent(hipo::event &event, int index) {
   hipo::data event_data;
   getData(event_data, index);
-  // printf("reading event %d ptr=%X size=%d\n",index,(unsigned long)
-  // event_data.getDataPtr(),event_data.getDataSize());
+#ifdef __DEBUG__
+// printf("reading event %d ptr=%X size=%d\n", index, (unsigned long)event_data.getDataPtr(),
+//       event_data.getDataSize());
+#endif
   event.init(event_data.getDataPtr(), event_data.getDataSize());
 }
 /**

@@ -19,9 +19,9 @@ namespace hipo {
  * was not compiled with compression libraries LZ4 or GZIP
  */
 reader::reader() {
+#ifdef __DEBUG__
   printWarning();
-#ifndef __DEBUG__
-// hipoutils.printLogo();
+  hipoutils.printLogo();
 #endif
 }
 /**
@@ -187,15 +187,18 @@ void reader::readRecordIndex() {
       printf("magic number error : %X\n", (unsigned int)magic_number);
       break;
     }
-
-    // printf("version = %d , magic number = %X\n",version,(unsigned int) magic_number);
+#ifdef __DEBUG__
+// printf("version = %d , magic number = %X\n", version, (unsigned int)magic_number);
+#endif
     positionOffset += recIndex.recordLength * 4;
     inputStream.seekg(positionOffset, std::ios::beg);
     recordIndex.push_back(recIndex);
     // positionOffset +=
     icounter++;
-    /*printf(" next position (%4d) : %16ld file size %ld events = %d\n",
-      icounter,positionOffset,hipoFileSize, recIndex.recordEvents);*/
+#ifdef __DEBUG__
+// printf(" next position (%4d) : %16ld file size %ld events = %d\n", icounter, positionOffset, hipoFileSize,
+//       recIndex.recordEvents);
+#endif
   }
   printf("total records = %d  index array = %d\n", icounter, (unsigned int)recordIndex.size());
 }
