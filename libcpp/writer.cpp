@@ -63,7 +63,8 @@ void writer::writeRecord(hipo::record &record) {
     outputStream.write(&recordVec[0],recordVec.size());*/
 }
 
-void writer::writeEvent(hipo::event &event) { /*writerRecord.addEvent(event);*/ }
+void writer::writeEvent(hipo::event &event) { /*writerRecord.addEvent(event);*/
+}
 
 void writer::writeEvent(std::vector<char> &event) {
   /*  writerRecord.addEvent(event);
@@ -82,6 +83,7 @@ void writer::close() {
 }
 
 void writer::printWarning() {
+#ifdef __DEBUG__
 #ifndef __LZ4__
   std::cout << "******************************************************" << std::endl;
   std::cout << "* WARNING:                                           *" << std::endl;
@@ -89,6 +91,7 @@ void writer::printWarning() {
   std::cout << "*   Reading and writing compressed buffers will not  *" << std::endl;
   std::cout << "*   work. However un-compressed file I/O will work.  *" << std::endl;
   std::cout << "******************************************************" << std::endl;
+#endif
 #endif
 }
 }

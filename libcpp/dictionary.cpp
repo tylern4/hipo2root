@@ -173,8 +173,7 @@ void schema::ls() {
  * Dictionary class
  */
 void dictionary::ls(int mode) {
-  for (std::map<std::string, hipo::schema>::iterator it = mapDict.begin();
-       it != mapDict.end(); ++it) {
+  for (std::map<std::string, hipo::schema>::iterator it = mapDict.begin(); it != mapDict.end(); ++it) {
     printf("Schema %-25s : %9d \n", it->first.c_str(), it->second.getGroup());
     if (mode > 0) {
       it->second.ls();
@@ -184,8 +183,7 @@ void dictionary::ls(int mode) {
 
 std::vector<std::string> dictionary::getSchemaList() {
   std::vector<std::string> list;
-  for (std::map<std::string, hipo::schema>::iterator it = mapDict.begin();
-       it != mapDict.end(); ++it) {
+  for (std::map<std::string, hipo::schema>::iterator it = mapDict.begin(); it != mapDict.end(); ++it) {
     list.push_back(it->first);
   }
   return list;
