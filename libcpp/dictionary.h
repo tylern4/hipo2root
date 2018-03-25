@@ -17,7 +17,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
-#include <unordered_map>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -29,7 +29,7 @@ namespace hipo {
 class schema {
   private:
 
-    std::unordered_map<std::string, std::pair<int,int> > schemaEntries;
+    std::map<std::string, std::pair<int,int> > schemaEntries;
     int groupid;
     std::string schemaName;
     std::string getTypeString(int type);
@@ -77,7 +77,7 @@ class schema {
 class dictionary {
 
     private:
-        std::unordered_map<std::string, hipo::schema> unordered_mapDict;
+        std::map<std::string, hipo::schema> mapDict;
 
     public:
 
@@ -85,8 +85,8 @@ class dictionary {
         virtual ~dictionary(){}
         //node(hipo::reader &reader, int group, int item);
         void          ls(int mode = 0);
-        bool          hasSchema(const char* name){ return unordered_mapDict.count(name)>0;}
-        hipo::schema  getSchema(const char *name){ return unordered_mapDict[name];}
+        bool          hasSchema(const char* name){ return mapDict.count(name)>0;}
+        hipo::schema  getSchema(const char *name){ return mapDict[name];}
         void          parse(std::string dictString);
         std::vector<std::string> getSchemaList();
 };

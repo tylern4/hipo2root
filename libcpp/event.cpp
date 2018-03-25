@@ -269,7 +269,7 @@ void event::scanEvent() {
     int key = ((0x00000000 | gid) << 16) | ((0x00000000 | iid) << 8);
     int info = ((0x00000000 | type) << 24) | (position);
     // eventNodes.insert(std::make_pair(key,info));
-    // printf("unordered_map count = %d \n" ,registeredNodes.size());
+    // printf("map count = %d \n" ,registeredNodes.size());
     if (registeredNodes.count(key) > 0) {
       int order = registeredNodes[key];
       // nodes[order]->setType(type);
@@ -339,7 +339,7 @@ template<class T>   node<T> event::getNode(){
 
 void event::showInfo() {
   printf(" EVENT SIGNATURE =  SIZE = %lu\n", dataBuffer.size());
-  std::unordered_map<int, int>::iterator it = eventNodes.begin();
+  std::map<int, int>::iterator it = eventNodes.begin();
   while (it != eventNodes.end()) {
     printf(" key = %5d , info = %5d \n", it->first, it->second);
   }

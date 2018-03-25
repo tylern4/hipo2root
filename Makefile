@@ -14,7 +14,7 @@ $(LIB): %.o: %.cpp
 	$(CXX) $(LIBFLAG) -o $@ $<
 
 $(LZ4):
-	make lz4-release -C lz4
+	make lib -C lz4
 
 $(PROG): $(LZ4) $(LIB)
 	$(CXX) -O3 $@.cpp $(LIB) $(LZ4) $(CXXFLAGS) -o $@ $(ROOTLIBS)

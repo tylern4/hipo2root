@@ -19,7 +19,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unordered_map>
+#include <map>
 #include "node.h"
 
 namespace hipo {
@@ -27,9 +27,9 @@ namespace hipo {
 class event {
  private:
   std::vector<char> dataBuffer;
-  std::unordered_map<int, int> eventNodes;
+  std::map<int, int> eventNodes;
 
-  std::unordered_map<int, int> registeredNodes;
+  std::map<int, int> registeredNodes;
   std::vector<hipo::generic_node *> nodes;
 
   void resetNodes();

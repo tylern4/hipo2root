@@ -19,7 +19,7 @@ int schema::getType(const char* entry) {
 
 int schema::getMaxStringLength() {
   int length = 0;
-  for (std::unordered_map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin();
+  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin();
        it != schemaEntries.end(); ++it) {
     if (it->first.size() > length) length = it->first.size();
   }
@@ -98,7 +98,7 @@ std::vector<std::string> schema::branchesAccessCode() {
   char c_name[128];
   std::string format;
 
-  for (std::unordered_map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin();
+  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin();
        it != schemaEntries.end(); ++it) {
     std::string type = getTypeString(it->second.second);
     sprintf(c_type, "%-12s", type.c_str());
@@ -135,7 +135,7 @@ std::vector<std::string> schema::branchesCode() {
   char c_name[128];
   std::string format;
 
-  for (std::unordered_map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin();
+  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin();
        it != schemaEntries.end(); ++it) {
     std::string type = getTypeString(it->second.second);
     std::string node("   hipo::node");
@@ -162,7 +162,7 @@ std::vector<std::string> schema::branchesCode() {
 }
 
 void schema::ls() {
-  for (std::unordered_map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin();
+  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin();
        it != schemaEntries.end(); ++it) {
     printf("\tentry %-25s : item = %8d , type = %4d \n", it->first.c_str(), it->second.first,
            it->second.second);
@@ -173,8 +173,8 @@ void schema::ls() {
  * Dictionary class
  */
 void dictionary::ls(int mode) {
-  for (std::unordered_map<std::string, hipo::schema>::iterator it = unordered_mapDict.begin();
-       it != unordered_mapDict.end(); ++it) {
+  for (std::map<std::string, hipo::schema>::iterator it = mapDict.begin();
+       it != mapDict.end(); ++it) {
     printf("Schema %-25s : %9d \n", it->first.c_str(), it->second.getGroup());
     if (mode > 0) {
       it->second.ls();
@@ -184,8 +184,8 @@ void dictionary::ls(int mode) {
 
 std::vector<std::string> dictionary::getSchemaList() {
   std::vector<std::string> list;
-  for (std::unordered_map<std::string, hipo::schema>::iterator it = unordered_mapDict.begin();
-       it != unordered_mapDict.end(); ++it) {
+  for (std::map<std::string, hipo::schema>::iterator it = mapDict.begin();
+       it != mapDict.end(); ++it) {
     list.push_back(it->first);
   }
   return list;
@@ -229,6 +229,6 @@ void dictionary::parse(std::string dictString) {
 #endif
     }
   }
-  unordered_mapDict[schema.getName()] = schema;
+  mapDict[schema.getName()] = schema;
 }
 }
