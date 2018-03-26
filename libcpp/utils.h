@@ -5,7 +5,7 @@
  */
 
 /*
- * File:   utils.h
+ * File:   node.h
  * Author: gavalian
  *
  * Created on April 27, 2017, 10:01 AM
@@ -22,26 +22,19 @@
 
 namespace hipo {
 
-class utils {
- private:
- public:
-  utils();
-  ~utils();
-  static void tokenize(const std::string &str, std::vector<std::string> &tokens,
-                       const std::string &delimiters = " ");
+  class utils {
+  private:
 
-  static std::string substring(const std::string &str, const char *start_delim, const char *end_delim,
-                               int order);
+  public:
+    utils();
+    ~utils();
+    static void tokenize(const std::string& str,
+			 std::vector<std::string>& tokens,
+			 const std::string& delimiters = " ");
 
-  static int findposition(const std::string &str, const char *delim, int order);
+    static void printLogo();
+  };
 
-  static void printLogo();
-
-  static std::string getHeader();
-  static std::string getFileHeader();
-  static std::string getFileTrailer(const char *code);
-  static std::string getSConstruct();
-};
 }
 
 #endif /* UTILS_H */

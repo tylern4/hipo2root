@@ -24,29 +24,33 @@
 
 namespace data {
 
-class data {
- private:
- public:
-  data();
-  ~data();
+  class data {
+  private:
 
-  static void print(const std::vector<int> &vec);
-  static void print(const std::vector<uint16_t> &vec);
+  public:
+    data();
+    ~data();
 
-  void getVector(std::vector<int> &pulse, std::vector<char> &encoded);
-  void decompose(std::vector<int> &pulse, std::vector<uint16_t> &low, std::vector<uint16_t> &high);
+    static void print(const std::vector<int> &vec);
+    static void print(const std::vector<uint16_t> &vec);
 
-  void encode(std::vector<int> &pulse, std::vector<char> &dest);
-  void encodeLossy(std::vector<int> &pulse, std::vector<char> &dest);
-  void decode(std::vector<char> &dest, std::vector<uint16_t> &pulse);
+    void  getVector(std::vector<int> &pulse, std::vector<char> &encoded);
+    void  decompose(std::vector<int> &pulse, std::vector<uint16_t> &low,
+                    std::vector<uint16_t> &high);
 
-  int getMinimum(const std::vector<int> &vec);
+    void  encode(std::vector<int> &pulse, std::vector<char> &dest);
+    void  encodeLossy(std::vector<int> &pulse, std::vector<char> &dest);
+    void  decode(std::vector<char> &dest, std::vector<uint16_t> &pulse);
 
-  std::vector<int> getSubtracted(const std::vector<int> &vec);
-  std::vector<int> getReiman(const std::vector<int> &vec);
-  std::vector<int> getReduced(const std::vector<int> &vec);
-  std::vector<char> getLowerHalf(std::vector<int> &vec);
-};
+    int getMinimum(const std::vector<int> &vec);
+
+
+    std::vector<int> getSubtracted(const std::vector<int> &vec);
+    std::vector<int> getReiman(const std::vector<int> &vec);
+    std::vector<int> getReduced(const std::vector<int> &vec);
+    std::vector<char> getLowerHalf(std::vector<int> &vec);
+  };
+
 }
 
 #endif /* UTILS_H */
