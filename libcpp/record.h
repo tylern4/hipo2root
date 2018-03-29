@@ -75,6 +75,7 @@ namespace hipo {
         recordHeader_t     recordHeader;
 
         std::vector<char>  recordBuffer;
+        std::vector<char>  recordCompressedBuffer;
 
         char *getUncompressed(const char *data, int dataLength, int dataLengthUncompressed);
         int   getUncompressed(const char *data, char *dest, int dataLength, int dataLengthUncompressed);
@@ -86,7 +87,10 @@ namespace hipo {
         ~record();
 
         void  readRecord(std::ifstream &stream, long position, int dataOffset);
+        void  readRecord__(std::ifstream &stream, long position, long recordLength);
+
         int   getEventCount();
+        int   getRecordSizeCompressed();
         void  readEvent( std::vector<char> &vec, int index);
         void  readHipoEvent(hipo::event &event, int index);
         void  getData(   hipo::data &data, int index);

@@ -5,7 +5,7 @@ LIBFLAG = -c -O3 -std=c++14 -fPIC -m64 -fmessage-length=0 -g $(LZ4INC) -D__LZ4__
 DEBUG = -D__DEBUG__
 LIB = $(patsubst %.cpp,%.o,$(wildcard libcpp/*.cpp))
 CXX = g++
-PROG =	hipo2root
+PROG =	test hipo2root
 LZ4 = lz4/lib/lz4.o
 
 .PHONY: clean

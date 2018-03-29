@@ -23,6 +23,13 @@ extern "C" {
     free(buffer);
   }
 
+  int hipo_file_next_(){
+    bool status = hipo_FORT_Reader.next();
+    if(status==false) return 0;
+    hipo_FORT_Reader.getEvent()->scanEventMap();
+    return 1;
+  }
+
   void get_dict_length_(int *len){
      *len = hipo_FORT_Record_Dictionary.getEventCount();
   }
@@ -61,7 +68,7 @@ extern "C" {
   void hipo_read_node_float_(int *group, int *item, int *nread, float *buffer){
     int id_g = *group;
     int id_i = *item;
-    std::vector<float> vec = hipo_FORT_Event.getFloat(id_g,id_i);
+    std::vector<float> vec = hipo_FORT_Reader.getEvent()->getFloat(id_g,id_i);
     for(int i = 0; i < vec.size(); i++){
        buffer[i] = vec[i];
     }
@@ -71,7 +78,7 @@ extern "C" {
   void hipo_read_node_int_(int *group, int *item, int *nread, int *buffer){
     int id_g = *group;
     int id_i = *item;
-    std::vector<int> vec = hipo_FORT_Event.getInt(id_g,id_i);
+    std::vector<int> vec = hipo_FORT_Reader.getEvent()->getInt(id_g,id_i);
     for(int i = 0; i < vec.size(); i++){
        buffer[i] = vec[i];
     }
