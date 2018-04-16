@@ -80,8 +80,10 @@ void reader::open(const char *filename) {
     } else {
       sequence.setNextPosition(positionOffset + length);
     }
+#ifdef __DEBUG__
     printf(" read record = %12ld next %12ld  nevenets = %d length = %d\n", sequence.getPosition(),
            sequence.getNextPosition(), sequence.getRecordEvents(), length);
+#endif
   }
 
   readDictionary();
