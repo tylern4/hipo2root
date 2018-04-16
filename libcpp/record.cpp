@@ -64,9 +64,7 @@ void record::readRecord(std::ifstream &stream, long position, int dataOffset) {
 
   if (dataBufferLengthBytes > recordCompressedBuffer.size()) {
     int newSize = dataBufferLengthBytes + 5 * 1024;
-#ifdef __DEBUG__
     printf("---> resizing internal compressed buffer size to from %ld to %d\n", recordCompressedBuffer.size(), newSize);
-#endif
     recordCompressedBuffer.resize(newSize);
   }
   // dataBufferLengthBytes    -= compressedDataLengthPadding;
@@ -81,19 +79,14 @@ void record::readRecord(std::ifstream &stream, long position, int dataOffset) {
                            recordHeader.userHeaderLengthPadding + recordHeader.recordDataLength;
 
   if (recordBuffer.size() < decompressedLength) {
-#ifdef __DEBUG__
     printf(" resizing internal buffer from %lu to %d\n", recordBuffer.size(), recordHeader.recordDataLength);
-#endif
     recordBuffer.resize(decompressedLength + 1024);
   }
-
   // for(int i = 0; i < recordBuffer.size(); i++) recordBuffer[i] = 0;
   // printf("****************** BEFORE padding = %d\n", compressedDataLengthPadding);
   // showBuffer(&recordBuffer[0], 10, 200);
   if (recordHeader.compressionType == 0) {
-#ifdef __DEBUG__
     printf("compression type = 0 data length = %d\n", decompressedLength);
-#endif
     memcpy((&recordBuffer[0]), (&recordCompressedBuffer[0]), decompressedLength);
   } else {
     int unc_result = getUncompressed((&recordCompressedBuffer[0]), (&recordBuffer[0]),

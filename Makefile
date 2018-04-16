@@ -5,7 +5,7 @@ LIBFLAG = -c -O3 -std=c++11 -fPIC -m64 -fmessage-length=0 -g $(LZ4INC) -D__LZ4__
 DEBUG = -D__DEBUG__
 LIB = $(patsubst %.cpp,%.o,$(wildcard libcpp/*.cpp))
 CXX = g++
-PROG =	test hipo2root
+PROG = hipo2root
 LZ4 = lz4/lib/lz4.o
 
 .PHONY: clean
@@ -17,11 +17,14 @@ $(LIB): %.o: %.cpp
 $(LZ4):
 	make lib -C lz4
 
+test: $(LZ4) $(LIB) all
+	$(CXX) -O3 $@.cpp $(LIB) $(LZ4) $(CXXFLAGS) -o test $(ROOTLIBS)
+
 $(PROG): $(LZ4) $(LIB)
 	$(CXX) -O3 $@.cpp $(LIB) $(LZ4) $(CXXFLAGS) -o $@ $(ROOTLIBS)
 
 clean:
-	-rm -f $(PROG)
+	-rm -f $(PROG) test
 purge: clean
 	-rm -f $(HIPOOBJ) $(LIB)
 	make clean -C lz4
