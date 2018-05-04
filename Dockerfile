@@ -1,5 +1,6 @@
 FROM rootproject/root-ubuntu16
 
+USER root
 RUN apt install -y scons && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/
