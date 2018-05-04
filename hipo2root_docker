@@ -1,3 +1,0 @@
-#!/bin/bash
-
-docker run --rm -v $PWD:/tmp/ tylern4/hipo2root:event "$@"

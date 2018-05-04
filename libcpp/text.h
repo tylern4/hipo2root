@@ -25,27 +25,23 @@
 
 namespace text {
 
-  class reader {
-  private:
+class reader {
+ private:
+  std::vector<std::string> textLines;
+  std::string delim;
+  std::ifstream inputStream;
+  hipo::utils stringUtils;
 
-    std::vector<std::string> textLines;
-    std::string delim;
-    std::ifstream inputStream;
-    hipo::utils   stringUtils;
+ public:
+  reader();
+  ~reader();
 
-  public:
-
-    reader();
-    ~reader();
-
-    void open(const char *file);
-    void setDalim(std::string &d);
-    bool readLine();
-    std::vector<int>  getIntVector();
-    std::string getLine();
-
-  };
-
+  void open(const char *file);
+  void setDalim(std::string &d);
+  bool readLine();
+  std::vector<int> getIntVector();
+  std::string getLine();
+};
 }
 
 #endif /* TEXT_H */

@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y liblz4-dev scons && rm -rf /var/lib/apt
 WORKDIR /tmp/
 RUN git clone https://github.com/tylern4/hipo2root.git \
     && cd hipo2root \
-    && ./make_hipo2root.py --ALL \
+    && ./make_hipo2root.py --json bankdefs/rec_particle.json \
     && make -j$(nproc) \
     && mv hipo2root /usr/bin/ \
     && rm -rf /tmp/*
