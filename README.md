@@ -4,7 +4,7 @@ Conversion program from hipo to root format.
 
 ## To build:
 
-    git clone -b newHipoLib --recurse-submodules https://github.com/tylern4/hipo2root.git
+    git clone --recurse-submodules https://github.com/tylern4/hipo2root.git
     cd hipo2root
     # Use ./make_hipo2root.py --help for more options
     # Look below on how to define your own bank structure
