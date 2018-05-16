@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
+#include <stdlib.h>
 #include "dictionary.h"
 #include "utils.h"
-#include <stdlib.h>
 
 namespace hipo {
 
@@ -19,7 +19,8 @@ int schema::getType(const char* entry) {
 
 int schema::getMaxStringLength() {
   int length = 0;
-  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin(); it != schemaEntries.end(); ++it) {
+  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin(); it != schemaEntries.end();
+       ++it) {
     if (it->first.size() > length) length = it->first.size();
   }
   return length;
@@ -27,7 +28,8 @@ int schema::getMaxStringLength() {
 
 std::vector<std::string> schema::getEntryList() {
   std::vector<std::string> entries;
-  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin(); it != schemaEntries.end(); ++it) {
+  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin(); it != schemaEntries.end();
+       ++it) {
     entries.push_back(it->first);
   }
   return entries;
@@ -105,7 +107,8 @@ std::vector<std::string> schema::branchesAccessCode() {
   char c_name[128];
   std::string format;
 
-  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin(); it != schemaEntries.end(); ++it) {
+  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin(); it != schemaEntries.end();
+       ++it) {
     std::string type = getTypeString(it->second.second);
     sprintf(c_type, "%-12s", type.c_str());
     // node.append(c_type);
@@ -141,7 +144,8 @@ std::vector<std::string> schema::branchesCode() {
   char c_name[128];
   std::string format;
 
-  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin(); it != schemaEntries.end(); ++it) {
+  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin(); it != schemaEntries.end();
+       ++it) {
     std::string type = getTypeString(it->second.second);
     std::string node("   hipo::node");
     sprintf(c_type, "%-12s", type.c_str());
@@ -167,7 +171,8 @@ std::vector<std::string> schema::branchesCode() {
 }
 
 void schema::ls() {
-  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin(); it != schemaEntries.end(); ++it) {
+  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin(); it != schemaEntries.end();
+       ++it) {
     printf("\tentry %-25s : item = %8d , type = %4d \n", it->first.c_str(), it->second.first, it->second.second);
   }
 }
@@ -228,4 +233,4 @@ void dictionary::parse(std::string dictString) {
   }
   mapDict[schema.getName()] = schema;
 }
-}
+}  // namespace hipo

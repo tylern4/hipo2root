@@ -14,13 +14,13 @@
 #ifndef DATA_H
 #define DATA_H
 
-#include <iostream>
-#include <cstdlib>
-#include <cstdio>
-#include <string>
-#include <vector>
 #include <stdint.h>
 #include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+#include <string>
+#include <vector>
 
 namespace data {
 
@@ -47,6 +47,6 @@ class data {
   std::vector<int> getReduced(const std::vector<int> &vec);
   std::vector<char> getLowerHalf(std::vector<int> &vec);
 };
-}
+}  // namespace data
 
 #endif /* UTILS_H */

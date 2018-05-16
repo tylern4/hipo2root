@@ -44,10 +44,10 @@ int utils::findposition(const std::string &str, const char *delim, int order) {
   return position;
 }
 /**
-* returns a substring from a string that is enclosed between
-* start_delim and end_delim. order variable decides which enclosed
-* string to return as and order of occurance. 0 - first one. 1 - second one.
-*/
+ * returns a substring from a string that is enclosed between
+ * start_delim and end_delim. order variable decides which enclosed
+ * string to return as and order of occurance. 0 - first one. 1 - second one.
+ */
 std::string utils::substring(const std::string &str, const char *start_delim, const char *end_delim, int order) {
   int position = 0;
   int firstPos = hipo::utils::findposition(str, start_delim, order);
@@ -143,7 +143,8 @@ std::string utils::getSConstruct() {
   std__string.append("env.Append(CPPPATH=[\"src/root\",\"src/evio\"])\n");
   std__string.append("env.Append(CCFLAGS=[\"-O2\",\"-fPIC\",\"-m64\",\"-fmessage-length=0\",\"-g\"])\n");
   std__string.append(
-      "env.Append(LIBPATH=[\"/opt/local/lib\",\"/usr/lib\",\"/usr/local/lib\",\"/group/clas12/packages/lz4/lib\",\"lib\",\"/"
+      "env.Append(LIBPATH=[\"/opt/local/lib\",\"/usr/lib\",\"/usr/local/lib\",\"/group/clas12/packages/lz4/"
+      "lib\",\"lib\",\"/"
       "group/clas12/packages/hipo-io/lib\"])\n");
   std__string.append(
       "env.Append(CONFIGUREDIR=[\"/group/clas12/packages/lz4/lib\",\"/group/clas12/packages/hipo-io/lib\"])\n");
@@ -174,4 +175,4 @@ std::string utils::getSConstruct() {
   std__string.append("runFileLoop   = env.Program(target=\"runFileLoop\",source=[\"runFileLoop.cc\"])\n");
   return std__string;
 }
-}
+}  // namespace hipo

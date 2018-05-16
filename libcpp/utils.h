@@ -14,9 +14,9 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <iostream>
-#include <cstdlib>
 #include <cstdio>
+#include <cstdlib>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -40,6 +40,6 @@ class utils {
   static std::string getFileTrailer(const char *code);
   static std::string getSConstruct();
 };
-}
+}  // namespace hipo
 
 #endif /* UTILS_H */

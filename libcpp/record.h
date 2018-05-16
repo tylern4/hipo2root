@@ -14,13 +14,13 @@
 #ifndef HIPORECORD_H
 #define HIPORECORD_H
 
-#include <iostream>
-#include <vector>
-#include <string>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
 
 #include "event.h"
 
@@ -95,5 +95,5 @@ class record {
   void readHipoEvent(hipo::event &event, int index);
   void getData(hipo::data &data, int index);
 };
-}
+}  // namespace hipo
 #endif /* HIPORECORD_H */

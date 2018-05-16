@@ -3,8 +3,8 @@
  * (c) 2017.
  */
 
-#include "reader.h"
 #include "hipoexceptions.h"
+#include "reader.h"
 #include "record.h"
 
 #include <cstdlib>
@@ -136,7 +136,7 @@ void reader::readHeader() {
 bool reader::verifyFile() { return true; }
 /**
  * Checks to determine if the file is open.
-*/
+ */
 bool reader::isOpen() { return inputStream.is_open(); }
 
 void reader::readDictionary() {
@@ -327,7 +327,7 @@ void reader::printWarning() {
   std::cout << "******************************************************" << std::endl;
 #endif
 }
-}
+}  // namespace hipo
 
 //*************************************************************************
 // implementation of record_index class
@@ -367,4 +367,4 @@ int reader_index::getMaxEvents() {
   if (recordEvents.size() == 0) return 0;
   return recordEvents[recordEvents.size() - 1];
 }
-}
+}  // namespace hipo

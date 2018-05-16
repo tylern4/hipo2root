@@ -14,11 +14,11 @@
 #ifndef TEXT_H
 #define TEXT_H
 
-#include <iostream>
-#include <cstdlib>
 #include <cstdio>
-#include <string>
+#include <cstdlib>
 #include <fstream>
+#include <iostream>
+#include <string>
 #include <vector>
 
 #include "utils.h"
@@ -42,6 +42,6 @@ class reader {
   std::vector<int> getIntVector();
   std::string getLine();
 };
-}
+}  // namespace text
 
 #endif /* TEXT_H */

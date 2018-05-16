@@ -13,13 +13,13 @@
 
 #ifndef EVENT_H
 #define EVENT_H
-#include <iostream>
-#include <vector>
-#include <cstring>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <cstring>
+#include <iostream>
 #include <map>
+#include <vector>
 #include "node.h"
 
 namespace hipo {
@@ -83,7 +83,7 @@ template<class T>   node<T> event::getNode(){
     en.setAddress(NULL);
     return en;
 } */
-}
+}  // namespace hipo
 
 namespace hipo {
 template <class T>
@@ -95,5 +95,5 @@ hipo::node<T> *event::getBranch(int group, int item) {
   nodes.push_back(type);
   return type;
 }
-}
+}  // namespace hipo
 #endif /* EVENT_H */

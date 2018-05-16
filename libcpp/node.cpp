@@ -26,4 +26,4 @@ const char *generic_node::name() { return __node_name.c_str(); }
 
 void generic_node::length(int length) { __length = length; }
 int generic_node::length() { return __length; }
-}
+}  // namespace hipo

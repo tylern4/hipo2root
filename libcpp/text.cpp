@@ -36,4 +36,4 @@ std::vector<int> reader::getIntVector() {
   }
   return intVec;
 }
-}
+}  // namespace text

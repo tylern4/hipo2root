@@ -14,9 +14,9 @@
 #ifndef DICTIONARY_H
 #define DICTIONARY_H
 
-#include <iostream>
-#include <cstdlib>
 #include <cstdio>
+#include <cstdlib>
+#include <iostream>
 #include <map>
 #include <string>
 #include <vector>
@@ -84,6 +84,6 @@ class dictionary {
   void parse(std::string dictString);
   std::vector<std::string> getSchemaList();
 };
-}
+}  // namespace hipo
 
 #endif /* NODE_H */

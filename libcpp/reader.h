@@ -77,16 +77,16 @@
 #define LITTLE_ENDIAN 1
 #endif
 
-#include <iostream>
-#include <vector>
-#include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <memory>
 #include <climits>
+#include <fstream>
+#include <iostream>
+#include <memory>
+#include <vector>
+#include "dictionary.h"
 #include "record.h"
 #include "utils.h"
-#include "dictionary.h"
 
 namespace hipo {
 
@@ -116,12 +116,12 @@ typedef struct {
   long firstRecordPosition;
 } fileHeader_t;
 /**
-* READER index class is used to construct entire events
-* sequence from all records, and provides ability to canAdvance
-* through events where record number is automatically calculated
-* and triggers reading of the next record when events in the current
-* record are exhausted.
-*/
+ * READER index class is used to construct entire events
+ * sequence from all records, and provides ability to canAdvance
+ * through events where record number is automatically calculated
+ * and triggers reading of the next record when events in the current
+ * record are exhausted.
+ */
 class reader_index {
  private:
   std::vector<int> recordEvents;
@@ -192,10 +192,10 @@ class reader {
   fileHeader_t header;
   hipo::utils hipoutils;
   /**
-  * Internal buffers for record and events to be
-  * read in sequence. When the next() is called on The
-  * reader class;
-  */
+   * Internal buffers for record and events to be
+   * read in sequence. When the next() is called on The
+   * reader class;
+   */
   hipo::record inRecordStream;
   hipo::event inEventStream;
   hipo::reader_index inReaderIndex;
@@ -233,7 +233,7 @@ class reader {
   template <class T>
   hipo::node<T> *getBranch(const char *group, const char *item);
 };
-}
+}  // namespace hipo
 
 namespace hipo {
 template <class T>
@@ -252,5 +252,5 @@ hipo::node<T> *reader::getBranch(const char *group, const char *item) {
   }
   return NULL;
 }
-}
+}  // namespace hipo
 #endif /* HIPOFILE_H */

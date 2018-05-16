@@ -55,9 +55,8 @@ void record::readRecord(std::ifstream &stream, long position, int dataOffset) {
   recordHeader.compressionType = (compressedWord >> 28) & 0x0000000F;
   recordHeader.indexDataLength = 4 * recordHeader.numberOfEvents;
 
-  /*printf(" allocating buffer for record, size = %d, padding = %d length = %d type = %d nevents = %d data length = %d\n",
-    dataBufferLengthBytes,
-    compressedDataLengthPadding, recordHeader.recordDataLengthCompressed*4,
+  /*printf(" allocating buffer for record, size = %d, padding = %d length = %d type = %d nevents = %d data length =
+    %d\n", dataBufferLengthBytes, compressedDataLengthPadding, recordHeader.recordDataLengthCompressed*4,
     recordHeader.compressionType, recordHeader.numberOfEvents, recordHeader.recordDataLength);
     */
   // char *compressedBuffer    = (char*) malloc(dataBufferLengthBytes);
@@ -166,9 +165,8 @@ void record::readRecord__(std::ifstream &stream, long position, long recordLengt
   recordHeader.compressionType = (compressedWord >> 28) & 0x0000000F;
   recordHeader.indexDataLength = 4 * recordHeader.numberOfEvents;
 
-  /*printf(" allocating buffer for record, size = %d, padding = %d length = %d type = %d nevents = %d data length = %d\n",
-    dataBufferLengthBytes,
-    compressedDataLengthPadding, recordHeader.recordDataLengthCompressed*4,
+  /*printf(" allocating buffer for record, size = %d, padding = %d length = %d type = %d nevents = %d data length =
+    %d\n", dataBufferLengthBytes, compressedDataLengthPadding, recordHeader.recordDataLengthCompressed*4,
     recordHeader.compressionType, recordHeader.numberOfEvents, recordHeader.recordDataLength);
     */
   // char *compressedBuffer    = (char*) malloc(dataBufferLengthBytes);
@@ -231,14 +229,14 @@ int record::getEventCount() { return recordHeader.numberOfEvents; }
  * reads content of the event with given index into a vector
  * vector will be resized to fit the data. The resulting
  * size of the vector can be used to veryfy the successfull read.
-*/
+ */
 void record::readEvent(std::vector<char> &vec, int index) {}
 /**
  * returns a data object that points to the event inside of the
  * record. For given index the data object will be filled with the
  * pointer to the position in the buffer where the event starts and
  * with the size indicating length of the event.
-*/
+ */
 void record::getData(hipo::data &data, int index) {
   int first_position = 0;
   if (index > 0) {
@@ -310,4 +308,4 @@ char *record::getUncompressed(const char *data, int dataLength, int dataLengthUn
   return NULL;
 #endif
 }
-}
+}  // namespace hipo

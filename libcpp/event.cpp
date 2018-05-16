@@ -373,4 +373,4 @@ void event::showInfo() {
     printf(" key = %5d , info = %5d \n", it->first, it->second);
   }
 }
-}
+}  // namespace hipo

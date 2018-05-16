@@ -14,9 +14,9 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include <iostream>
-#include <cstdlib>
 #include <cstdio>
+#include <cstdlib>
+#include <iostream>
 
 //#include "event.h"
 //#include "reader.h"
@@ -73,7 +73,7 @@ class node : public generic_node {
   void setLength(int l);
   void setAddress(char *address);
 };
-}
+}  // namespace hipo
 
 namespace hipo {
 
@@ -153,5 +153,5 @@ template <class T>
 char *node<T>::getAddress() {
   return reinterpret_cast<char *>(ptr);
 }
-}
+}  // namespace hipo
 #endif /* NODE_H */

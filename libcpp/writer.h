@@ -14,11 +14,11 @@
 #ifndef WRITER_H
 #define WRITER_H
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
-#include "record.h"
 #include "event.h"
+#include "record.h"
 
 namespace hipo {
 class writer {
@@ -41,6 +41,6 @@ class writer {
 
   void printWarning();
 };
-}
+}  // namespace hipo
 
 #endif /* WRITER_H */

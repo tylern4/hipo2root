@@ -1,6 +1,6 @@
 #include <iostream>
-#include "reader.h"
 #include "event.h"
+#include "reader.h"
 
 hipo::reader hipo_FORT_Reader;
 hipo::record hipo_FORT_Record;
