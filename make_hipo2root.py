@@ -49,14 +49,17 @@ middle = r"""
     entry++;
     if ((entry % 1000) == 0) std::cerr << "\t" << entry << "\r\r" << std::flush;
 """
-#loop = """
-#    %s = event.get%s(%s, %s);"""
 
 loop = r"""
     l = %s->getLength();
     %s.resize(l);
     for (int i = 0; i < l; i++) %s.at(i) = %s->getValue(i);
 
+    """
+copy = r"""
+    l = %s->getLength();
+    %s.resize(l);
+    memcpy(&%s[0], %s->getAddress(),l*sizeof(%s));
     """
 
 ending = r"""
@@ -133,8 +136,8 @@ def make_hipo2root(files):
                     hipo_type = hipo_check[str(item["type"])]
                     name = bank_name.replace("::", "_") + "_" + str(
                         item["name"])
-                    loops.append(loop % (name + "_node", name + "_vec",
-                                         name + "_vec", name + "_node"))
+                    loops.append(copy % (name + "_node", name + "_vec",
+                                         name + "_vec", name + "_node", hipo_type))
                     root_vectors.append("\tstd::vector<" + root_type + "> " +
                                         name + "_vec; \n")
                     root_branches.append("\t" + "clas12->Branch(\"" + name +
@@ -146,7 +149,7 @@ def make_hipo2root(files):
                     clear_vec.append("\t\t" + name + "_vec.clear();  \n")
 
     with open("hipo2root.cpp", 'w') as outfile:
-        write = lambda x: outfile.write(x)
+        def write(x): return outfile.write(x)
         write(begining)
         write("\n\n")
         map(write, hipo_nodes)
@@ -158,7 +161,6 @@ def make_hipo2root(files):
         map(write, loops)
         write("\n\t\tclas12->Fill();\n")
         map(write, clear_vec)
-        #write("\n\t\t}\n")
         write(ending)
 
 
@@ -169,13 +171,11 @@ if __name__ == '__main__':
         '-a',
         '--ALL',
         action='store_true',
-        help=
-        'Add all banks from bankdefs/hipo/*.json, overrides all other options')
+        help='Add all banks from bankdefs/hipo/*.json, overrides all other options')
     parser.add_argument(
         '--json',
         nargs='+',
-        help=
-        'Specify json file/files for bank information, overrides all other options'
+        help='Specify json file/files for bank information, overrides all other options'
     )
     parser.add_argument(
         '--clas6', action='store_true', help="Add banks from clas6")
