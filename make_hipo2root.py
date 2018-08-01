@@ -136,8 +136,8 @@ def make_hipo2root(files):
                     hipo_type = hipo_check[str(item["type"])]
                     name = bank_name.replace("::", "_") + "_" + str(
                         item["name"])
-                    loops.append(copy % (name + "_node", name + "_vec",
-                                         name + "_vec", name + "_node", hipo_type))
+                    loops.append(loop % (name + "_node", name + "_vec",
+                                         name + "_vec", name + "_node"))
                     root_vectors.append("\tstd::vector<" + root_type + "> " +
                                         name + "_vec; \n")
                     root_branches.append("\t" + "clas12->Branch(\"" + name +
@@ -159,7 +159,7 @@ def make_hipo2root(files):
         map(write, root_branches)
         map(write, middle)
         map(write, loops)
-        write("\n\t\tclas12->Fill();\n")
+        write("\n\t\tif(REC_Particle_pid_vec.size() > 0) clas12->Fill();\n")
         map(write, clear_vec)
         write(ending)
 
@@ -183,20 +183,25 @@ if __name__ == '__main__':
     parser.add_argument('--DC', action='store_true', help='Add bank DC')
     parser.add_argument('--MC', action='store_true', help='Add bank MC')
     parser.add_argument('--CND', action='store_true', help='Add bank CND')
-    parser.add_argument('--ECAL', action='store_true', help='Add bank ECAL')
-    parser.add_argument('--HTCC', action='store_true', help='Add bank HTCC')
+    parser.add_argument('--ECAL', action='store_true',
+                        help='Add bank ECAL')
+    parser.add_argument('--HTCC', action='store_true',
+                        help='Add bank HTCC')
     parser.add_argument('--TOF', action='store_true', help='Add bank TOF')
     parser.add_argument(
         '--HEADER', action='store_true', help='Add bank HEADER')
     parser.add_argument(
         '--DETECTOR', action='store_true', help='Add bank DETECTOR')
     parser.add_argument('--FMT', action='store_true', help='Add bank FMT')
-    parser.add_argument('--EVENT', action='store_true', help='Add bank EVENT')
+    parser.add_argument('--EVENT', action='store_true',
+                        help='Add bank EVENT')
     parser.add_argument('--BMT', action='store_true', help='Add bank BMT')
     parser.add_argument('--CVT', action='store_true', help='Add bank CVT')
-    parser.add_argument('--DATA', action='store_true', help='Add bank DATA')
+    parser.add_argument('--DATA', action='store_true',
+                        help='Add bank DATA')
     parser.add_argument('--FT', action='store_true', help='Add bank FT')
-    parser.add_argument('--LTCC', action='store_true', help='Add bank LTCC')
+    parser.add_argument('--LTCC', action='store_true',
+                        help='Add bank LTCC')
 
     args = parser.parse_args()
     files = []
