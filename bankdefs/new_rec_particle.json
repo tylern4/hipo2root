@@ -5,6 +5,16 @@
     "info": "Run Configuration",
     "items": [
       {
+        "name": "run",
+        "id": 1,
+        "type": "int32",
+        "info": "RUN number from CODA or GEMC"
+      }, {
+        "name": "event",
+        "id": 2,
+        "type": "int32",
+        "info": "Event number"
+      }, {
         "name": "torus",
         "id": 8,
         "type": "float",
@@ -155,6 +165,11 @@
         "id": 9,
         "type": "float",
         "info": "particle beta measured by TOF"
+      }, {
+        "name": "chi2pid",
+        "id": 10,
+        "type": "float",
+        "info": "Chi2 of assigned PID"
       }, {
         "name": "status",
         "id": 11,
