@@ -68,6 +68,12 @@ ending = r"""
   clas12->Write();
   OutputFile->Close();
 
+    std::chrono::duration<double> elapsed_full =
+        (std::chrono::high_resolution_clock::now() - start_full);
+    std::cout << "Elapsed time: " << elapsed_full.count() << " s" << std::endl;
+    std::cout << "Sec/Event: " << elapsed_full.count() / entry << std::endl;
+    std::cout << "Events/Sec: " << entry / elapsed_full.count() << " Hz" << std::endl;
+
   return 0;
 }
 """
@@ -80,9 +86,10 @@ begining = r"""/*
 * Author: Nick Tyler, University Of South Carolina
 */
 // Standard libs
+#include <time.h>
+#include <chrono>
 #include <cstdlib>
 #include <iostream>
-#include <time.h>
 #include <vector>
 // ROOT libs
 #include "TFile.h"
@@ -91,7 +98,7 @@ begining = r"""/*
 #include "reader.h"
 
 int main(int argc, char **argv) {
-
+  auto start_full = std::chrono::high_resolution_clock::now();
   char InFileName[128];
   char OutFileName[128];
 

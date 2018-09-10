@@ -17,14 +17,14 @@ $(LIB): %.o: %.cpp
 $(LZ4):
 	make lib -C lz4
 
-test: $(LZ4) $(LIB) all
-	$(CXX) -O3 $@.cpp $(LIB) $(LZ4) $(CXXFLAGS) -o test $(ROOTLIBS)
+benchmark: $(LZ4) $(LIB)
+	$(CXX) -O3 benchmark.cpp $(LIB) $(LZ4) $(CXXFLAGS) -o benchmark $(ROOTLIBS)
 
 $(PROG): $(LZ4) $(LIB)
 	$(CXX) -O3 $@.cpp $(LIB) $(LZ4) $(CXXFLAGS) -o $@ $(ROOTLIBS)
 
 clean:
-	-rm -f $(PROG) test
+	-rm -f $(PROG) benchmark
 purge: clean
 	-rm -f $(HIPOOBJ) $(LIB)
 	make clean -C lz4
