@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 from __future__ import print_function
-import json
-import pprint
-import glob
-import os
+
 import argparse
+import glob
+import json
+import os
+import pprint
 
 # TODO: get the needed banks from config file
 all_files = [
@@ -42,6 +43,8 @@ hipo_check = {
     "vector3f": "float"
 }
 
+fill_satement = "\n\t\tclas12->Fill();\n"
+#fill_satement = "\n\t\tif(REC_Particle_pid_vec.size() > 0) clas12->Fill();\n"
 middle = r"""
   int entry = 0;
   int l = 0;
@@ -166,7 +169,7 @@ def make_hipo2root(files):
         map(write, root_branches)
         map(write, middle)
         map(write, loops)
-        write("\n\t\tif(REC_Particle_pid_vec.size() > 0) clas12->Fill();\n")
+        write(fill_satement)
         map(write, clear_vec)
         write(ending)
 
@@ -223,5 +226,5 @@ if __name__ == '__main__':
                     files.append('bankdefs/hipo/' + str(arg) + '.json')
     if len(files) == 0:
         files = small
-    # print(files)
+
     make_hipo2root(files)
