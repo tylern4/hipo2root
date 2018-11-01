@@ -5,7 +5,7 @@ LIBFLAG = -c $(shell root-config --auxcflags) $(LZ4INC) -D__LZ4__ -D__LIBZ__
 DEBUG = -D__DEBUG__
 LIB = $(patsubst %.cpp,%.o,$(wildcard libcpp/*.cpp))
 CXX = g++
-PROG = hipo2root
+PROG = recon
 LZ4 = lz4/lib/lz4.o
 
 .PHONY: clean
@@ -24,7 +24,7 @@ $(PROG): $(LZ4) $(LIB)
 	$(CXX) -O3 $@.cpp $(LIB) $(LZ4) $(CXXFLAGS) -o $@ $(ROOTLIBS)
 
 clean:
-	-rm -f $(PROG) benchmark
+	-rm -f $(PROG)
 purge: clean
 	-rm -f $(HIPOOBJ) $(LIB)
 	make clean -C lz4
