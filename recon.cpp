@@ -18,6 +18,8 @@
 // Hipo libs
 #include "reader.h"
 
+#define NaN std::nanf("-9999")
+
 int main(int argc, char **argv) {
   auto start_full = std::chrono::high_resolution_clock::now();
   char InFileName[128];
@@ -237,36 +239,51 @@ int main(int argc, char **argv) {
   std::vector<float> cc_theta;
   std::vector<float> cc_phi;
 
-  clas12->Branch("RUN_config_run", &RUN_config_run_vec);
-  clas12->Branch("RUN_config_event", &RUN_config_event_vec);
-  clas12->Branch("RUN_config_torus", &RUN_config_torus_vec);
-  clas12->Branch("RUN_config_solenoid", &RUN_config_solenoid_vec);
-  clas12->Branch("RAW_scaler_crate", &RAW_scaler_crate_vec);
-  clas12->Branch("RAW_scaler_slot", &RAW_scaler_slot_vec);
-  clas12->Branch("RAW_scaler_channel", &RAW_scaler_channel_vec);
-  clas12->Branch("RAW_scaler_helicity", &RAW_scaler_helicity_vec);
-  clas12->Branch("RAW_scaler_quartet", &RAW_scaler_quartet_vec);
-  clas12->Branch("RAW_scaler_value", &RAW_scaler_value_vec);
-  clas12->Branch("REC_Event_NRUN", &REC_Event_NRUN_vec);
-  clas12->Branch("REC_Event_NEVENT", &REC_Event_NEVENT_vec);
-  clas12->Branch("REC_Event_EVNTime", &REC_Event_EVNTime_vec);
-  clas12->Branch("REC_Event_TYPE", &REC_Event_TYPE_vec);
-  clas12->Branch("REC_Event_TRG", &REC_Event_TRG_vec);
-  clas12->Branch("REC_Event_BCG", &REC_Event_BCG_vec);
-  clas12->Branch("REC_Event_STTime", &REC_Event_STTime_vec);
-  clas12->Branch("REC_Event_RFTime", &REC_Event_RFTime_vec);
-  clas12->Branch("REC_Event_Helic", &REC_Event_Helic_vec);
-  clas12->Branch("REC_Particle_pid", &REC_Particle_pid_vec);
-  clas12->Branch("REC_Particle_px", &REC_Particle_px_vec);
-  clas12->Branch("REC_Particle_py", &REC_Particle_py_vec);
-  clas12->Branch("REC_Particle_pz", &REC_Particle_pz_vec);
-  clas12->Branch("REC_Particle_vx", &REC_Particle_vx_vec);
-  clas12->Branch("REC_Particle_vy", &REC_Particle_vy_vec);
-  clas12->Branch("REC_Particle_vz", &REC_Particle_vz_vec);
-  clas12->Branch("REC_Particle_charge", &REC_Particle_charge_vec);
-  clas12->Branch("REC_Particle_beta", &REC_Particle_beta_vec);
-  clas12->Branch("REC_Particle_chi2pid", &REC_Particle_chi2pid_vec);
-  clas12->Branch("REC_Particle_status", &REC_Particle_status_vec);
+  std::vector<int> sc_ftof_sec;
+  std::vector<float> sc_ftof_time;
+  std::vector<float> sc_ftof_path;
+  std::vector<float> sc_ftof_layer;
+  std::vector<float> sc_ftof_energy;
+  std::vector<float> sc_ftof_x;
+  std::vector<float> sc_ftof_y;
+  std::vector<float> sc_ftof_z;
+  std::vector<float> sc_ftof_hx;
+  std::vector<float> sc_ftof_hy;
+  std::vector<float> sc_ftof_hz;
+
+  std::vector<float> sc_ctof_time;
+  std::vector<float> sc_ctof_path;
+  std::vector<float> sc_ctof_energy;
+  std::vector<float> sc_ctof_x;
+  std::vector<float> sc_ctof_y;
+  std::vector<float> sc_ctof_z;
+  std::vector<float> sc_ctof_hx;
+  std::vector<float> sc_ctof_hy;
+  std::vector<float> sc_ctof_hz;
+
+  clas12->Branch("run", &RUN_config_run_vec);
+  clas12->Branch("event", &RUN_config_event_vec);
+  clas12->Branch("torus", &RUN_config_torus_vec);
+  clas12->Branch("solenoid", &RUN_config_solenoid_vec);
+  clas12->Branch("crate", &RAW_scaler_crate_vec);
+  clas12->Branch("slot", &RAW_scaler_slot_vec);
+  clas12->Branch("channel", &RAW_scaler_channel_vec);
+  clas12->Branch("helicity", &RAW_scaler_helicity_vec);
+  clas12->Branch("quartet", &RAW_scaler_quartet_vec);
+  clas12->Branch("value", &RAW_scaler_value_vec);
+  clas12->Branch("STTime", &REC_Event_STTime_vec);
+  clas12->Branch("RFTime", &REC_Event_RFTime_vec);
+  clas12->Branch("pid", &REC_Particle_pid_vec);
+  clas12->Branch("px", &REC_Particle_px_vec);
+  clas12->Branch("py", &REC_Particle_py_vec);
+  clas12->Branch("pz", &REC_Particle_pz_vec);
+  clas12->Branch("vx", &REC_Particle_vx_vec);
+  clas12->Branch("vy", &REC_Particle_vy_vec);
+  clas12->Branch("vz", &REC_Particle_vz_vec);
+  clas12->Branch("charge", &REC_Particle_charge_vec);
+  clas12->Branch("beta", &REC_Particle_beta_vec);
+  clas12->Branch("chi2pid", &REC_Particle_chi2pid_vec);
+  clas12->Branch("status", &REC_Particle_status_vec);
   /*
     clas12->Branch("REC_Calorimeter_pindex", &REC_Calorimeter_pindex_vec);
     clas12->Branch("REC_Calorimeter_detector", &REC_Calorimeter_detector_vec);
@@ -302,14 +319,16 @@ int main(int argc, char **argv) {
   clas12->Branch("REC_ForwardTagger_dy", &REC_ForwardTagger_dy_vec);
   clas12->Branch("REC_ForwardTagger_radius", &REC_ForwardTagger_radius_vec);
   clas12->Branch("REC_ForwardTagger_size", &REC_ForwardTagger_size_vec);
-  clas12->Branch("REC_Scintillator_pindex", &REC_Scintillator_pindex_vec);
-  clas12->Branch("REC_Scintillator_detector", &REC_Scintillator_detector_vec);
-  clas12->Branch("REC_Scintillator_sector", &REC_Scintillator_sector_vec);
-  clas12->Branch("REC_Scintillator_layer", &REC_Scintillator_layer_vec);
-  clas12->Branch("REC_Scintillator_component", &REC_Scintillator_component_vec);
-  clas12->Branch("REC_Scintillator_energy", &REC_Scintillator_energy_vec);
-  clas12->Branch("REC_Scintillator_time", &REC_Scintillator_time_vec);
-  clas12->Branch("REC_Scintillator_path", &REC_Scintillator_path_vec);
+  /*
+    clas12->Branch("REC_Scintillator_pindex", &REC_Scintillator_pindex_vec);
+    clas12->Branch("REC_Scintillator_detector", &REC_Scintillator_detector_vec);
+    clas12->Branch("REC_Scintillator_sector", &REC_Scintillator_sector_vec);
+    clas12->Branch("REC_Scintillator_layer", &REC_Scintillator_layer_vec);
+    clas12->Branch("REC_Scintillator_component", &REC_Scintillator_component_vec);
+    clas12->Branch("REC_Scintillator_energy", &REC_Scintillator_energy_vec);
+    clas12->Branch("REC_Scintillator_time", &REC_Scintillator_time_vec);
+    clas12->Branch("REC_Scintillator_path", &REC_Scintillator_path_vec);
+  */
   clas12->Branch("REC_Track_pindex", &REC_Track_pindex_vec);
   clas12->Branch("REC_Track_detector", &REC_Track_detector_vec);
   clas12->Branch("REC_Track_sector", &REC_Track_sector_vec);
@@ -339,7 +358,6 @@ int main(int argc, char **argv) {
   clas12->Branch("ec_lu", &ec_lu);
   clas12->Branch("ec_lv", &ec_lv);
   clas12->Branch("ec_lw", &ec_lw);
-
   clas12->Branch("cc_sec", &cc_sec);
   clas12->Branch("cc_nphe_ltcc", &cc_nphe_ltcc);
   clas12->Branch("cc_nphe_htcc", &cc_nphe_htcc);
@@ -348,6 +366,14 @@ int main(int argc, char **argv) {
   clas12->Branch("cc_path", &cc_path);
   clas12->Branch("cc_theta", &cc_theta);
   clas12->Branch("cc_phi", &cc_phi);
+  clas12->Branch("sc_ftof_sec", &sc_ftof_sec);
+  clas12->Branch("sc_ftof_time", &sc_ftof_time);
+  clas12->Branch("sc_ftof_path", &sc_ftof_path);
+  clas12->Branch("sc_ftof_layer", &sc_ftof_layer);
+  clas12->Branch("sc_ftof_energy", &sc_ftof_energy);
+  clas12->Branch("sc_ctof_time", &sc_ctof_time);
+  clas12->Branch("sc_ctof_path", &sc_ctof_path);
+  clas12->Branch("sc_ctof_energy", &sc_ctof_energy);
 
   int entry = 0;
   int l = 0;
@@ -398,30 +424,6 @@ int main(int argc, char **argv) {
     RAW_scaler_value_vec.resize(l);
     for (int i = 0; i < l; i++) RAW_scaler_value_vec.at(i) = RAW_scaler_value_node->getValue(i);
 
-    l = REC_Event_NRUN_node->getLength();
-    REC_Event_NRUN_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Event_NRUN_vec.at(i) = REC_Event_NRUN_node->getValue(i);
-
-    l = REC_Event_NEVENT_node->getLength();
-    REC_Event_NEVENT_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Event_NEVENT_vec.at(i) = REC_Event_NEVENT_node->getValue(i);
-
-    l = REC_Event_EVNTime_node->getLength();
-    REC_Event_EVNTime_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Event_EVNTime_vec.at(i) = REC_Event_EVNTime_node->getValue(i);
-
-    l = REC_Event_TYPE_node->getLength();
-    REC_Event_TYPE_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Event_TYPE_vec.at(i) = REC_Event_TYPE_node->getValue(i);
-
-    l = REC_Event_TRG_node->getLength();
-    REC_Event_TRG_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Event_TRG_vec.at(i) = REC_Event_TRG_node->getValue(i);
-
-    l = REC_Event_BCG_node->getLength();
-    REC_Event_BCG_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Event_BCG_vec.at(i) = REC_Event_BCG_node->getValue(i);
-
     l = REC_Event_STTime_node->getLength();
     REC_Event_STTime_vec.resize(l);
     for (int i = 0; i < l; i++) REC_Event_STTime_vec.at(i) = REC_Event_STTime_node->getValue(i);
@@ -429,10 +431,6 @@ int main(int argc, char **argv) {
     l = REC_Event_RFTime_node->getLength();
     REC_Event_RFTime_vec.resize(l);
     for (int i = 0; i < l; i++) REC_Event_RFTime_vec.at(i) = REC_Event_RFTime_node->getValue(i);
-
-    l = REC_Event_Helic_node->getLength();
-    REC_Event_Helic_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Event_Helic_vec.at(i) = REC_Event_Helic_node->getValue(i);
 
     l = REC_Particle_pid_node->getLength();
     REC_Particle_pid_vec.resize(l);
@@ -468,7 +466,9 @@ int main(int argc, char **argv) {
 
     l = REC_Particle_beta_node->getLength();
     REC_Particle_beta_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Particle_beta_vec.at(i) = REC_Particle_beta_node->getValue(i);
+    for (int i = 0; i < l; i++)
+      REC_Particle_beta_vec.at(i) =
+          ((REC_Particle_beta_node->getValue(i) != -9999) ? REC_Particle_beta_node->getValue(i) : NaN);
 
     l = REC_Particle_chi2pid_node->getLength();
     REC_Particle_chi2pid_vec.resize(l);
@@ -496,18 +496,18 @@ int main(int argc, char **argv) {
 
     for (int i = 0; i < len_pid; i++) {
       ec_sec[i] = -1;
-      ec_pcal[i] = std::nanf("-9999");
-      ec_ecin[i] = std::nanf("-9999");
-      ec_ecout[i] = std::nanf("-9999");
-      ec_etot[i] = std::nanf("-9999");
-      ec_time[i] = std::nanf("-9999");
-      ec_path[i] = std::nanf("-9999");
-      ec_x[i] = std::nanf("-9999");
-      ec_y[i] = std::nanf("-9999");
-      ec_z[i] = std::nanf("-9999");
-      ec_lu[i] = std::nanf("-9999");
-      ec_lv[i] = std::nanf("-9999");
-      ec_lw[i] = std::nanf("-9999");
+      ec_pcal[i] = NaN;
+      ec_ecin[i] = NaN;
+      ec_ecout[i] = NaN;
+      ec_etot[i] = NaN;
+      ec_time[i] = NaN;
+      ec_path[i] = NaN;
+      ec_x[i] = NaN;
+      ec_y[i] = NaN;
+      ec_z[i] = NaN;
+      ec_lu[i] = NaN;
+      ec_lv[i] = NaN;
+      ec_lw[i] = NaN;
     }
 
     float pcal = 0.0;
@@ -520,14 +520,14 @@ int main(int argc, char **argv) {
         int pindex = REC_Calorimeter_pindex_node->getValue(k);
         int detector = REC_Calorimeter_detector_node->getValue(k);
         int sec = -1;
-        float t = std::nanf("-9999");
-        float r = std::nanf("-9999");
-        float x = std::nanf("-9999");
-        float y = std::nanf("-9999");
-        float z = std::nanf("-9999");
-        float lu = std::nanf("-9999");
-        float lv = std::nanf("-9999");
-        float lw = std::nanf("-9999");
+        float t = NaN;
+        float r = NaN;
+        float x = NaN;
+        float y = NaN;
+        float z = NaN;
+        float lu = NaN;
+        float lv = NaN;
+        float lw = NaN;
         if (pindex == i && detector == 7) {
           int layer = REC_Calorimeter_layer_node->getValue(k);
           float energy = REC_Calorimeter_energy_node->getValue(k);
@@ -549,10 +549,6 @@ int main(int argc, char **argv) {
           else if (layer == 7)
             eouter += energy;
         }
-        if (ec_pcal[i] != ec_pcal[i]) ec_pcal[i] = ((pcal != 0.0) ? pcal : std::nanf("-9999"));
-        if (ec_ecin[i] != ec_ecin[i]) ec_ecin[i] = ((einner != 0.0) ? einner : std::nanf("-9999"));
-        if (ec_ecout[i] != ec_ecout[i]) ec_ecout[i] = ((eouter != 0.0) ? eouter : std::nanf("-9999"));
-        if (ec_etot[i] != ec_etot[i]) ec_etot[i] = ((etot != 0.0) ? etot : std::nanf("-9999"));
         if (ec_time[i] != ec_time[i]) ec_time[i] = t;
         if (ec_path[i] != ec_path[i]) ec_path[i] = r;
         if (ec_x[i] != ec_x[i]) ec_x[i] = x;
@@ -563,60 +559,11 @@ int main(int argc, char **argv) {
         if (ec_lw[i] != ec_lw[i]) ec_lw[i] = lw;
         if (ec_sec[i] == -1) ec_sec[i] = sec;
       }
+      if (ec_pcal[i] != ec_pcal[i]) ec_pcal[i] = ((pcal != 0.0) ? pcal : NaN);
+      if (ec_ecin[i] != ec_ecin[i]) ec_ecin[i] = ((einner != 0.0) ? einner : NaN);
+      if (ec_ecout[i] != ec_ecout[i]) ec_ecout[i] = ((eouter != 0.0) ? eouter : NaN);
+      if (ec_etot[i] != ec_etot[i]) ec_etot[i] = ((etot != 0.0) ? etot : NaN);
     }
-    /*
-        l = REC_Calorimeter_pindex_node->getLength();
-        REC_Calorimeter_pindex_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Calorimeter_pindex_vec.at(i) = REC_Calorimeter_pindex_node->getValue(i);
-
-        l = REC_Calorimeter_detector_node->getLength();
-        REC_Calorimeter_detector_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Calorimeter_detector_vec.at(i) = REC_Calorimeter_detector_node->getValue(i);
-
-        l = REC_Calorimeter_sector_node->getLength();
-        REC_Calorimeter_sector_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Calorimeter_sector_vec.at(i) = REC_Calorimeter_sector_node->getValue(i);
-
-        l = REC_Calorimeter_layer_node->getLength();
-        REC_Calorimeter_layer_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Calorimeter_layer_vec.at(i) = REC_Calorimeter_layer_node->getValue(i);
-
-        l = REC_Calorimeter_energy_node->getLength();
-        REC_Calorimeter_energy_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Calorimeter_energy_vec.at(i) = REC_Calorimeter_energy_node->getValue(i);
-
-        l = REC_Calorimeter_time_node->getLength();
-        REC_Calorimeter_time_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Calorimeter_time_vec.at(i) = REC_Calorimeter_time_node->getValue(i);
-
-        l = REC_Calorimeter_path_node->getLength();
-        REC_Calorimeter_path_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Calorimeter_path_vec.at(i) = REC_Calorimeter_path_node->getValue(i);
-
-        l = REC_Calorimeter_x_node->getLength();
-        REC_Calorimeter_x_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Calorimeter_x_vec.at(i) = REC_Calorimeter_x_node->getValue(i);
-
-        l = REC_Calorimeter_y_node->getLength();
-        REC_Calorimeter_y_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Calorimeter_y_vec.at(i) = REC_Calorimeter_y_node->getValue(i);
-
-        l = REC_Calorimeter_z_node->getLength();
-        REC_Calorimeter_z_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Calorimeter_z_vec.at(i) = REC_Calorimeter_z_node->getValue(i);
-
-        l = REC_Calorimeter_lu_node->getLength();
-        REC_Calorimeter_lu_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Calorimeter_lu_vec.at(i) = REC_Calorimeter_lu_node->getValue(i);
-
-        l = REC_Calorimeter_lv_node->getLength();
-        REC_Calorimeter_lv_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Calorimeter_lv_vec.at(i) = REC_Calorimeter_lv_node->getValue(i);
-
-        l = REC_Calorimeter_lw_node->getLength();
-        REC_Calorimeter_lw_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Calorimeter_lw_vec.at(i) = REC_Calorimeter_lw_node->getValue(i);
-    */
 
     len_pid = REC_Particle_pid_node->getLength();
     len_pindex = REC_Cherenkov_pindex_node->getLength();
@@ -631,13 +578,13 @@ int main(int argc, char **argv) {
 
     for (int i = 0; i < len_pid; i++) {
       cc_sec[i] = -1;
-      cc_nphe_ltcc[i] = std::nanf("-9999");
-      cc_nphe_htcc[i] = std::nanf("-9999");
-      cc_nphe_tot[i] = std::nanf("-9999");
-      cc_time[i] = std::nanf("-9999");
-      cc_path[i] = std::nanf("-9999");
-      cc_theta[i] = std::nanf("-9999");
-      cc_phi[i] = std::nanf("-9999");
+      cc_nphe_ltcc[i] = NaN;
+      cc_nphe_htcc[i] = NaN;
+      cc_nphe_tot[i] = NaN;
+      cc_time[i] = NaN;
+      cc_path[i] = NaN;
+      cc_theta[i] = NaN;
+      cc_phi[i] = NaN;
     }
 
     float nphe_ltcc = 0.0;
@@ -650,10 +597,11 @@ int main(int argc, char **argv) {
         int detector = REC_Cherenkov_detector_node->getValue(k);
 
         int sec = -1;
-        float t = std::nanf("-9999");
-        float r = std::nanf("-9999");
-        float theta = std::nanf("-9999");
-        float phi = std::nanf("-9999");
+        float t = NaN;
+        float r = NaN;
+        float theta = NaN;
+        float phi = NaN;
+        float nphe = NaN;
 
         if (pindex == i && (detector == 15 || detector == 16)) {
           sec = REC_Cherenkov_sector_node->getValue(k);
@@ -661,196 +609,196 @@ int main(int argc, char **argv) {
           r = REC_Cherenkov_path_node->getValue(k);
           theta = REC_Cherenkov_theta_node->getValue(k);
           phi = REC_Cherenkov_phi_node->getValue(k);
-          float nphe = REC_Cherenkov_nphe_node->getValue(k);
+          nphe = REC_Cherenkov_nphe_node->getValue(k);
           nphe_tot += nphe;
           if (detector == 15)
             nphe_htcc += nphe;
           else if (detector == 16)
             nphe_ltcc += nphe;
         }
-        if (cc_nphe_ltcc[i] != cc_nphe_ltcc[i]) cc_nphe_ltcc[i] = ((nphe_ltcc != 0.0) ? nphe_ltcc : std::nanf("-9999"));
-        if (cc_nphe_htcc[i] != cc_nphe_htcc[i]) cc_nphe_htcc[i] = ((nphe_htcc != 0.0) ? nphe_htcc : std::nanf("-9999"));
-        if (cc_nphe_tot[i] != cc_nphe_tot[i]) cc_nphe_tot[i] = ((nphe_tot != 0.0) ? nphe_tot : std::nanf("-9999"));
         if (cc_time[i] != cc_time[i]) cc_time[i] = t;
         if (cc_path[i] != cc_path[i]) cc_path[i] = r;
         if (cc_theta[i] != cc_theta[i]) cc_theta[i] = theta;
         if (cc_phi[i] != cc_phi[i]) cc_phi[i] = phi;
         if (cc_sec[i] == -1) cc_sec[i] = sec;
       }
+      if (cc_nphe_ltcc[i] != cc_nphe_ltcc[i]) cc_nphe_ltcc[i] = ((nphe_ltcc != 0.0) ? nphe_ltcc : NaN);
+      if (cc_nphe_htcc[i] != cc_nphe_htcc[i]) cc_nphe_htcc[i] = ((nphe_htcc != 0.0) ? nphe_htcc : NaN);
+      if (cc_nphe_tot[i] != cc_nphe_tot[i]) cc_nphe_tot[i] = ((nphe_tot != 0.0) ? nphe_tot : NaN);
     }
     /*
-        l = REC_Cherenkov_pindex_node->getLength();
-        REC_Cherenkov_pindex_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Cherenkov_pindex_vec.at(i) = REC_Cherenkov_pindex_node->getValue(i);
+        l = REC_ForwardTagger_pindex_node->getLength();
+        REC_ForwardTagger_pindex_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_ForwardTagger_pindex_vec.at(i) = REC_ForwardTagger_pindex_node->getValue(i);
 
-        l = REC_Cherenkov_detector_node->getLength();
-        REC_Cherenkov_detector_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Cherenkov_detector_vec.at(i) = REC_Cherenkov_detector_node->getValue(i);
+        l = REC_ForwardTagger_detector_node->getLength();
+        REC_ForwardTagger_detector_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_ForwardTagger_detector_vec.at(i) = REC_ForwardTagger_detector_node->getValue(i);
 
-        l = REC_Cherenkov_sector_node->getLength();
-        REC_Cherenkov_sector_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Cherenkov_sector_vec.at(i) = REC_Cherenkov_sector_node->getValue(i);
+        l = REC_ForwardTagger_energy_node->getLength();
+        REC_ForwardTagger_energy_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_ForwardTagger_energy_vec.at(i) = REC_ForwardTagger_energy_node->getValue(i);
 
-        l = REC_Cherenkov_nphe_node->getLength();
-        REC_Cherenkov_nphe_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Cherenkov_nphe_vec.at(i) = REC_Cherenkov_nphe_node->getValue(i);
+        l = REC_ForwardTagger_time_node->getLength();
+        REC_ForwardTagger_time_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_ForwardTagger_time_vec.at(i) = REC_ForwardTagger_time_node->getValue(i);
 
-        l = REC_Cherenkov_time_node->getLength();
-        REC_Cherenkov_time_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Cherenkov_time_vec.at(i) = REC_Cherenkov_time_node->getValue(i);
+        l = REC_ForwardTagger_path_node->getLength();
+        REC_ForwardTagger_path_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_ForwardTagger_path_vec.at(i) = REC_ForwardTagger_path_node->getValue(i);
 
-        l = REC_Cherenkov_path_node->getLength();
-        REC_Cherenkov_path_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Cherenkov_path_vec.at(i) = REC_Cherenkov_path_node->getValue(i);
+        l = REC_ForwardTagger_x_node->getLength();
+        REC_ForwardTagger_x_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_ForwardTagger_x_vec.at(i) = REC_ForwardTagger_x_node->getValue(i);
 
-        l = REC_Cherenkov_theta_node->getLength();
-        REC_Cherenkov_theta_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Cherenkov_theta_vec.at(i) = REC_Cherenkov_theta_node->getValue(i);
+        l = REC_ForwardTagger_y_node->getLength();
+        REC_ForwardTagger_y_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_ForwardTagger_y_vec.at(i) = REC_ForwardTagger_y_node->getValue(i);
 
-        l = REC_Cherenkov_phi_node->getLength();
-        REC_Cherenkov_phi_vec.resize(l);
-        for (int i = 0; i < l; i++) REC_Cherenkov_phi_vec.at(i) = REC_Cherenkov_phi_node->getValue(i);
+        l = REC_ForwardTagger_z_node->getLength();
+        REC_ForwardTagger_z_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_ForwardTagger_z_vec.at(i) = REC_ForwardTagger_z_node->getValue(i);
+
+        l = REC_ForwardTagger_dx_node->getLength();
+        REC_ForwardTagger_dx_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_ForwardTagger_dx_vec.at(i) = REC_ForwardTagger_dx_node->getValue(i);
+
+        l = REC_ForwardTagger_dy_node->getLength();
+        REC_ForwardTagger_dy_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_ForwardTagger_dy_vec.at(i) = REC_ForwardTagger_dy_node->getValue(i);
+
+        l = REC_ForwardTagger_radius_node->getLength();
+        REC_ForwardTagger_radius_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_ForwardTagger_radius_vec.at(i) = REC_ForwardTagger_radius_node->getValue(i);
+
+        l = REC_ForwardTagger_size_node->getLength();
+        REC_ForwardTagger_size_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_ForwardTagger_size_vec.at(i) = REC_ForwardTagger_size_node->getValue(i);
     */
-    l = REC_ForwardTagger_pindex_node->getLength();
-    REC_ForwardTagger_pindex_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_ForwardTagger_pindex_vec.at(i) = REC_ForwardTagger_pindex_node->getValue(i);
 
-    l = REC_ForwardTagger_detector_node->getLength();
-    REC_ForwardTagger_detector_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_ForwardTagger_detector_vec.at(i) = REC_ForwardTagger_detector_node->getValue(i);
+    len_pid = REC_Particle_pid_node->getLength();
+    len_pindex = REC_Scintillator_pindex_node->getLength();
 
-    l = REC_ForwardTagger_energy_node->getLength();
-    REC_ForwardTagger_energy_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_ForwardTagger_energy_vec.at(i) = REC_ForwardTagger_energy_node->getValue(i);
+    sc_ftof_sec.resize(len_pid);
+    sc_ftof_time.resize(len_pid);
+    sc_ftof_path.resize(len_pid);
+    sc_ftof_layer.resize(len_pid);
+    sc_ftof_energy.resize(len_pid);
 
-    l = REC_ForwardTagger_time_node->getLength();
-    REC_ForwardTagger_time_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_ForwardTagger_time_vec.at(i) = REC_ForwardTagger_time_node->getValue(i);
+    sc_ctof_time.resize(len_pid);
+    sc_ctof_path.resize(len_pid);
+    sc_ctof_energy.resize(len_pid);
 
-    l = REC_ForwardTagger_path_node->getLength();
-    REC_ForwardTagger_path_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_ForwardTagger_path_vec.at(i) = REC_ForwardTagger_path_node->getValue(i);
+    for (int i = 0; i < len_pid; i++) {
+      sc_ftof_sec[i] = -1;
+      sc_ftof_time[i] = NaN;
+      sc_ftof_path[i] = NaN;
+      sc_ftof_layer[i] = NaN;
+      sc_ftof_energy[i] = NaN;
 
-    l = REC_ForwardTagger_x_node->getLength();
-    REC_ForwardTagger_x_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_ForwardTagger_x_vec.at(i) = REC_ForwardTagger_x_node->getValue(i);
+      sc_ctof_time[i] = NaN;
+      sc_ctof_path[i] = NaN;
+      sc_ctof_energy[i] = NaN;
+    }
 
-    l = REC_ForwardTagger_y_node->getLength();
-    REC_ForwardTagger_y_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_ForwardTagger_y_vec.at(i) = REC_ForwardTagger_y_node->getValue(i);
+    for (int i = 0; i < len_pid; i++) {
+      for (int k = 0; k < len_pindex; k++) {
+        int pindex = REC_Scintillator_pindex_node->getValue(k);
+        int detector = REC_Scintillator_detector_node->getValue(k);
 
-    l = REC_ForwardTagger_z_node->getLength();
-    REC_ForwardTagger_z_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_ForwardTagger_z_vec.at(i) = REC_ForwardTagger_z_node->getValue(i);
+        int _sc_ftof_sec = -1;
+        float _sc_ftof_time = NaN;
+        float _sc_ftof_path = NaN;
+        float _sc_ftof_layer = NaN;
+        float _sc_ftof_energy = NaN;
 
-    l = REC_ForwardTagger_dx_node->getLength();
-    REC_ForwardTagger_dx_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_ForwardTagger_dx_vec.at(i) = REC_ForwardTagger_dx_node->getValue(i);
+        float _sc_ctof_time = NaN;
+        float _sc_ctof_path = NaN;
+        float _sc_ctof_energy = NaN;
 
-    l = REC_ForwardTagger_dy_node->getLength();
-    REC_ForwardTagger_dy_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_ForwardTagger_dy_vec.at(i) = REC_ForwardTagger_dy_node->getValue(i);
+        if (pindex == i && detector == 12) {
+          _sc_ftof_sec = REC_Scintillator_sector_node->getValue(k);
+          _sc_ftof_time = REC_Scintillator_time_node->getValue(k);
+          _sc_ftof_path = REC_Scintillator_path_node->getValue(k);
+          _sc_ftof_layer = REC_Scintillator_layer_node->getValue(k);
+          _sc_ftof_energy = REC_Scintillator_energy_node->getValue(k);
 
-    l = REC_ForwardTagger_radius_node->getLength();
-    REC_ForwardTagger_radius_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_ForwardTagger_radius_vec.at(i) = REC_ForwardTagger_radius_node->getValue(i);
+        } else if (pindex == i && detector == 4) {
+          _sc_ctof_time = REC_Scintillator_time_node->getValue(k);
+          _sc_ctof_path = REC_Scintillator_path_node->getValue(k);
+          _sc_ctof_energy = REC_Scintillator_energy_node->getValue(k);
+        }
+        if (sc_ftof_sec[i] == -1) sc_ftof_sec[i] = _sc_ftof_sec;
+        if (sc_ftof_time[i] != sc_ftof_time[i]) sc_ftof_time[i] = _sc_ftof_time;
+        if (sc_ftof_path[i] != sc_ftof_path[i]) sc_ftof_path[i] = _sc_ftof_path;
+        if (sc_ftof_layer[i] != sc_ftof_layer[i]) sc_ftof_layer[i] = _sc_ftof_layer;
+        if (sc_ftof_energy[i] != sc_ftof_energy[i]) sc_ftof_energy[i] = _sc_ftof_energy;
+        if (sc_ctof_time[i] != sc_ctof_time[i]) sc_ctof_time[i] = _sc_ctof_time;
+        if (sc_ctof_path[i] != sc_ctof_path[i]) sc_ctof_path[i] = _sc_ctof_path;
+        if (sc_ctof_energy[i] != sc_ctof_energy[i]) sc_ctof_energy[i] = _sc_ctof_energy;
+      }
+    }
+    /*
+        l = REC_Track_pindex_node->getLength();
+        REC_Track_pindex_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_Track_pindex_vec.at(i) = REC_Track_pindex_node->getValue(i);
 
-    l = REC_ForwardTagger_size_node->getLength();
-    REC_ForwardTagger_size_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_ForwardTagger_size_vec.at(i) = REC_ForwardTagger_size_node->getValue(i);
+        l = REC_Track_detector_node->getLength();
+        REC_Track_detector_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_Track_detector_vec.at(i) = REC_Track_detector_node->getValue(i);
 
-    l = REC_Scintillator_pindex_node->getLength();
-    REC_Scintillator_pindex_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Scintillator_pindex_vec.at(i) = REC_Scintillator_pindex_node->getValue(i);
+        l = REC_Track_sector_node->getLength();
+        REC_Track_sector_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_Track_sector_vec.at(i) = REC_Track_sector_node->getValue(i);
 
-    l = REC_Scintillator_detector_node->getLength();
-    REC_Scintillator_detector_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Scintillator_detector_vec.at(i) = REC_Scintillator_detector_node->getValue(i);
+        l = REC_Track_chi2_node->getLength();
+        REC_Track_chi2_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_Track_chi2_vec.at(i) = REC_Track_chi2_node->getValue(i);
 
-    l = REC_Scintillator_sector_node->getLength();
-    REC_Scintillator_sector_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Scintillator_sector_vec.at(i) = REC_Scintillator_sector_node->getValue(i);
+        l = REC_Track_NDF_node->getLength();
+        REC_Track_NDF_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_Track_NDF_vec.at(i) = REC_Track_NDF_node->getValue(i);
 
-    l = REC_Scintillator_layer_node->getLength();
-    REC_Scintillator_layer_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Scintillator_layer_vec.at(i) = REC_Scintillator_layer_node->getValue(i);
+        l = REC_Track_chi2_nomm_node->getLength();
+        REC_Track_chi2_nomm_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_Track_chi2_nomm_vec.at(i) = REC_Track_chi2_nomm_node->getValue(i);
 
-    l = REC_Scintillator_component_node->getLength();
-    REC_Scintillator_component_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Scintillator_component_vec.at(i) = REC_Scintillator_component_node->getValue(i);
+        l = REC_Track_NDF_nomm_node->getLength();
+        REC_Track_NDF_nomm_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_Track_NDF_nomm_vec.at(i) = REC_Track_NDF_nomm_node->getValue(i);
 
-    l = REC_Scintillator_energy_node->getLength();
-    REC_Scintillator_energy_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Scintillator_energy_vec.at(i) = REC_Scintillator_energy_node->getValue(i);
+        l = REC_Traj_pindex_node->getLength();
+        REC_Traj_pindex_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_Traj_pindex_vec.at(i) = REC_Traj_pindex_node->getValue(i);
 
-    l = REC_Scintillator_time_node->getLength();
-    REC_Scintillator_time_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Scintillator_time_vec.at(i) = REC_Scintillator_time_node->getValue(i);
+        l = REC_Traj_detId_node->getLength();
+        REC_Traj_detId_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_Traj_detId_vec.at(i) = REC_Traj_detId_node->getValue(i);
 
-    l = REC_Scintillator_path_node->getLength();
-    REC_Scintillator_path_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Scintillator_path_vec.at(i) = REC_Scintillator_path_node->getValue(i);
+        l = REC_Traj_x_node->getLength();
+        REC_Traj_x_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_Traj_x_vec.at(i) = REC_Traj_x_node->getValue(i);
 
-    l = REC_Track_pindex_node->getLength();
-    REC_Track_pindex_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Track_pindex_vec.at(i) = REC_Track_pindex_node->getValue(i);
+        l = REC_Traj_y_node->getLength();
+        REC_Traj_y_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_Traj_y_vec.at(i) = REC_Traj_y_node->getValue(i);
 
-    l = REC_Track_detector_node->getLength();
-    REC_Track_detector_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Track_detector_vec.at(i) = REC_Track_detector_node->getValue(i);
+        l = REC_Traj_z_node->getLength();
+        REC_Traj_z_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_Traj_z_vec.at(i) = REC_Traj_z_node->getValue(i);
 
-    l = REC_Track_sector_node->getLength();
-    REC_Track_sector_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Track_sector_vec.at(i) = REC_Track_sector_node->getValue(i);
+        l = REC_Traj_cx_node->getLength();
+        REC_Traj_cx_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_Traj_cx_vec.at(i) = REC_Traj_cx_node->getValue(i);
 
-    l = REC_Track_chi2_node->getLength();
-    REC_Track_chi2_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Track_chi2_vec.at(i) = REC_Track_chi2_node->getValue(i);
+        l = REC_Traj_cy_node->getLength();
+        REC_Traj_cy_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_Traj_cy_vec.at(i) = REC_Traj_cy_node->getValue(i);
 
-    l = REC_Track_NDF_node->getLength();
-    REC_Track_NDF_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Track_NDF_vec.at(i) = REC_Track_NDF_node->getValue(i);
-
-    l = REC_Track_chi2_nomm_node->getLength();
-    REC_Track_chi2_nomm_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Track_chi2_nomm_vec.at(i) = REC_Track_chi2_nomm_node->getValue(i);
-
-    l = REC_Track_NDF_nomm_node->getLength();
-    REC_Track_NDF_nomm_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Track_NDF_nomm_vec.at(i) = REC_Track_NDF_nomm_node->getValue(i);
-
-    l = REC_Traj_pindex_node->getLength();
-    REC_Traj_pindex_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Traj_pindex_vec.at(i) = REC_Traj_pindex_node->getValue(i);
-
-    l = REC_Traj_detId_node->getLength();
-    REC_Traj_detId_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Traj_detId_vec.at(i) = REC_Traj_detId_node->getValue(i);
-
-    l = REC_Traj_x_node->getLength();
-    REC_Traj_x_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Traj_x_vec.at(i) = REC_Traj_x_node->getValue(i);
-
-    l = REC_Traj_y_node->getLength();
-    REC_Traj_y_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Traj_y_vec.at(i) = REC_Traj_y_node->getValue(i);
-
-    l = REC_Traj_z_node->getLength();
-    REC_Traj_z_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Traj_z_vec.at(i) = REC_Traj_z_node->getValue(i);
-
-    l = REC_Traj_cx_node->getLength();
-    REC_Traj_cx_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Traj_cx_vec.at(i) = REC_Traj_cx_node->getValue(i);
-
-    l = REC_Traj_cy_node->getLength();
-    REC_Traj_cy_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Traj_cy_vec.at(i) = REC_Traj_cy_node->getValue(i);
-
-    l = REC_Traj_cz_node->getLength();
-    REC_Traj_cz_vec.resize(l);
-    for (int i = 0; i < l; i++) REC_Traj_cz_vec.at(i) = REC_Traj_cz_node->getValue(i);
-
+        l = REC_Traj_cz_node->getLength();
+        REC_Traj_cz_vec.resize(l);
+        for (int i = 0; i < l; i++) REC_Traj_cz_vec.at(i) = REC_Traj_cz_node->getValue(i);
+    */
     clas12->Fill();
     RUN_config_run_vec.clear();
     RUN_config_event_vec.clear();
@@ -961,6 +909,16 @@ int main(int argc, char **argv) {
     cc_path.clear();
     cc_theta.clear();
     cc_phi.clear();
+
+    sc_ftof_sec.clear();
+    sc_ftof_time.clear();
+    sc_ftof_path.clear();
+    sc_ftof_layer.clear();
+    sc_ftof_energy.clear();
+
+    sc_ctof_time.clear();
+    sc_ctof_path.clear();
+    sc_ctof_energy.clear();
   }
   OutputFile->cd();
   clas12->Write();

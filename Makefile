@@ -5,7 +5,7 @@ LIBFLAG = -c $(shell root-config --auxcflags) $(LZ4INC) -D__LZ4__ -D__LIBZ__
 DEBUG = -D__DEBUG__
 LIB = $(patsubst %.cpp,%.o,$(wildcard libcpp/*.cpp))
 CXX = g++
-PROG = recon
+PROG = recon hipo2root
 LZ4 = lz4/lib/lz4.o
 
 .PHONY: clean
