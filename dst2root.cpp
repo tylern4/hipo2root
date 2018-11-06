@@ -125,97 +125,97 @@ int main(int argc, char **argv) {
   hipo::node<float> *track_vy_nomm_node = reader.getBranch<float>(336, 13);
   hipo::node<float> *track_vz_nomm_node = reader.getBranch<float>(336, 14);
 
-  std::vector<int> run_vec;
-  std::vector<int> event_vec;
-  std::vector<float> torus_vec;
-  std::vector<float> solenoid_vec;
-  std::vector<int> crate_vec;
-  std::vector<int> slot_vec;
-  std::vector<int> channel_vec;
-  std::vector<int> helicity_vec;
-  std::vector<int> quartet_vec;
-  std::vector<int> value_vec;
-  std::vector<int> NRUN_vec;
-  std::vector<int> NEVENT_vec;
-  std::vector<float> EVNTime_vec;
-  std::vector<int> TYPE_vec;
-  std::vector<int> TRG_vec;
-  std::vector<float> BCG_vec;
-  std::vector<float> STTime_vec;
-  std::vector<float> RFTime_vec;
-  std::vector<int> Helic_vec;
+  std::vector<int> run;
+  std::vector<int> event;
+  std::vector<float> torus;
+  std::vector<float> solenoid;
+  std::vector<int> crate;
+  std::vector<int> slot;
+  std::vector<int> channel;
+  std::vector<int> helicity;
+  std::vector<int> quartet;
+  std::vector<int> value;
+  std::vector<int> NRUN;
+  std::vector<int> NEVENT;
+  std::vector<float> EVNTime;
+  std::vector<int> TYPE;
+  std::vector<int> TRG;
+  std::vector<float> BCG;
+  std::vector<float> STTime;
+  std::vector<float> RFTime;
+  std::vector<int> Helic;
 
-  std::vector<int> pid_vec;
-  std::vector<float> px_vec;
-  std::vector<float> py_vec;
-  std::vector<float> pz_vec;
-  std::vector<float> vx_vec;
-  std::vector<float> vy_vec;
-  std::vector<float> vz_vec;
-  std::vector<int> charge_vec;
-  std::vector<float> beta_vec;
-  std::vector<float> chi2pid_vec;
-  std::vector<int> status_vec;
+  std::vector<int> pid;
+  std::vector<float> px;
+  std::vector<float> py;
+  std::vector<float> pz;
+  std::vector<float> vx;
+  std::vector<float> vy;
+  std::vector<float> vz;
+  std::vector<int> charge;
+  std::vector<float> beta;
+  std::vector<float> chi2pid;
+  std::vector<int> status;
 
-  std::vector<int> cal_pindex_vec;
-  std::vector<int> cal_detector_vec;
-  std::vector<int> cal_sector_vec;
-  std::vector<int> cal_layer_vec;
-  std::vector<float> cal_energy_vec;
-  std::vector<float> cal_time_vec;
-  std::vector<float> cal_path_vec;
-  std::vector<float> cal_x_vec;
-  std::vector<float> cal_y_vec;
-  std::vector<float> cal_z_vec;
-  std::vector<float> cal_lu_vec;
-  std::vector<float> cal_lv_vec;
-  std::vector<float> cal_lw_vec;
+  std::vector<int> cal_pindex;
+  std::vector<int> cal_detector;
+  std::vector<int> cal_sector;
+  std::vector<int> cal_layer;
+  std::vector<float> cal_energy;
+  std::vector<float> cal_time;
+  std::vector<float> cal_path;
+  std::vector<float> cal_x;
+  std::vector<float> cal_y;
+  std::vector<float> cal_z;
+  std::vector<float> cal_lu;
+  std::vector<float> cal_lv;
+  std::vector<float> cal_lw;
 
-  std::vector<int> chern_pindex_vec;
-  std::vector<int> chern_detector_vec;
-  std::vector<int> chern_sector_vec;
-  std::vector<float> chern_nphe_vec;
-  std::vector<float> chern_time_vec;
-  std::vector<float> chern_path_vec;
-  std::vector<float> chern_theta_vec;
-  std::vector<float> chern_phi_vec;
+  std::vector<int> chern_pindex;
+  std::vector<int> chern_detector;
+  std::vector<int> chern_sector;
+  std::vector<float> chern_nphe;
+  std::vector<float> chern_time;
+  std::vector<float> chern_path;
+  std::vector<float> chern_theta;
+  std::vector<float> chern_phi;
 
-  std::vector<int> fortag_pindex_vec;
-  std::vector<int> fortag_detector_vec;
-  std::vector<float> fortag_energy_vec;
-  std::vector<float> fortag_time_vec;
-  std::vector<float> fortag_path_vec;
-  std::vector<float> fortag_x_vec;
-  std::vector<float> fortag_y_vec;
-  std::vector<float> fortag_z_vec;
-  std::vector<float> fortag_dx_vec;
-  std::vector<float> fortag_dy_vec;
-  std::vector<float> fortag_radius_vec;
-  std::vector<int> fortag_size_vec;
+  std::vector<int> fortag_pindex;
+  std::vector<int> fortag_detector;
+  std::vector<float> fortag_energy;
+  std::vector<float> fortag_time;
+  std::vector<float> fortag_path;
+  std::vector<float> fortag_x;
+  std::vector<float> fortag_y;
+  std::vector<float> fortag_z;
+  std::vector<float> fortag_dx;
+  std::vector<float> fortag_dy;
+  std::vector<float> fortag_radius;
+  std::vector<int> fortag_size;
 
-  std::vector<int> scint_pindex_vec;
-  std::vector<int> scint_detector_vec;
-  std::vector<int> scint_sector_vec;
-  std::vector<int> scint_layer_vec;
-  std::vector<int> scint_component_vec;
-  std::vector<float> scint_energy_vec;
-  std::vector<float> scint_time_vec;
-  std::vector<float> scint_path_vec;
+  std::vector<int> scint_pindex;
+  std::vector<int> scint_detector;
+  std::vector<int> scint_sector;
+  std::vector<int> scint_layer;
+  std::vector<int> scint_component;
+  std::vector<float> scint_energy;
+  std::vector<float> scint_time;
+  std::vector<float> scint_path;
 
-  std::vector<int> dc_sector_vec;
-  std::vector<float> dc_px_vec;
-  std::vector<float> dc_py_vec;
-  std::vector<float> dc_pz_vec;
-  std::vector<float> dc_vx_vec;
-  std::vector<float> dc_vy_vec;
-  std::vector<float> dc_vz_vec;
+  std::vector<int> dc_sector;
+  std::vector<float> dc_px;
+  std::vector<float> dc_py;
+  std::vector<float> dc_pz;
+  std::vector<float> dc_vx;
+  std::vector<float> dc_vy;
+  std::vector<float> dc_vz;
 
-  std::vector<float> cvt_px_vec;
-  std::vector<float> cvt_py_vec;
-  std::vector<float> cvt_pz_vec;
-  std::vector<float> cvt_vx_vec;
-  std::vector<float> cvt_vy_vec;
-  std::vector<float> cvt_vz_vec;
+  std::vector<float> cvt_px;
+  std::vector<float> cvt_py;
+  std::vector<float> cvt_pz;
+  std::vector<float> cvt_vx;
+  std::vector<float> cvt_vy;
+  std::vector<float> cvt_vz;
 
   std::vector<float> ec_tot_energy;
   std::vector<float> ec_pcal_energy;
@@ -307,30 +307,30 @@ int main(int argc, char **argv) {
   std::vector<float> ft_hodo_dy;
   std::vector<float> ft_hodo_radius;
 
-  clas12->Branch("run", &run_vec);
-  clas12->Branch("event", &event_vec);
-  clas12->Branch("torus", &torus_vec);
-  clas12->Branch("solenoid", &solenoid_vec);
-  clas12->Branch("crate", &crate_vec);
-  clas12->Branch("slot", &slot_vec);
-  clas12->Branch("channel", &channel_vec);
-  clas12->Branch("helicity", &helicity_vec);
-  clas12->Branch("quartet", &quartet_vec);
-  clas12->Branch("value", &value_vec);
-  clas12->Branch("STTime", &STTime_vec);
-  clas12->Branch("RFTime", &RFTime_vec);
+  clas12->Branch("run", &run);
+  clas12->Branch("event", &event);
+  clas12->Branch("torus", &torus);
+  clas12->Branch("solenoid", &solenoid);
+  clas12->Branch("crate", &crate);
+  clas12->Branch("slot", &slot);
+  clas12->Branch("channel", &channel);
+  clas12->Branch("helicity", &helicity);
+  clas12->Branch("quartet", &quartet);
+  clas12->Branch("value", &value);
+  clas12->Branch("STTime", &STTime);
+  clas12->Branch("RFTime", &RFTime);
 
-  clas12->Branch("pid", &pid_vec);
-  clas12->Branch("px", &px_vec);
-  clas12->Branch("py", &py_vec);
-  clas12->Branch("pz", &pz_vec);
-  clas12->Branch("vx", &vx_vec);
-  clas12->Branch("vy", &vy_vec);
-  clas12->Branch("vz", &vz_vec);
-  clas12->Branch("charge", &charge_vec);
-  clas12->Branch("beta", &beta_vec);
-  clas12->Branch("chi2pid", &chi2pid_vec);
-  clas12->Branch("status", &status_vec);
+  clas12->Branch("pid", &pid);
+  clas12->Branch("px", &px);
+  clas12->Branch("py", &py);
+  clas12->Branch("pz", &pz);
+  clas12->Branch("vx", &vx);
+  clas12->Branch("vy", &vy);
+  clas12->Branch("vz", &vz);
+  clas12->Branch("charge", &charge);
+  clas12->Branch("beta", &beta);
+  clas12->Branch("chi2pid", &chi2pid);
+  clas12->Branch("status", &status);
 
   clas12->Branch("ec_tot_energy", &ec_tot_energy);
   clas12->Branch("ec_pcal_energy", &ec_pcal_energy);
@@ -366,20 +366,20 @@ int main(int argc, char **argv) {
   clas12->Branch("ec_ecout_lv", &ec_ecout_lv);
   clas12->Branch("ec_ecout_lw", &ec_ecout_lw);
 
-  clas12->Branch("dc_sector", &dc_sector_vec);
-  clas12->Branch("dc_px", &dc_px_vec);
-  clas12->Branch("dc_py", &dc_py_vec);
-  clas12->Branch("dc_pz", &dc_pz_vec);
-  clas12->Branch("dc_vx", &dc_vx_vec);
-  clas12->Branch("dc_vy", &dc_vy_vec);
-  clas12->Branch("dc_vz", &dc_vz_vec);
+  clas12->Branch("dc_sector", &dc_sector);
+  clas12->Branch("dc_px", &dc_px);
+  clas12->Branch("dc_py", &dc_py);
+  clas12->Branch("dc_pz", &dc_pz);
+  clas12->Branch("dc_vx", &dc_vx);
+  clas12->Branch("dc_vy", &dc_vy);
+  clas12->Branch("dc_vz", &dc_vz);
 
-  clas12->Branch("cvt_px", &cvt_px_vec);
-  clas12->Branch("cvt_py", &cvt_py_vec);
-  clas12->Branch("cvt_pz", &cvt_pz_vec);
-  clas12->Branch("cvt_vx", &cvt_vx_vec);
-  clas12->Branch("cvt_vy", &cvt_vy_vec);
-  clas12->Branch("cvt_vz", &cvt_vz_vec);
+  clas12->Branch("cvt_px", &cvt_px);
+  clas12->Branch("cvt_py", &cvt_py);
+  clas12->Branch("cvt_pz", &cvt_pz);
+  clas12->Branch("cvt_vx", &cvt_vx);
+  clas12->Branch("cvt_vy", &cvt_vy);
+  clas12->Branch("cvt_vz", &cvt_vz);
 
   clas12->Branch("cc_nphe_tot", &cc_nphe_tot);
   clas12->Branch("cc_ltcc_sec", &cc_ltcc_sec);
@@ -437,69 +437,69 @@ int main(int argc, char **argv) {
     if (pid_node->getLength() <= 0) continue;
 
     l = run_node->getLength();
-    run_vec.resize(l);
-    event_vec.resize(l);
-    torus_vec.resize(l);
-    solenoid_vec.resize(l);
+    run.resize(l);
+    event.resize(l);
+    torus.resize(l);
+    solenoid.resize(l);
 
     for (int i = 0; i < l; i++) {
-      run_vec[i] = run_node->getValue(i);
-      event_vec[i] = event_node->getValue(i);
-      torus_vec[i] = torus_node->getValue(i);
-      solenoid_vec[i] = solenoid_node->getValue(i);
+      run[i] = run_node->getValue(i);
+      event[i] = event_node->getValue(i);
+      torus[i] = torus_node->getValue(i);
+      solenoid[i] = solenoid_node->getValue(i);
     }
 
     l = crate_node->getLength();
-    crate_vec.resize(l);
-    slot_vec.resize(l);
-    channel_vec.resize(l);
-    helicity_vec.resize(l);
-    quartet_vec.resize(l);
-    value_vec.resize(l);
+    crate.resize(l);
+    slot.resize(l);
+    channel.resize(l);
+    helicity.resize(l);
+    quartet.resize(l);
+    value.resize(l);
 
     for (int i = 0; i < l; i++) {
-      crate_vec[i] = crate_node->getValue(i);
-      slot_vec[i] = slot_node->getValue(i);
-      channel_vec[i] = channel_node->getValue(i);
-      helicity_vec[i] = helicity_node->getValue(i);
-      quartet_vec[i] = quartet_node->getValue(i);
-      value_vec[i] = value_node->getValue(i);
+      crate[i] = crate_node->getValue(i);
+      slot[i] = slot_node->getValue(i);
+      channel[i] = channel_node->getValue(i);
+      helicity[i] = helicity_node->getValue(i);
+      quartet[i] = quartet_node->getValue(i);
+      value[i] = value_node->getValue(i);
     }
 
     l = STTime_node->getLength();
-    STTime_vec.resize(l);
-    RFTime_vec.resize(l);
+    STTime.resize(l);
+    RFTime.resize(l);
 
     for (int i = 0; i < l; i++) {
-      STTime_vec[i] = STTime_node->getValue(i);
-      RFTime_vec[i] = RFTime_node->getValue(i);
+      STTime[i] = STTime_node->getValue(i);
+      RFTime[i] = RFTime_node->getValue(i);
     }
 
     l = pid_node->getLength();
-    pid_vec.resize(l);
-    px_vec.resize(l);
-    py_vec.resize(l);
-    pz_vec.resize(l);
-    vx_vec.resize(l);
-    vy_vec.resize(l);
-    vz_vec.resize(l);
-    charge_vec.resize(l);
-    beta_vec.resize(l);
-    chi2pid_vec.resize(l);
-    status_vec.resize(l);
+    pid.resize(l);
+    px.resize(l);
+    py.resize(l);
+    pz.resize(l);
+    vx.resize(l);
+    vy.resize(l);
+    vz.resize(l);
+    charge.resize(l);
+    beta.resize(l);
+    chi2pid.resize(l);
+    status.resize(l);
 
     for (int i = 0; i < l; i++) {
-      pid_vec[i] = pid_node->getValue(i);
-      px_vec[i] = px_node->getValue(i);
-      py_vec[i] = py_node->getValue(i);
-      pz_vec[i] = pz_node->getValue(i);
-      vx_vec[i] = vx_node->getValue(i);
-      vy_vec[i] = vy_node->getValue(i);
-      vz_vec[i] = vz_node->getValue(i);
-      charge_vec[i] = charge_node->getValue(i);
-      beta_vec[i] = ((beta_node->getValue(i) != -9999) ? beta_node->getValue(i) : NaN);
-      chi2pid_vec[i] = chi2pid_node->getValue(i);
-      status_vec[i] = status_node->getValue(i);
+      pid[i] = pid_node->getValue(i);
+      px[i] = px_node->getValue(i);
+      py[i] = py_node->getValue(i);
+      pz[i] = pz_node->getValue(i);
+      vx[i] = vx_node->getValue(i);
+      vy[i] = vy_node->getValue(i);
+      vz[i] = vz_node->getValue(i);
+      charge[i] = charge_node->getValue(i);
+      beta[i] = ((beta_node->getValue(i) != -9999) ? beta_node->getValue(i) : NaN);
+      chi2pid[i] = chi2pid_node->getValue(i);
+      status[i] = status_node->getValue(i);
     }
 
     len_pid = pid_node->getLength();
@@ -845,36 +845,36 @@ int main(int argc, char **argv) {
     len_pid = pid_node->getLength();
     len_pindex = track_pindex_node->getLength();
 
-    dc_sector_vec.resize(len_pid);
-    dc_px_vec.resize(len_pid);
-    dc_py_vec.resize(len_pid);
-    dc_pz_vec.resize(len_pid);
-    dc_vx_vec.resize(len_pid);
-    dc_vy_vec.resize(len_pid);
-    dc_vz_vec.resize(len_pid);
+    dc_sector.resize(len_pid);
+    dc_px.resize(len_pid);
+    dc_py.resize(len_pid);
+    dc_pz.resize(len_pid);
+    dc_vx.resize(len_pid);
+    dc_vy.resize(len_pid);
+    dc_vz.resize(len_pid);
 
-    cvt_px_vec.resize(len_pid);
-    cvt_py_vec.resize(len_pid);
-    cvt_pz_vec.resize(len_pid);
-    cvt_vx_vec.resize(len_pid);
-    cvt_vy_vec.resize(len_pid);
-    cvt_vz_vec.resize(len_pid);
+    cvt_px.resize(len_pid);
+    cvt_py.resize(len_pid);
+    cvt_pz.resize(len_pid);
+    cvt_vx.resize(len_pid);
+    cvt_vy.resize(len_pid);
+    cvt_vz.resize(len_pid);
 
     for (int i = 0; i < len_pid; i++) {
-      dc_sector_vec[i] = -1;
-      dc_px_vec[i] = NaN;
-      dc_py_vec[i] = NaN;
-      dc_pz_vec[i] = NaN;
-      dc_vx_vec[i] = NaN;
-      dc_vy_vec[i] = NaN;
-      dc_vz_vec[i] = NaN;
+      dc_sector[i] = -1;
+      dc_px[i] = NaN;
+      dc_py[i] = NaN;
+      dc_pz[i] = NaN;
+      dc_vx[i] = NaN;
+      dc_vy[i] = NaN;
+      dc_vz[i] = NaN;
 
-      cvt_px_vec[i] = NaN;
-      cvt_py_vec[i] = NaN;
-      cvt_pz_vec[i] = NaN;
-      cvt_vx_vec[i] = NaN;
-      cvt_vy_vec[i] = NaN;
-      cvt_vz_vec[i] = NaN;
+      cvt_px[i] = NaN;
+      cvt_py[i] = NaN;
+      cvt_pz[i] = NaN;
+      cvt_vx[i] = NaN;
+      cvt_vy[i] = NaN;
+      cvt_vz[i] = NaN;
     }
 
     for (int i = 0; i < len_pid; i++) {
@@ -898,12 +898,12 @@ int main(int argc, char **argv) {
         float _cvt_vz = NaN;
 
         if (pindex == i && detector == 5) {
-          cvt_px_vec[i] = track_px_nomm_node->getValue(k);
-          cvt_py_vec[i] = track_py_nomm_node->getValue(k);
-          cvt_pz_vec[i] = track_pz_nomm_node->getValue(k);
-          cvt_vx_vec[i] = track_vx_nomm_node->getValue(k);
-          cvt_vy_vec[i] = track_vy_nomm_node->getValue(k);
-          cvt_vz_vec[i] = track_vz_nomm_node->getValue(k);
+          cvt_px[i] = track_px_nomm_node->getValue(k);
+          cvt_py[i] = track_py_nomm_node->getValue(k);
+          cvt_pz[i] = track_pz_nomm_node->getValue(k);
+          cvt_vx[i] = track_vx_nomm_node->getValue(k);
+          cvt_vy[i] = track_vy_nomm_node->getValue(k);
+          cvt_vz[i] = track_vz_nomm_node->getValue(k);
 
         } else if (pindex == i && detector == 6) {
           _dc_sec = track_sector_node->getValue(k);
@@ -915,20 +915,20 @@ int main(int argc, char **argv) {
           _dc_vz = track_vz_nomm_node->getValue(k);
         }
 
-        if (dc_sector_vec[i] == -1) dc_sector_vec[i] = _dc_sec;
-        if (dc_px_vec[i] != dc_px_vec[i]) dc_px_vec[i] = _dc_px;
-        if (dc_py_vec[i] != dc_py_vec[i]) dc_py_vec[i] = _dc_py;
-        if (dc_pz_vec[i] != dc_pz_vec[i]) dc_pz_vec[i] = _dc_pz;
-        if (dc_vx_vec[i] != dc_vx_vec[i]) dc_vx_vec[i] = _dc_vx;
-        if (dc_vy_vec[i] != dc_vy_vec[i]) dc_vy_vec[i] = _dc_vy;
-        if (dc_vz_vec[i] != dc_vz_vec[i]) dc_vz_vec[i] = _dc_vz;
+        if (dc_sector[i] == -1) dc_sector[i] = _dc_sec;
+        if (dc_px[i] != dc_px[i]) dc_px[i] = _dc_px;
+        if (dc_py[i] != dc_py[i]) dc_py[i] = _dc_py;
+        if (dc_pz[i] != dc_pz[i]) dc_pz[i] = _dc_pz;
+        if (dc_vx[i] != dc_vx[i]) dc_vx[i] = _dc_vx;
+        if (dc_vy[i] != dc_vy[i]) dc_vy[i] = _dc_vy;
+        if (dc_vz[i] != dc_vz[i]) dc_vz[i] = _dc_vz;
 
-        if (cvt_px_vec[i] != cvt_px_vec[i]) cvt_px_vec[i] = _cvt_px;
-        if (cvt_py_vec[i] != cvt_py_vec[i]) cvt_py_vec[i] = _cvt_py;
-        if (cvt_pz_vec[i] != cvt_pz_vec[i]) cvt_pz_vec[i] = _cvt_pz;
-        if (cvt_vx_vec[i] != cvt_vx_vec[i]) cvt_vx_vec[i] = _cvt_vx;
-        if (cvt_vy_vec[i] != cvt_vy_vec[i]) cvt_vy_vec[i] = _cvt_vy;
-        if (cvt_vz_vec[i] != cvt_vz_vec[i]) cvt_vz_vec[i] = _cvt_vz;
+        if (cvt_px[i] != cvt_px[i]) cvt_px[i] = _cvt_px;
+        if (cvt_py[i] != cvt_py[i]) cvt_py[i] = _cvt_py;
+        if (cvt_pz[i] != cvt_pz[i]) cvt_pz[i] = _cvt_pz;
+        if (cvt_vx[i] != cvt_vx[i]) cvt_vx[i] = _cvt_vx;
+        if (cvt_vy[i] != cvt_vy[i]) cvt_vy[i] = _cvt_vy;
+        if (cvt_vz[i] != cvt_vz[i]) cvt_vz[i] = _cvt_vz;
       }
     }
 
@@ -1047,73 +1047,73 @@ int main(int argc, char **argv) {
     }
 
     clas12->Fill();
-    run_vec.clear();
-    event_vec.clear();
-    torus_vec.clear();
-    solenoid_vec.clear();
-    crate_vec.clear();
-    slot_vec.clear();
-    channel_vec.clear();
-    helicity_vec.clear();
-    quartet_vec.clear();
-    value_vec.clear();
-    NRUN_vec.clear();
-    NEVENT_vec.clear();
-    EVNTime_vec.clear();
-    TYPE_vec.clear();
-    TRG_vec.clear();
-    BCG_vec.clear();
-    STTime_vec.clear();
-    RFTime_vec.clear();
-    Helic_vec.clear();
+    run.clear();
+    event.clear();
+    torus.clear();
+    solenoid.clear();
+    crate.clear();
+    slot.clear();
+    channel.clear();
+    helicity.clear();
+    quartet.clear();
+    value.clear();
+    NRUN.clear();
+    NEVENT.clear();
+    EVNTime.clear();
+    TYPE.clear();
+    TRG.clear();
+    BCG.clear();
+    STTime.clear();
+    RFTime.clear();
+    Helic.clear();
 
-    pid_vec.clear();
-    px_vec.clear();
-    py_vec.clear();
-    pz_vec.clear();
-    vx_vec.clear();
-    vy_vec.clear();
-    vz_vec.clear();
-    charge_vec.clear();
-    beta_vec.clear();
-    chi2pid_vec.clear();
-    status_vec.clear();
+    pid.clear();
+    px.clear();
+    py.clear();
+    pz.clear();
+    vx.clear();
+    vy.clear();
+    vz.clear();
+    charge.clear();
+    beta.clear();
+    chi2pid.clear();
+    status.clear();
 
-    cal_pindex_vec.clear();
-    cal_detector_vec.clear();
-    cal_sector_vec.clear();
-    cal_layer_vec.clear();
-    cal_energy_vec.clear();
-    cal_time_vec.clear();
-    cal_path_vec.clear();
-    cal_x_vec.clear();
-    cal_y_vec.clear();
-    cal_z_vec.clear();
-    cal_lu_vec.clear();
-    cal_lv_vec.clear();
-    cal_lw_vec.clear();
+    cal_pindex.clear();
+    cal_detector.clear();
+    cal_sector.clear();
+    cal_layer.clear();
+    cal_energy.clear();
+    cal_time.clear();
+    cal_path.clear();
+    cal_x.clear();
+    cal_y.clear();
+    cal_z.clear();
+    cal_lu.clear();
+    cal_lv.clear();
+    cal_lw.clear();
 
-    chern_pindex_vec.clear();
-    chern_detector_vec.clear();
-    chern_sector_vec.clear();
-    chern_nphe_vec.clear();
-    chern_time_vec.clear();
-    chern_path_vec.clear();
-    chern_theta_vec.clear();
-    chern_phi_vec.clear();
+    chern_pindex.clear();
+    chern_detector.clear();
+    chern_sector.clear();
+    chern_nphe.clear();
+    chern_time.clear();
+    chern_path.clear();
+    chern_theta.clear();
+    chern_phi.clear();
 
-    fortag_pindex_vec.clear();
-    fortag_detector_vec.clear();
-    fortag_energy_vec.clear();
-    fortag_time_vec.clear();
-    fortag_path_vec.clear();
-    fortag_x_vec.clear();
-    fortag_y_vec.clear();
-    fortag_z_vec.clear();
-    fortag_dx_vec.clear();
-    fortag_dy_vec.clear();
-    fortag_radius_vec.clear();
-    fortag_size_vec.clear();
+    fortag_pindex.clear();
+    fortag_detector.clear();
+    fortag_energy.clear();
+    fortag_time.clear();
+    fortag_path.clear();
+    fortag_x.clear();
+    fortag_y.clear();
+    fortag_z.clear();
+    fortag_dx.clear();
+    fortag_dy.clear();
+    fortag_radius.clear();
+    fortag_size.clear();
 
     ec_tot_energy.clear();
     ec_pcal_energy.clear();
@@ -1191,20 +1191,20 @@ int main(int argc, char **argv) {
     ft_hodo_dy.clear();
     ft_hodo_radius.clear();
 
-    dc_sector_vec.clear();
-    dc_px_vec.clear();
-    dc_py_vec.clear();
-    dc_pz_vec.clear();
-    dc_vx_vec.clear();
-    dc_vy_vec.clear();
-    dc_vz_vec.clear();
+    dc_sector.clear();
+    dc_px.clear();
+    dc_py.clear();
+    dc_pz.clear();
+    dc_vx.clear();
+    dc_vy.clear();
+    dc_vz.clear();
 
-    cvt_px_vec.clear();
-    cvt_py_vec.clear();
-    cvt_pz_vec.clear();
-    cvt_vx_vec.clear();
-    cvt_vy_vec.clear();
-    cvt_vz_vec.clear();
+    cvt_px.clear();
+    cvt_py.clear();
+    cvt_pz.clear();
+    cvt_vx.clear();
+    cvt_vy.clear();
+    cvt_vz.clear();
   }
 
   OutputFile->cd();
