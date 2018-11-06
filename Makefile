@@ -5,7 +5,7 @@ LIBFLAG = -c $(shell root-config --auxcflags) $(LZ4INC) -D__LZ4__ -D__LIBZ__
 DEBUG = -D__DEBUG__
 LIB = $(patsubst %.cpp,%.o,$(wildcard libcpp/*.cpp))
 CXX = g++
-PROG = recon hipo2root
+PROG = dst2root
 LZ4 = lz4/lib/lz4.o
 
 .PHONY: clean
@@ -16,9 +16,6 @@ $(LIB): %.o: %.cpp
 
 $(LZ4):
 	make lib -C lz4
-
-benchmark: $(LZ4) $(LIB)
-	$(CXX) -O3 benchmark.cpp $(LIB) $(LZ4) $(CXXFLAGS) -o benchmark $(ROOTLIBS)
 
 $(PROG): $(LZ4) $(LIB)
 	$(CXX) -O3 $@.cpp $(LIB) $(LZ4) $(CXXFLAGS) -o $@ $(ROOTLIBS)

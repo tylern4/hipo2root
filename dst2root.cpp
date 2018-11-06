@@ -57,6 +57,7 @@ int main(int argc, char **argv) {
   hipo::node<float> *STTime_node = reader.getBranch<float>(330, 10);
   hipo::node<float> *RFTime_node = reader.getBranch<float>(330, 11);
   hipo::node<int8_t> *Helic_node = reader.getBranch<int8_t>(330, 12);
+
   hipo::node<int32_t> *pid_node = reader.getBranch<int32_t>(331, 1);
   hipo::node<float> *px_node = reader.getBranch<float>(331, 2);
   hipo::node<float> *py_node = reader.getBranch<float>(331, 3);
@@ -68,6 +69,7 @@ int main(int argc, char **argv) {
   hipo::node<float> *beta_node = reader.getBranch<float>(331, 9);
   hipo::node<float> *chi2pid_node = reader.getBranch<float>(331, 10);
   hipo::node<int16_t> *status_node = reader.getBranch<int16_t>(331, 11);
+
   hipo::node<int16_t> *cal_pindex_node = reader.getBranch<int16_t>(332, 2);
   hipo::node<int8_t> *cal_detector_node = reader.getBranch<int8_t>(332, 3);
   hipo::node<int8_t> *cal_sector_node = reader.getBranch<int8_t>(332, 4);
@@ -81,6 +83,7 @@ int main(int argc, char **argv) {
   hipo::node<float> *cal_lu_node = reader.getBranch<float>(332, 16);
   hipo::node<float> *cal_lv_node = reader.getBranch<float>(332, 17);
   hipo::node<float> *cal_lw_node = reader.getBranch<float>(332, 18);
+
   hipo::node<int16_t> *chern_pindex_node = reader.getBranch<int16_t>(333, 2);
   hipo::node<int8_t> *chern_detector_node = reader.getBranch<int8_t>(333, 3);
   hipo::node<int8_t> *chern_sector_node = reader.getBranch<int8_t>(333, 4);
@@ -89,6 +92,7 @@ int main(int argc, char **argv) {
   hipo::node<float> *chern_path_node = reader.getBranch<float>(333, 7);
   hipo::node<float> *chern_theta_node = reader.getBranch<float>(333, 12);
   hipo::node<float> *chern_phi_node = reader.getBranch<float>(333, 13);
+
   hipo::node<int16_t> *fortag_pindex_node = reader.getBranch<int16_t>(334, 2);
   hipo::node<int8_t> *fortag_detector_node = reader.getBranch<int8_t>(334, 3);
   hipo::node<float> *fortag_energy_node = reader.getBranch<float>(334, 4);
@@ -101,6 +105,7 @@ int main(int argc, char **argv) {
   hipo::node<float> *fortag_dy_node = reader.getBranch<float>(334, 12);
   hipo::node<float> *fortag_radius_node = reader.getBranch<float>(334, 13);
   hipo::node<int16_t> *fortag_size_node = reader.getBranch<int16_t>(334, 14);
+
   hipo::node<int16_t> *scint_pindex_node = reader.getBranch<int16_t>(335, 2);
   hipo::node<int8_t> *scint_detector_node = reader.getBranch<int8_t>(335, 3);
   hipo::node<int8_t> *scint_sector_node = reader.getBranch<int8_t>(335, 4);
@@ -119,15 +124,6 @@ int main(int argc, char **argv) {
   hipo::node<float> *track_vx_nomm_node = reader.getBranch<float>(336, 12);
   hipo::node<float> *track_vy_nomm_node = reader.getBranch<float>(336, 13);
   hipo::node<float> *track_vz_nomm_node = reader.getBranch<float>(336, 14);
-
-  hipo::node<int16_t> *REC_Traj_pindex_node = reader.getBranch<int16_t>(340, 1);
-  hipo::node<int16_t> *REC_Traj_detId_node = reader.getBranch<int16_t>(340, 3);
-  hipo::node<float> *REC_Traj_x_node = reader.getBranch<float>(340, 5);
-  hipo::node<float> *REC_Traj_y_node = reader.getBranch<float>(340, 6);
-  hipo::node<float> *REC_Traj_z_node = reader.getBranch<float>(340, 7);
-  hipo::node<float> *REC_Traj_cx_node = reader.getBranch<float>(340, 8);
-  hipo::node<float> *REC_Traj_cy_node = reader.getBranch<float>(340, 9);
-  hipo::node<float> *REC_Traj_cz_node = reader.getBranch<float>(340, 10);
 
   std::vector<int> run_vec;
   std::vector<int> event_vec;
@@ -148,6 +144,7 @@ int main(int argc, char **argv) {
   std::vector<float> STTime_vec;
   std::vector<float> RFTime_vec;
   std::vector<int> Helic_vec;
+
   std::vector<int> pid_vec;
   std::vector<float> px_vec;
   std::vector<float> py_vec;
@@ -159,6 +156,7 @@ int main(int argc, char **argv) {
   std::vector<float> beta_vec;
   std::vector<float> chi2pid_vec;
   std::vector<int> status_vec;
+
   std::vector<int> cal_pindex_vec;
   std::vector<int> cal_detector_vec;
   std::vector<int> cal_sector_vec;
@@ -172,6 +170,7 @@ int main(int argc, char **argv) {
   std::vector<float> cal_lu_vec;
   std::vector<float> cal_lv_vec;
   std::vector<float> cal_lw_vec;
+
   std::vector<int> chern_pindex_vec;
   std::vector<int> chern_detector_vec;
   std::vector<int> chern_sector_vec;
@@ -180,6 +179,7 @@ int main(int argc, char **argv) {
   std::vector<float> chern_path_vec;
   std::vector<float> chern_theta_vec;
   std::vector<float> chern_phi_vec;
+
   std::vector<int> fortag_pindex_vec;
   std::vector<int> fortag_detector_vec;
   std::vector<float> fortag_energy_vec;
@@ -192,6 +192,7 @@ int main(int argc, char **argv) {
   std::vector<float> fortag_dy_vec;
   std::vector<float> fortag_radius_vec;
   std::vector<int> fortag_size_vec;
+
   std::vector<int> scint_pindex_vec;
   std::vector<int> scint_detector_vec;
   std::vector<int> scint_sector_vec;
@@ -216,15 +217,6 @@ int main(int argc, char **argv) {
   std::vector<float> cvt_vy_vec;
   std::vector<float> cvt_vz_vec;
 
-  std::vector<int> REC_Traj_pindex_vec;
-  std::vector<int> REC_Traj_detId_vec;
-  std::vector<float> REC_Traj_x_vec;
-  std::vector<float> REC_Traj_y_vec;
-  std::vector<float> REC_Traj_z_vec;
-  std::vector<float> REC_Traj_cx_vec;
-  std::vector<float> REC_Traj_cy_vec;
-  std::vector<float> REC_Traj_cz_vec;
-
   std::vector<float> ec_tot_energy;
   std::vector<float> ec_pcal_energy;
   std::vector<int> ec_pcal_sec;
@@ -236,6 +228,7 @@ int main(int argc, char **argv) {
   std::vector<float> ec_pcal_lu;
   std::vector<float> ec_pcal_lv;
   std::vector<float> ec_pcal_lw;
+
   std::vector<float> ec_ecin_energy;
   std::vector<int> ec_ecin_sec;
   std::vector<float> ec_ecin_time;
@@ -246,6 +239,7 @@ int main(int argc, char **argv) {
   std::vector<float> ec_ecin_lu;
   std::vector<float> ec_ecin_lv;
   std::vector<float> ec_ecin_lw;
+
   std::vector<float> ec_ecout_energy;
   std::vector<int> ec_ecout_sec;
   std::vector<float> ec_ecout_time;
@@ -849,6 +843,96 @@ int main(int argc, char **argv) {
     }
 
     len_pid = pid_node->getLength();
+    len_pindex = track_pindex_node->getLength();
+
+    dc_sector_vec.resize(len_pid);
+    dc_px_vec.resize(len_pid);
+    dc_py_vec.resize(len_pid);
+    dc_pz_vec.resize(len_pid);
+    dc_vx_vec.resize(len_pid);
+    dc_vy_vec.resize(len_pid);
+    dc_vz_vec.resize(len_pid);
+
+    cvt_px_vec.resize(len_pid);
+    cvt_py_vec.resize(len_pid);
+    cvt_pz_vec.resize(len_pid);
+    cvt_vx_vec.resize(len_pid);
+    cvt_vy_vec.resize(len_pid);
+    cvt_vz_vec.resize(len_pid);
+
+    for (int i = 0; i < len_pid; i++) {
+      dc_sector_vec[i] = -1;
+      dc_px_vec[i] = NaN;
+      dc_py_vec[i] = NaN;
+      dc_pz_vec[i] = NaN;
+      dc_vx_vec[i] = NaN;
+      dc_vy_vec[i] = NaN;
+      dc_vz_vec[i] = NaN;
+
+      cvt_px_vec[i] = NaN;
+      cvt_py_vec[i] = NaN;
+      cvt_pz_vec[i] = NaN;
+      cvt_vx_vec[i] = NaN;
+      cvt_vy_vec[i] = NaN;
+      cvt_vz_vec[i] = NaN;
+    }
+
+    for (int i = 0; i < len_pid; i++) {
+      for (int k = 0; k < len_pindex; k++) {
+        int pindex = track_pindex_node->getValue(k);
+        int detector = track_detector_node->getValue(k);
+
+        int _dc_sec = -1;
+        float _dc_px = NaN;
+        float _dc_py = NaN;
+        float _dc_pz = NaN;
+        float _dc_vx = NaN;
+        float _dc_vy = NaN;
+        float _dc_vz = NaN;
+
+        float _cvt_px = NaN;
+        float _cvt_py = NaN;
+        float _cvt_pz = NaN;
+        float _cvt_vx = NaN;
+        float _cvt_vy = NaN;
+        float _cvt_vz = NaN;
+
+        if (pindex == i && detector == 5) {
+          cvt_px_vec[i] = track_px_nomm_node->getValue(k);
+          cvt_py_vec[i] = track_py_nomm_node->getValue(k);
+          cvt_pz_vec[i] = track_pz_nomm_node->getValue(k);
+          cvt_vx_vec[i] = track_vx_nomm_node->getValue(k);
+          cvt_vy_vec[i] = track_vy_nomm_node->getValue(k);
+          cvt_vz_vec[i] = track_vz_nomm_node->getValue(k);
+
+        } else if (pindex == i && detector == 6) {
+          _dc_sec = track_sector_node->getValue(k);
+          _dc_px = track_px_nomm_node->getValue(k);
+          _dc_py = track_py_nomm_node->getValue(k);
+          _dc_pz = track_pz_nomm_node->getValue(k);
+          _dc_vx = track_vx_nomm_node->getValue(k);
+          _dc_vy = track_vy_nomm_node->getValue(k);
+          _dc_vz = track_vz_nomm_node->getValue(k);
+        }
+
+        if (dc_sector_vec[i] == -1) dc_sector_vec[i] = _dc_sec;
+        if (dc_px_vec[i] != dc_px_vec[i]) dc_px_vec[i] = _dc_px;
+        if (dc_py_vec[i] != dc_py_vec[i]) dc_py_vec[i] = _dc_py;
+        if (dc_pz_vec[i] != dc_pz_vec[i]) dc_pz_vec[i] = _dc_pz;
+        if (dc_vx_vec[i] != dc_vx_vec[i]) dc_vx_vec[i] = _dc_vx;
+        if (dc_vy_vec[i] != dc_vy_vec[i]) dc_vy_vec[i] = _dc_vy;
+        if (dc_vz_vec[i] != dc_vz_vec[i]) dc_vz_vec[i] = _dc_vz;
+
+        if (cvt_px_vec[i] != cvt_px_vec[i]) cvt_px_vec[i] = _cvt_px;
+        if (cvt_py_vec[i] != cvt_py_vec[i]) cvt_py_vec[i] = _cvt_py;
+        if (cvt_pz_vec[i] != cvt_pz_vec[i]) cvt_pz_vec[i] = _cvt_pz;
+        if (cvt_vx_vec[i] != cvt_vx_vec[i]) cvt_vx_vec[i] = _cvt_vx;
+        if (cvt_vy_vec[i] != cvt_vy_vec[i]) cvt_vy_vec[i] = _cvt_vy;
+        if (cvt_vz_vec[i] != cvt_vz_vec[i]) cvt_vz_vec[i] = _cvt_vz;
+      }
+    }
+
+    len_pid = pid_node->getLength();
     len_pindex = fortag_pindex_node->getLength();
 
     ft_cal_energy.resize(len_pid);
@@ -959,96 +1043,6 @@ int main(int argc, char **argv) {
         if (ft_hodo_dx[i] != ft_hodo_dx[i]) ft_hodo_dx[i] = _hodo_dx;
         if (ft_hodo_dy[i] != ft_hodo_dy[i]) ft_hodo_dy[i] = _hodo_dy;
         if (ft_hodo_radius[i] != ft_hodo_radius[i]) ft_hodo_radius[i] = _hodo_radius;
-      }
-    }
-
-    len_pid = pid_node->getLength();
-    len_pindex = track_pindex_node->getLength();
-
-    dc_sector_vec.resize(len_pid);
-    dc_px_vec.resize(len_pid);
-    dc_py_vec.resize(len_pid);
-    dc_pz_vec.resize(len_pid);
-    dc_vx_vec.resize(len_pid);
-    dc_vy_vec.resize(len_pid);
-    dc_vz_vec.resize(len_pid);
-
-    cvt_px_vec.resize(len_pid);
-    cvt_py_vec.resize(len_pid);
-    cvt_pz_vec.resize(len_pid);
-    cvt_vx_vec.resize(len_pid);
-    cvt_vy_vec.resize(len_pid);
-    cvt_vz_vec.resize(len_pid);
-
-    for (int i = 0; i < len_pid; i++) {
-      dc_sector_vec[i] = -1;
-      dc_px_vec[i] = NaN;
-      dc_py_vec[i] = NaN;
-      dc_pz_vec[i] = NaN;
-      dc_vx_vec[i] = NaN;
-      dc_vy_vec[i] = NaN;
-      dc_vz_vec[i] = NaN;
-
-      cvt_px_vec[i] = NaN;
-      cvt_py_vec[i] = NaN;
-      cvt_pz_vec[i] = NaN;
-      cvt_vx_vec[i] = NaN;
-      cvt_vy_vec[i] = NaN;
-      cvt_vz_vec[i] = NaN;
-    }
-
-    for (int i = 0; i < len_pid; i++) {
-      for (int k = 0; k < len_pindex; k++) {
-        int pindex = track_pindex_node->getValue(k);
-        int detector = track_detector_node->getValue(k);
-
-        int _dc_sec = -1;
-        float _dc_px = NaN;
-        float _dc_py = NaN;
-        float _dc_pz = NaN;
-        float _dc_vx = NaN;
-        float _dc_vy = NaN;
-        float _dc_vz = NaN;
-
-        float _cvt_px = NaN;
-        float _cvt_py = NaN;
-        float _cvt_pz = NaN;
-        float _cvt_vx = NaN;
-        float _cvt_vy = NaN;
-        float _cvt_vz = NaN;
-
-        if (pindex == i && detector == 5) {
-          cvt_px_vec[i] = track_px_nomm_node->getValue(k);
-          cvt_py_vec[i] = track_py_nomm_node->getValue(k);
-          cvt_pz_vec[i] = track_pz_nomm_node->getValue(k);
-          cvt_vx_vec[i] = track_vx_nomm_node->getValue(k);
-          cvt_vy_vec[i] = track_vy_nomm_node->getValue(k);
-          cvt_vz_vec[i] = track_vz_nomm_node->getValue(k);
-
-        } else if (pindex == i && detector == 6) {
-          _dc_sec = track_sector_node->getValue(k);
-          _dc_px = track_px_nomm_node->getValue(k);
-          _dc_py = track_py_nomm_node->getValue(k);
-          _dc_pz = track_pz_nomm_node->getValue(k);
-          _dc_vx = track_vx_nomm_node->getValue(k);
-          _dc_vy = track_vy_nomm_node->getValue(k);
-          _dc_vz = track_vz_nomm_node->getValue(k);
-        }
-
-        if (dc_sector_vec[i] == -1) dc_sector_vec[i] = _dc_sec;
-        if (dc_px_vec[i] != dc_px_vec[i]) dc_px_vec[i] = _dc_px;
-        if (dc_py_vec[i] != dc_py_vec[i]) dc_py_vec[i] = _dc_py;
-        if (dc_pz_vec[i] != dc_pz_vec[i]) dc_pz_vec[i] = _dc_pz;
-        if (dc_vx_vec[i] != dc_vx_vec[i]) dc_vx_vec[i] = _dc_vx;
-        if (dc_vy_vec[i] != dc_vy_vec[i]) dc_vy_vec[i] = _dc_vy;
-        if (dc_vz_vec[i] != dc_vz_vec[i]) dc_vz_vec[i] = _dc_vz;
-
-        if (cvt_px_vec[i] != cvt_px_vec[i]) cvt_px_vec[i] = _cvt_px;
-        if (cvt_py_vec[i] != cvt_py_vec[i]) cvt_py_vec[i] = _cvt_py;
-        if (cvt_pz_vec[i] != cvt_pz_vec[i]) cvt_pz_vec[i] = _cvt_pz;
-        if (cvt_vx_vec[i] != cvt_vx_vec[i]) cvt_vx_vec[i] = _cvt_vx;
-        if (cvt_vy_vec[i] != cvt_vy_vec[i]) cvt_vy_vec[i] = _cvt_vy;
-        if (cvt_vz_vec[i] != cvt_vz_vec[i]) cvt_vz_vec[i] = _cvt_vz;
       }
     }
 
