@@ -1,7 +1,7 @@
 LZ4INC = -Ilz4/lib
 ROOTLIBS = $(shell root-config --libs)
 CXXFLAGS = $(shell root-config --cflags) -Ilibcpp $(LZ4INC)
-LIBFLAG = -c $(shell root-config --auxcflags) $(LZ4INC) -D__LZ4__ -D__LIBZ__
+LIBFLAG = -c $(shell root-config --auxcflags) $(LZ4INC) -D__LZ4__
 DEBUG = -D__DEBUG__
 LIB = $(patsubst %.cpp,%.o,$(wildcard libcpp/*.cpp))
 CXX = g++
@@ -22,6 +22,6 @@ $(PROG): $(LZ4) $(LIB)
 
 clean:
 	-rm -f $(PROG)
-purge: clean
+clean-all: clean
 	-rm -f $(HIPOOBJ) $(LIB)
 	make clean -C lz4
