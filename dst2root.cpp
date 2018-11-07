@@ -146,6 +146,8 @@ int main(int argc, char **argv) {
   std::vector<int> Helic;
 
   std::vector<int> pid;
+  std::vector<float> p;
+  std::vector<float> p2;
   std::vector<float> px;
   std::vector<float> py;
   std::vector<float> pz;
@@ -321,6 +323,8 @@ int main(int argc, char **argv) {
   clas12->Branch("RFTime", &RFTime);
 
   clas12->Branch("pid", &pid);
+  clas12->Branch("p", &p);
+  clas12->Branch("p2", &p2);
   clas12->Branch("px", &px);
   clas12->Branch("py", &py);
   clas12->Branch("pz", &pz);
@@ -433,9 +437,10 @@ int main(int argc, char **argv) {
   while (reader.next() == true) {
     entry++;
     if ((entry % 1000) == 0) std::cerr << "\t" << entry << "\r\r" << std::flush;
-
-    if (pid_node->getLength() <= 0) continue;
-
+    /*
+        if (pid_node->getLength() == 0) continue;
+        if (pid_node->getValue(0) != 11) continue;
+    */
     l = run_node->getLength();
     run.resize(l);
     event.resize(l);
@@ -477,6 +482,8 @@ int main(int argc, char **argv) {
 
     l = pid_node->getLength();
     pid.resize(l);
+    p.resize(l);
+    p2.resize(l);
     px.resize(l);
     py.resize(l);
     pz.resize(l);
@@ -490,6 +497,9 @@ int main(int argc, char **argv) {
 
     for (int i = 0; i < l; i++) {
       pid[i] = pid_node->getValue(i);
+      p2[i] = (px_node->getValue(i) * px_node->getValue(i) + py_node->getValue(i) * py_node->getValue(i) +
+               pz_node->getValue(i) * pz_node->getValue(i));
+      p[i] = sqrt(p2[i]);
       px[i] = px_node->getValue(i);
       py[i] = py_node->getValue(i);
       pz[i] = pz_node->getValue(i);
@@ -1068,6 +1078,8 @@ int main(int argc, char **argv) {
     Helic.clear();
 
     pid.clear();
+    p.clear();
+    p2.clear();
     px.clear();
     py.clear();
     pz.clear();
