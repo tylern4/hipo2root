@@ -37,6 +37,12 @@ reader::~reader() {
     inputStream.close();
   }
 }
+
+void reader::close() {
+  if (inputStream.is_open() == true) {
+    inputStream.close();
+  }
+}
 /**
  * Open file, if file stream is open, it is closed first.
  * At open time verification of file structure is performed.

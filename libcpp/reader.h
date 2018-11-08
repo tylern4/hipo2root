@@ -213,6 +213,7 @@ class reader {
   reader();
   reader(bool ra);
   ~reader();
+  void close();
 
   std::vector<std::string> getDictionary();
 
