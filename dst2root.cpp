@@ -37,6 +37,99 @@ int main(int argc, char **argv) {
     exit(0);
   }
 
+  TFile *OutputFile = new TFile(OutFileName, "RECREATE");
+  OutputFile->SetCompressionSettings(9);
+  TTree *clas12 = new TTree("clas12", "clas12");
+  hipo::reader reader;
+  reader.open(InFileName);
+
+  hipo::node<int32_t> *run_node = reader.getBranch<int32_t>(11, 1);
+  hipo::node<int32_t> *event_node = reader.getBranch<int32_t>(11, 2);
+  hipo::node<float> *torus_node = reader.getBranch<float>(11, 8);
+  hipo::node<float> *solenoid_node = reader.getBranch<float>(11, 9);
+  hipo::node<int8_t> *crate_node = reader.getBranch<int8_t>(20013, 1);
+  hipo::node<int8_t> *slot_node = reader.getBranch<int8_t>(20013, 2);
+  hipo::node<int16_t> *channel_node = reader.getBranch<int16_t>(20013, 3);
+  hipo::node<int8_t> *helicity_node = reader.getBranch<int8_t>(20013, 4);
+  hipo::node<int8_t> *quartet_node = reader.getBranch<int8_t>(20013, 5);
+  hipo::node<int32_t> *value_node = reader.getBranch<int32_t>(20013, 6);
+  hipo::node<int32_t> *NRUN_node = reader.getBranch<int32_t>(330, 1);
+  hipo::node<int32_t> *NEVENT_node = reader.getBranch<int32_t>(330, 2);
+  hipo::node<float> *EVNTime_node = reader.getBranch<float>(330, 3);
+  hipo::node<int8_t> *TYPE_node = reader.getBranch<int8_t>(330, 4);
+  hipo::node<int64_t> *TRG_node = reader.getBranch<int64_t>(330, 7);
+  hipo::node<float> *BCG_node = reader.getBranch<float>(330, 8);
+  hipo::node<float> *STTime_node = reader.getBranch<float>(330, 10);
+  hipo::node<float> *RFTime_node = reader.getBranch<float>(330, 11);
+  hipo::node<int8_t> *Helic_node = reader.getBranch<int8_t>(330, 12);
+
+  hipo::node<int32_t> *pid_node = reader.getBranch<int32_t>(331, 1);
+  hipo::node<float> *px_node = reader.getBranch<float>(331, 2);
+  hipo::node<float> *py_node = reader.getBranch<float>(331, 3);
+  hipo::node<float> *pz_node = reader.getBranch<float>(331, 4);
+  hipo::node<float> *vx_node = reader.getBranch<float>(331, 5);
+  hipo::node<float> *vy_node = reader.getBranch<float>(331, 6);
+  hipo::node<float> *vz_node = reader.getBranch<float>(331, 7);
+  hipo::node<int8_t> *charge_node = reader.getBranch<int8_t>(331, 8);
+  hipo::node<float> *beta_node = reader.getBranch<float>(331, 9);
+  hipo::node<float> *chi2pid_node = reader.getBranch<float>(331, 10);
+  hipo::node<int16_t> *status_node = reader.getBranch<int16_t>(331, 11);
+
+  hipo::node<int16_t> *cal_pindex_node = reader.getBranch<int16_t>(332, 2);
+  hipo::node<int8_t> *cal_detector_node = reader.getBranch<int8_t>(332, 3);
+  hipo::node<int8_t> *cal_sector_node = reader.getBranch<int8_t>(332, 4);
+  hipo::node<int8_t> *cal_layer_node = reader.getBranch<int8_t>(332, 5);
+  hipo::node<float> *cal_energy_node = reader.getBranch<float>(332, 6);
+  hipo::node<float> *cal_time_node = reader.getBranch<float>(332, 7);
+  hipo::node<float> *cal_path_node = reader.getBranch<float>(332, 8);
+  hipo::node<float> *cal_x_node = reader.getBranch<float>(332, 10);
+  hipo::node<float> *cal_y_node = reader.getBranch<float>(332, 11);
+  hipo::node<float> *cal_z_node = reader.getBranch<float>(332, 12);
+  hipo::node<float> *cal_lu_node = reader.getBranch<float>(332, 16);
+  hipo::node<float> *cal_lv_node = reader.getBranch<float>(332, 17);
+  hipo::node<float> *cal_lw_node = reader.getBranch<float>(332, 18);
+
+  hipo::node<int16_t> *chern_pindex_node = reader.getBranch<int16_t>(333, 2);
+  hipo::node<int8_t> *chern_detector_node = reader.getBranch<int8_t>(333, 3);
+  hipo::node<int8_t> *chern_sector_node = reader.getBranch<int8_t>(333, 4);
+  hipo::node<float> *chern_nphe_node = reader.getBranch<float>(333, 5);
+  hipo::node<float> *chern_time_node = reader.getBranch<float>(333, 6);
+  hipo::node<float> *chern_path_node = reader.getBranch<float>(333, 7);
+  hipo::node<float> *chern_theta_node = reader.getBranch<float>(333, 12);
+  hipo::node<float> *chern_phi_node = reader.getBranch<float>(333, 13);
+
+  hipo::node<int16_t> *fortag_pindex_node = reader.getBranch<int16_t>(334, 2);
+  hipo::node<int8_t> *fortag_detector_node = reader.getBranch<int8_t>(334, 3);
+  hipo::node<float> *fortag_energy_node = reader.getBranch<float>(334, 4);
+  hipo::node<float> *fortag_time_node = reader.getBranch<float>(334, 5);
+  hipo::node<float> *fortag_path_node = reader.getBranch<float>(334, 6);
+  hipo::node<float> *fortag_x_node = reader.getBranch<float>(334, 8);
+  hipo::node<float> *fortag_y_node = reader.getBranch<float>(334, 9);
+  hipo::node<float> *fortag_z_node = reader.getBranch<float>(334, 10);
+  hipo::node<float> *fortag_dx_node = reader.getBranch<float>(334, 11);
+  hipo::node<float> *fortag_dy_node = reader.getBranch<float>(334, 12);
+  hipo::node<float> *fortag_radius_node = reader.getBranch<float>(334, 13);
+  hipo::node<int16_t> *fortag_size_node = reader.getBranch<int16_t>(334, 14);
+
+  hipo::node<int16_t> *scint_pindex_node = reader.getBranch<int16_t>(335, 2);
+  hipo::node<int8_t> *scint_detector_node = reader.getBranch<int8_t>(335, 3);
+  hipo::node<int8_t> *scint_sector_node = reader.getBranch<int8_t>(335, 4);
+  hipo::node<int8_t> *scint_layer_node = reader.getBranch<int8_t>(335, 5);
+  hipo::node<int16_t> *scint_component_node = reader.getBranch<int16_t>(335, 6);
+  hipo::node<float> *scint_energy_node = reader.getBranch<float>(335, 7);
+  hipo::node<float> *scint_time_node = reader.getBranch<float>(335, 8);
+  hipo::node<float> *scint_path_node = reader.getBranch<float>(335, 9);
+
+  hipo::node<int16_t> *track_pindex_node = reader.getBranch<int16_t>(336, 2);
+  hipo::node<int8_t> *track_detector_node = reader.getBranch<int8_t>(336, 3);
+  hipo::node<int8_t> *track_sector_node = reader.getBranch<int8_t>(336, 4);
+  hipo::node<float> *track_px_nomm_node = reader.getBranch<float>(336, 9);
+  hipo::node<float> *track_py_nomm_node = reader.getBranch<float>(336, 10);
+  hipo::node<float> *track_pz_nomm_node = reader.getBranch<float>(336, 11);
+  hipo::node<float> *track_vx_nomm_node = reader.getBranch<float>(336, 12);
+  hipo::node<float> *track_vy_nomm_node = reader.getBranch<float>(336, 13);
+  hipo::node<float> *track_vz_nomm_node = reader.getBranch<float>(336, 14);
+
   int nCrate;
   int nTime;
   int run;
@@ -171,99 +264,6 @@ int main(int argc, char **argv) {
   float ft_hodo_dx[MAX];
   float ft_hodo_dy[MAX];
   float ft_hodo_radius[MAX];
-
-  TFile *OutputFile = new TFile(OutFileName, "RECREATE");
-  OutputFile->SetCompressionSettings(9);
-  TTree *clas12 = new TTree("clas12", "clas12");
-  hipo::reader reader;
-  reader.open(InFileName);
-
-  hipo::node<int32_t> *run_node = reader.getBranch<int32_t>(11, 1);
-  hipo::node<int32_t> *event_node = reader.getBranch<int32_t>(11, 2);
-  hipo::node<float> *torus_node = reader.getBranch<float>(11, 8);
-  hipo::node<float> *solenoid_node = reader.getBranch<float>(11, 9);
-  hipo::node<int8_t> *crate_node = reader.getBranch<int8_t>(20013, 1);
-  hipo::node<int8_t> *slot_node = reader.getBranch<int8_t>(20013, 2);
-  hipo::node<int16_t> *channel_node = reader.getBranch<int16_t>(20013, 3);
-  hipo::node<int8_t> *helicity_node = reader.getBranch<int8_t>(20013, 4);
-  hipo::node<int8_t> *quartet_node = reader.getBranch<int8_t>(20013, 5);
-  hipo::node<int32_t> *value_node = reader.getBranch<int32_t>(20013, 6);
-  hipo::node<int32_t> *NRUN_node = reader.getBranch<int32_t>(330, 1);
-  hipo::node<int32_t> *NEVENT_node = reader.getBranch<int32_t>(330, 2);
-  hipo::node<float> *EVNTime_node = reader.getBranch<float>(330, 3);
-  hipo::node<int8_t> *TYPE_node = reader.getBranch<int8_t>(330, 4);
-  hipo::node<int64_t> *TRG_node = reader.getBranch<int64_t>(330, 7);
-  hipo::node<float> *BCG_node = reader.getBranch<float>(330, 8);
-  hipo::node<float> *STTime_node = reader.getBranch<float>(330, 10);
-  hipo::node<float> *RFTime_node = reader.getBranch<float>(330, 11);
-  hipo::node<int8_t> *Helic_node = reader.getBranch<int8_t>(330, 12);
-
-  hipo::node<int32_t> *pid_node = reader.getBranch<int32_t>(331, 1);
-  hipo::node<float> *px_node = reader.getBranch<float>(331, 2);
-  hipo::node<float> *py_node = reader.getBranch<float>(331, 3);
-  hipo::node<float> *pz_node = reader.getBranch<float>(331, 4);
-  hipo::node<float> *vx_node = reader.getBranch<float>(331, 5);
-  hipo::node<float> *vy_node = reader.getBranch<float>(331, 6);
-  hipo::node<float> *vz_node = reader.getBranch<float>(331, 7);
-  hipo::node<int8_t> *charge_node = reader.getBranch<int8_t>(331, 8);
-  hipo::node<float> *beta_node = reader.getBranch<float>(331, 9);
-  hipo::node<float> *chi2pid_node = reader.getBranch<float>(331, 10);
-  hipo::node<int16_t> *status_node = reader.getBranch<int16_t>(331, 11);
-
-  hipo::node<int16_t> *cal_pindex_node = reader.getBranch<int16_t>(332, 2);
-  hipo::node<int8_t> *cal_detector_node = reader.getBranch<int8_t>(332, 3);
-  hipo::node<int8_t> *cal_sector_node = reader.getBranch<int8_t>(332, 4);
-  hipo::node<int8_t> *cal_layer_node = reader.getBranch<int8_t>(332, 5);
-  hipo::node<float> *cal_energy_node = reader.getBranch<float>(332, 6);
-  hipo::node<float> *cal_time_node = reader.getBranch<float>(332, 7);
-  hipo::node<float> *cal_path_node = reader.getBranch<float>(332, 8);
-  hipo::node<float> *cal_x_node = reader.getBranch<float>(332, 10);
-  hipo::node<float> *cal_y_node = reader.getBranch<float>(332, 11);
-  hipo::node<float> *cal_z_node = reader.getBranch<float>(332, 12);
-  hipo::node<float> *cal_lu_node = reader.getBranch<float>(332, 16);
-  hipo::node<float> *cal_lv_node = reader.getBranch<float>(332, 17);
-  hipo::node<float> *cal_lw_node = reader.getBranch<float>(332, 18);
-
-  hipo::node<int16_t> *chern_pindex_node = reader.getBranch<int16_t>(333, 2);
-  hipo::node<int8_t> *chern_detector_node = reader.getBranch<int8_t>(333, 3);
-  hipo::node<int8_t> *chern_sector_node = reader.getBranch<int8_t>(333, 4);
-  hipo::node<float> *chern_nphe_node = reader.getBranch<float>(333, 5);
-  hipo::node<float> *chern_time_node = reader.getBranch<float>(333, 6);
-  hipo::node<float> *chern_path_node = reader.getBranch<float>(333, 7);
-  hipo::node<float> *chern_theta_node = reader.getBranch<float>(333, 12);
-  hipo::node<float> *chern_phi_node = reader.getBranch<float>(333, 13);
-
-  hipo::node<int16_t> *fortag_pindex_node = reader.getBranch<int16_t>(334, 2);
-  hipo::node<int8_t> *fortag_detector_node = reader.getBranch<int8_t>(334, 3);
-  hipo::node<float> *fortag_energy_node = reader.getBranch<float>(334, 4);
-  hipo::node<float> *fortag_time_node = reader.getBranch<float>(334, 5);
-  hipo::node<float> *fortag_path_node = reader.getBranch<float>(334, 6);
-  hipo::node<float> *fortag_x_node = reader.getBranch<float>(334, 8);
-  hipo::node<float> *fortag_y_node = reader.getBranch<float>(334, 9);
-  hipo::node<float> *fortag_z_node = reader.getBranch<float>(334, 10);
-  hipo::node<float> *fortag_dx_node = reader.getBranch<float>(334, 11);
-  hipo::node<float> *fortag_dy_node = reader.getBranch<float>(334, 12);
-  hipo::node<float> *fortag_radius_node = reader.getBranch<float>(334, 13);
-  hipo::node<int16_t> *fortag_size_node = reader.getBranch<int16_t>(334, 14);
-
-  hipo::node<int16_t> *scint_pindex_node = reader.getBranch<int16_t>(335, 2);
-  hipo::node<int8_t> *scint_detector_node = reader.getBranch<int8_t>(335, 3);
-  hipo::node<int8_t> *scint_sector_node = reader.getBranch<int8_t>(335, 4);
-  hipo::node<int8_t> *scint_layer_node = reader.getBranch<int8_t>(335, 5);
-  hipo::node<int16_t> *scint_component_node = reader.getBranch<int16_t>(335, 6);
-  hipo::node<float> *scint_energy_node = reader.getBranch<float>(335, 7);
-  hipo::node<float> *scint_time_node = reader.getBranch<float>(335, 8);
-  hipo::node<float> *scint_path_node = reader.getBranch<float>(335, 9);
-
-  hipo::node<int16_t> *track_pindex_node = reader.getBranch<int16_t>(336, 2);
-  hipo::node<int8_t> *track_detector_node = reader.getBranch<int8_t>(336, 3);
-  hipo::node<int8_t> *track_sector_node = reader.getBranch<int8_t>(336, 4);
-  hipo::node<float> *track_px_nomm_node = reader.getBranch<float>(336, 9);
-  hipo::node<float> *track_py_nomm_node = reader.getBranch<float>(336, 10);
-  hipo::node<float> *track_pz_nomm_node = reader.getBranch<float>(336, 11);
-  hipo::node<float> *track_vx_nomm_node = reader.getBranch<float>(336, 12);
-  hipo::node<float> *track_vy_nomm_node = reader.getBranch<float>(336, 13);
-  hipo::node<float> *track_vz_nomm_node = reader.getBranch<float>(336, 14);
 
   clas12->Branch("run", &run, "run/I");
   clas12->Branch("event", &event, "event/I");
