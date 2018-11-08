@@ -16,3 +16,4 @@ test
 test.cpp
 recon
 dst2root
+*.plist
