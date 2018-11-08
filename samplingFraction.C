@@ -1,10 +1,9 @@
 #include "TH2.h"
 #include "TLorentzVector.h"
 
-int pid[50];
-float p[50];
-float ec_tot_energy[50];
-int gpart;
+std::vector<int> *pid;
+std::vector<float> *p;
+std::vector<float> *ec_tot_energy;
 
 TH2D *sf_hist = new TH2D("sf_hist", "Electron Sampling Fraction", 500, 0, 3.5, 500, 0, 0.5);
 
@@ -12,7 +11,7 @@ TChain *clas12 = new TChain("clas12", "clas12");
 
 int samplingFraction() {
   clas12->Add("test.root");
-  clas12->SetBranchAddress("gpart", &gpart);
+
   clas12->SetBranchAddress("pid", &pid);
   clas12->SetBranchAddress("p", &p);
 
@@ -21,7 +20,8 @@ int samplingFraction() {
   int num_of_events = (int)clas12->GetEntries();
   for (int current_event = 0; current_event < num_of_events; current_event++) {
     clas12->GetEntry(current_event);
-    if (pid[0] != 22 && p[0] != 0) sf_hist->Fill(p[0], ec_tot_energy[0] / p[0]);
+    if (pid->size() == 0) continue;
+    if (pid->at(0) != 22 && pid->at(0) != 0 && p->at(0) != 0) sf_hist->Fill(p->at(0), ec_tot_energy->at(0) / p->at(0));
   }
 
   TCanvas *c1 = new TCanvas("c1", "c1");
