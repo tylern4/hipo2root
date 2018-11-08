@@ -1,8 +1,8 @@
 LZ4INC = -Ilz4/lib
 ROOTLIBS = $(shell root-config --libs)
 CXXFLAGS = $(shell root-config --cflags) -Ilibcpp $(LZ4INC)
-LIBFLAG = -c -g $(shell root-config --auxcflags) $(LZ4INC) -D__LZ4__
-DEBUG = -D__DEBUG__
+LIBFLAG = -c $(shell root-config --auxcflags) $(LZ4INC) -D__LZ4__
+DEBUG = -D__DEBUG__ -g
 LIB = $(patsubst %.cpp,%.o,$(wildcard libcpp/*.cpp))
 CXX = g++
 PROG = dst2root
@@ -18,7 +18,7 @@ $(LZ4):
 	make lib -C lz4
 
 $(PROG): $(LZ4) $(LIB)
-	$(CXX) -O3 -g $@.cpp $(LIB) $(LZ4) $(CXXFLAGS) -o $@ $(ROOTLIBS)
+	$(CXX) -O3 $@.cpp $(LIB) $(LZ4) $(CXXFLAGS) -o $@ $(ROOTLIBS)
 
 clean:
 	-rm -f $(PROG)
