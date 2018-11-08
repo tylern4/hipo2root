@@ -16,7 +16,7 @@
 
 #define NaN std::nanf("-9999")
 
-static const int MAX = 50;
+static const int MAX = 100;
 
 int nCrate;
 int nTime;
