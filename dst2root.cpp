@@ -3,8 +3,10 @@
  * Author: Nick Tyler, University Of South Carolina
  */
 // Standard libs
+#include <stdlib.h>
 #include <time.h>
 #include <chrono>
+#include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include <vector>
@@ -17,141 +19,6 @@
 #define NaN std::nanf("-9999")
 
 static const int MAX = 100;
-
-int nCrate;
-int nTime;
-int run;
-int event;
-float torus;
-float solenoid;
-int crate[MAX];
-int slot[MAX];
-int channel[MAX];
-int helicity[MAX];
-int quartet[MAX];
-int value[MAX];
-float STTime[MAX];
-float RFTime[MAX];
-
-int gpart;
-int pid[MAX];
-float p[MAX];
-float p2[MAX];
-float px[MAX];
-float py[MAX];
-float pz[MAX];
-float vx[MAX];
-float vy[MAX];
-float vz[MAX];
-int charge[MAX];
-float beta[MAX];
-float chi2pid[MAX];
-int status[MAX];
-
-int dc_sec[MAX];
-float dc_px[MAX];
-float dc_py[MAX];
-float dc_pz[MAX];
-float dc_vx[MAX];
-float dc_vy[MAX];
-float dc_vz[MAX];
-
-float cvt_px[MAX];
-float cvt_py[MAX];
-float cvt_pz[MAX];
-float cvt_vx[MAX];
-float cvt_vy[MAX];
-float cvt_vz[MAX];
-
-float ec_tot_energy[MAX];
-float ec_pcal_energy[MAX];
-int ec_pcal_sec[MAX];
-float ec_pcal_time[MAX];
-float ec_pcal_path[MAX];
-float ec_pcal_x[MAX];
-float ec_pcal_y[MAX];
-float ec_pcal_z[MAX];
-float ec_pcal_lu[MAX];
-float ec_pcal_lv[MAX];
-float ec_pcal_lw[MAX];
-
-float ec_ecin_energy[MAX];
-int ec_ecin_sec[MAX];
-float ec_ecin_time[MAX];
-float ec_ecin_path[MAX];
-float ec_ecin_x[MAX];
-float ec_ecin_y[MAX];
-float ec_ecin_z[MAX];
-float ec_ecin_lu[MAX];
-float ec_ecin_lv[MAX];
-float ec_ecin_lw[MAX];
-
-float ec_ecout_energy[MAX];
-int ec_ecout_sec[MAX];
-float ec_ecout_time[MAX];
-float ec_ecout_path[MAX];
-float ec_ecout_x[MAX];
-float ec_ecout_y[MAX];
-float ec_ecout_z[MAX];
-float ec_ecout_lu[MAX];
-float ec_ecout_lv[MAX];
-float ec_ecout_lw[MAX];
-
-float cc_nphe_tot[MAX];
-int cc_ltcc_sec[MAX];
-float cc_ltcc_nphe[MAX];
-float cc_ltcc_time[MAX];
-float cc_ltcc_path[MAX];
-float cc_ltcc_theta[MAX];
-float cc_ltcc_phi[MAX];
-int cc_htcc_sec[MAX];
-float cc_htcc_nphe[MAX];
-float cc_htcc_time[MAX];
-float cc_htcc_path[MAX];
-float cc_htcc_theta[MAX];
-float cc_htcc_phi[MAX];
-
-int sc_ftof_sec[MAX];
-float sc_ftof_time[MAX];
-float sc_ftof_path[MAX];
-float sc_ftof_layer[MAX];
-float sc_ftof_energy[MAX];
-float sc_ftof_x[MAX];
-float sc_ftof_y[MAX];
-float sc_ftof_z[MAX];
-float sc_ftof_hx[MAX];
-float sc_ftof_hy[MAX];
-float sc_ftof_hz[MAX];
-
-float sc_ctof_time[MAX];
-float sc_ctof_path[MAX];
-float sc_ctof_energy[MAX];
-float sc_ctof_x[MAX];
-float sc_ctof_y[MAX];
-float sc_ctof_z[MAX];
-float sc_ctof_hx[MAX];
-float sc_ctof_hy[MAX];
-float sc_ctof_hz[MAX];
-
-float ft_cal_energy[MAX];
-float ft_cal_time[MAX];
-float ft_cal_path[MAX];
-float ft_cal_x[MAX];
-float ft_cal_y[MAX];
-float ft_cal_z[MAX];
-float ft_cal_dx[MAX];
-float ft_cal_dy[MAX];
-float ft_cal_radius[MAX];
-
-float ft_hodo_energy[MAX];
-float ft_hodo_time[MAX];
-float ft_hodo_path[MAX];
-float ft_hodo_x[MAX];
-float ft_hodo_y[MAX];
-float ft_hodo_z[MAX];
-float ft_hodo_dx[MAX];
-float ft_hodo_dy[MAX];
-float ft_hodo_radius[MAX];
 
 int main(int argc, char **argv) {
   auto start_full = std::chrono::high_resolution_clock::now();
@@ -169,6 +36,142 @@ int main(int argc, char **argv) {
     std::cout << "Please provide a filename to read...." << std::endl;
     exit(0);
   }
+
+  int nCrate;
+  int nTime;
+  int run;
+  int event;
+  float torus;
+  float solenoid;
+  int crate[MAX];
+  int slot[MAX];
+  int channel[MAX];
+  int helicity[MAX];
+  int quartet[MAX];
+  int value[MAX];
+  float STTime[MAX];
+  float RFTime[MAX];
+
+  int gpart;
+  int pid[MAX];
+  float p[MAX];
+  float p2[MAX];
+  float px[MAX];
+  float py[MAX];
+  float pz[MAX];
+  float vx[MAX];
+  float vy[MAX];
+  float vz[MAX];
+  int charge[MAX];
+  float beta[MAX];
+  float chi2pid[MAX];
+  int status[MAX];
+
+  int dc_sec[MAX];
+  float dc_px[MAX];
+  float dc_py[MAX];
+  float dc_pz[MAX];
+  float dc_vx[MAX];
+  float dc_vy[MAX];
+  float dc_vz[MAX];
+
+  float cvt_px[MAX];
+  float cvt_py[MAX];
+  float cvt_pz[MAX];
+  float cvt_vx[MAX];
+  float cvt_vy[MAX];
+  float cvt_vz[MAX];
+
+  float ec_tot_energy[MAX];
+  float ec_pcal_energy[MAX];
+  int ec_pcal_sec[MAX];
+  float ec_pcal_time[MAX];
+  float ec_pcal_path[MAX];
+  float ec_pcal_x[MAX];
+  float ec_pcal_y[MAX];
+  float ec_pcal_z[MAX];
+  float ec_pcal_lu[MAX];
+  float ec_pcal_lv[MAX];
+  float ec_pcal_lw[MAX];
+
+  float ec_ecin_energy[MAX];
+  int ec_ecin_sec[MAX];
+  float ec_ecin_time[MAX];
+  float ec_ecin_path[MAX];
+  float ec_ecin_x[MAX];
+  float ec_ecin_y[MAX];
+  float ec_ecin_z[MAX];
+  float ec_ecin_lu[MAX];
+  float ec_ecin_lv[MAX];
+  float ec_ecin_lw[MAX];
+
+  float ec_ecout_energy[MAX];
+  int ec_ecout_sec[MAX];
+  float ec_ecout_time[MAX];
+  float ec_ecout_path[MAX];
+  float ec_ecout_x[MAX];
+  float ec_ecout_y[MAX];
+  float ec_ecout_z[MAX];
+  float ec_ecout_lu[MAX];
+  float ec_ecout_lv[MAX];
+  float ec_ecout_lw[MAX];
+
+  float cc_nphe_tot[MAX];
+  int cc_ltcc_sec[MAX];
+  float cc_ltcc_nphe[MAX];
+  float cc_ltcc_time[MAX];
+  float cc_ltcc_path[MAX];
+  float cc_ltcc_theta[MAX];
+  float cc_ltcc_phi[MAX];
+  int cc_htcc_sec[MAX];
+  float cc_htcc_nphe[MAX];
+  float cc_htcc_time[MAX];
+  float cc_htcc_path[MAX];
+  float cc_htcc_theta[MAX];
+  float cc_htcc_phi[MAX];
+
+  int sc_ftof_sec[MAX];
+  float sc_ftof_time[MAX];
+  float sc_ftof_path[MAX];
+  float sc_ftof_layer[MAX];
+  float sc_ftof_energy[MAX];
+  float sc_ftof_x[MAX];
+  float sc_ftof_y[MAX];
+  float sc_ftof_z[MAX];
+  float sc_ftof_hx[MAX];
+  float sc_ftof_hy[MAX];
+  float sc_ftof_hz[MAX];
+
+  float sc_ctof_time[MAX];
+  float sc_ctof_path[MAX];
+  float sc_ctof_energy[MAX];
+  float sc_ctof_x[MAX];
+  float sc_ctof_y[MAX];
+  float sc_ctof_z[MAX];
+  float sc_ctof_hx[MAX];
+  float sc_ctof_hy[MAX];
+  float sc_ctof_hz[MAX];
+
+  float ft_cal_energy[MAX];
+  float ft_cal_time[MAX];
+  float ft_cal_path[MAX];
+  float ft_cal_x[MAX];
+  float ft_cal_y[MAX];
+  float ft_cal_z[MAX];
+  float ft_cal_dx[MAX];
+  float ft_cal_dy[MAX];
+  float ft_cal_radius[MAX];
+
+  float ft_hodo_energy[MAX];
+  float ft_hodo_time[MAX];
+  float ft_hodo_path[MAX];
+  float ft_hodo_x[MAX];
+  float ft_hodo_y[MAX];
+  float ft_hodo_z[MAX];
+  float ft_hodo_dx[MAX];
+  float ft_hodo_dy[MAX];
+  float ft_hodo_radius[MAX];
+
   TFile *OutputFile = new TFile(OutFileName, "RECREATE");
   OutputFile->SetCompressionSettings(9);
   TTree *clas12 = new TTree("clas12", "clas12");
