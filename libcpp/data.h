@@ -47,6 +47,7 @@ class data {
   std::vector<int> getReduced(const std::vector<int> &vec);
   std::vector<char> getLowerHalf(std::vector<int> &vec);
 };
+
 }  // namespace data
 
 #endif /* UTILS_H */

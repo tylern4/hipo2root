@@ -4,13 +4,19 @@
  * and open the template in the editor.
  */
 
+/*
+ * Jefferson Lab (c)
+ * Author : G. Gavalian
+ * Date   : 01/12/2017
+ */
+
 #include "node.h"
 
 namespace hipo {
 
 generic_node::generic_node() {}
 
-generic_node::~generic_node() {}
+generic_node::~generic_node() { /*---- Nothing to destory ---*/ }
 
 void generic_node::group(int group) { __group_id = group; }
 int generic_node::group() { return __group_id; }

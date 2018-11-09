@@ -63,8 +63,7 @@ void writer::writeRecord(hipo::record &record) {
     outputStream.write(&recordVec[0],recordVec.size());*/
 }
 
-void writer::writeEvent(hipo::event &event) { /*writerRecord.addEvent(event);*/
-}
+void writer::writeEvent(hipo::event &event) { /*writerRecord.addEvent(event);*/ }
 
 void writer::writeEvent(std::vector<char> &event) {
   /*  writerRecord.addEvent(event);

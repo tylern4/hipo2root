@@ -16,7 +16,7 @@ double vertex_time(double sc_time, double sc_pathlength, double relatavistic_bet
 }
 
 int deltat() {
-  TH2D *deltaT_prot = new TH2D("deltaT_prot", "#DeltaT Proton", 500, 0, 5.0, 500, -5, 5);
+  TH2D *deltaT_prot = new TH2D("deltaT_prot", "#Deltat Proton", 500, 0, 7.0, 500, -10, 10);
   TChain *clas12 = new TChain("clas12", "clas12");
 
   clas12->Add("test.root");

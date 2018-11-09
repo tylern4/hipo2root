@@ -17,7 +17,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
-
+#include <vector>
 //#include "event.h"
 //#include "reader.h"
 
@@ -29,14 +29,19 @@ class generic_node {
   int __item_id;
   int __type;
   int __length;
+  char *__address;
   std::string __node_name;
 
  public:
   generic_node();
+  generic_node(int group, int item) {
+    __group_id = group;
+    __item_id = item;
+  }
   virtual ~generic_node();
 
-  virtual void setAddress(char *address) {}
-
+  virtual void setAddress(char *address) { __address = address; }
+  virtual char *getAddress() { return __address; }
   int type();
   int length();
   int group();
@@ -72,7 +77,9 @@ class node : public generic_node {
   int getBytesLength();
   void setLength(int l);
   void setAddress(char *address);
+  void copy(std::vector<T> vec);
 };
+
 }  // namespace hipo
 
 namespace hipo {
@@ -153,5 +160,12 @@ template <class T>
 char *node<T>::getAddress() {
   return reinterpret_cast<char *>(ptr);
 }
+
+template <class T>
+void node<T>::copy(std::vector<T> vec) {
+  vec.resize(getLength());
+  memcpy((char *)&vec[0], getAddress(), getBytesLength());
+}
 }  // namespace hipo
+
 #endif /* NODE_H */

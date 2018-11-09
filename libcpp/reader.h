@@ -203,7 +203,12 @@ class reader {
   reader_sequence sequence;
 
   long inputStreamSize;
+
+  long recordsProcessed;
+  long eventsProcessed;
+
   bool isRandomAccess;
+
   bool verifyFile();
   void readHeader();
   void readRecordIndex();
@@ -212,8 +217,8 @@ class reader {
  public:
   reader();
   reader(bool ra);
+  reader(const char *infile);
   ~reader();
-  void close();
 
   std::vector<std::string> getDictionary();
 
@@ -231,9 +236,12 @@ class reader {
   hipo::event *getEvent() { return &inEventStream; }
   template <class T>
   hipo::node<T> *getBranch(int group, int item);
+  hipo::generic_node *getGenericBranch(int group, int item);
   template <class T>
   hipo::node<T> *getBranch(const char *group, const char *item);
+  std::vector<generic_node *> *getAllBranches() { return inEventStream.getAllBranches(); }
 };
+
 }  // namespace hipo
 
 namespace hipo {
@@ -241,6 +249,12 @@ template <class T>
 hipo::node<T> *reader::getBranch(int group, int item) {
   return inEventStream.getBranch<T>(group, item);
 }
+
+/*
+  hipo::generic_node    *reader::getGenericBranch(int group, int item){
+       return inEventStream.getEventGenericBranch(group, item);
+  }*/
+
 template <class T>
 hipo::node<T> *reader::getBranch(const char *group, const char *item) {
   if (schemaDictionary.hasSchema(group) == true) {

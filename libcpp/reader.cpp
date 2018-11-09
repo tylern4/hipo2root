@@ -20,25 +20,25 @@ namespace hipo {
  */
 reader::reader() {
   printWarning();
-  hipoutils.printLogo();
+  // hipoutils.printLogo();
   isRandomAccess = false;
 }
 
 reader::reader(bool ra) {
   printWarning();
-  hipoutils.printLogo();
+  // hipoutils.printLogo();
   isRandomAccess = ra;
+}
+
+reader::reader(const char *infile) {
+  printWarning();
+  isRandomAccess = false;
+  this->open(infile);
 }
 /**
  * Default destructor. Does nothing
  */
 reader::~reader() {
-  if (inputStream.is_open() == true) {
-    inputStream.close();
-  }
-}
-
-void reader::close() {
   if (inputStream.is_open() == true) {
     inputStream.close();
   }
@@ -59,9 +59,13 @@ void reader::open(const char *filename) {
   inputStreamSize = inputStream.tellg();
   inputStream.seekg(0, std::ios_base::beg);
   if (inputStream.is_open() == false) {
-    printf("[ERROR] something went wrong with openning file : %s\n", filename);
-    return;
+    std::cerr << "[ERROR] something went wrong with openning file : " << filename << std::endl;
+    exit(1);
   }
+
+  recordsProcessed = 0;
+  eventsProcessed = 0;
+
   readHeader();
   bool status = verifyFile();
   if (status == false) {
@@ -86,15 +90,14 @@ void reader::open(const char *filename) {
     } else {
       sequence.setNextPosition(positionOffset + length);
     }
-#ifdef __DEBUG__
-    printf(" read record = %12ld next %12ld  nevenets = %d length = %d\n", sequence.getPosition(),
-           sequence.getNextPosition(), sequence.getRecordEvents(), length);
-#endif
   }
 
   readDictionary();
 }
 
+hipo::generic_node *reader::getGenericBranch(int group, int item) {
+  return inEventStream.getEventGenericBranch(group, item);
+}
 /**
  * Reads the file header. The endiannes is determined for bytes
  * swap. The header structure will be filled with file parameters.
@@ -182,9 +185,17 @@ bool reader::next() {
     // printf("next() : current event %d has event %d\n",current_event,sequence.hasEvents());
     if (sequence.hasEvents() == false) {
       // printf(" READING NEXT BANCH \n");
-      if (sequence.getNextPosition() < 0) return false;
+      if (sequence.getNextPosition() < 0) {
+        return false;
+      }
       long positionOffset = sequence.getNextPosition();
-      inRecordStream.readRecord(inputStream, positionOffset, 0);
+      // inRecordStream.readRecord(inputStream,positionOffset,0);
+
+      bool status = inRecordStream.readRecord(inputStream, positionOffset, 0, inputStreamSize);
+      recordsProcessed++;
+      if (status == false) {
+        return false;
+      }
       int length = inRecordStream.getRecordSizeCompressed() * 4;
       // printf(" READING DONE %d %d \n",length,inRecordStream.getEventCount());
       sequence.setRecordEvents(inRecordStream.getEventCount());
@@ -200,6 +211,7 @@ bool reader::next() {
     int current_event = sequence.getCurrentEvent();
     // printf("1\n");
     inRecordStream.readHipoEvent(inEventStream, current_event);
+    eventsProcessed++;
     // printf("2\n");
     sequence.setCurrentEvent(current_event + 1);
     return true;

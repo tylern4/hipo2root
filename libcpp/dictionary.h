@@ -28,9 +28,15 @@ namespace hipo {
 class schema {
  private:
   std::map<std::string, std::pair<int, int> > schemaEntries;
+  std::vector<std::string> entryNames;
+
   int groupid;
   std::string schemaName;
+
+  /* internally used methods */
   std::string getTypeString(int type);
+  std::string getRootTypeString(int type);
+  std::string getTypeStringSimple(int type);
   int getMaxStringLength();
   std::string getBranchVariable(const char* var, int max);
 
@@ -41,6 +47,7 @@ class schema {
   schema(const schema& s) {
     schemaName = s.schemaName;
     schemaEntries = s.schemaEntries;
+    entryNames = s.entryNames;
     groupid = s.groupid;
   }
 
@@ -51,7 +58,11 @@ class schema {
 
   void setGroup(int grp) { groupid = grp; }
   bool hasEntry(const char* entry) { return schemaEntries.count(entry); }
-  void addEntry(const char* name, int id, int type) { schemaEntries[name] = std::make_pair(id, type); }
+  void addEntry(const char* name, int id, int type) {
+    schemaEntries[name] = std::make_pair(id, type);
+    // printf(" adding entry %s\n",name);
+    entryNames.push_back(name);
+  }
 
   int getGroup() { return groupid; };
   int getItem(const char* entry);
@@ -63,10 +74,14 @@ class schema {
   std::vector<std::string> branchesCode();
   std::vector<std::string> branchesAccessCode();
 
+  std::vector<std::string> getRootBranchesCode();
+  std::vector<std::string> getRootFillCode();
+
   void operator=(const schema& D) {
     schemaName = D.schemaName;
     groupid = D.groupid;
     schemaEntries = D.schemaEntries;
+    entryNames = D.entryNames;
   }
 };
 
@@ -80,10 +95,12 @@ class dictionary {
   // node(hipo::reader &reader, int group, int item);
   void ls(int mode = 0);
   bool hasSchema(const char* name) { return mapDict.count(name) > 0; }
+  bool hasEntry(const char* name, const char* entry);
   hipo::schema getSchema(const char* name) { return mapDict[name]; }
   void parse(std::string dictString);
   std::vector<std::string> getSchemaList();
 };
+
 }  // namespace hipo
 
 #endif /* NODE_H */

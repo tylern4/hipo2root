@@ -11,8 +11,9 @@
  * Created on April 12, 2017, 10:14 AM
  */
 
-#ifndef EVENT_H
-#define EVENT_H
+#ifndef HIPO_EVENT_H
+#define HIPO_EVENT_H
+
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -69,8 +70,10 @@ class event {
 
   template <class T>
   hipo::node<T> *getBranch(int group, int item);
-  // template<class T>   node<T> getNode();
+  hipo::generic_node *getEventGenericBranch(int group, int item);
 
+  std::vector<hipo::generic_node *> *getAllBranches() { return &nodes; }
+  // template<class T>   node<T> getNode();
   void scanEvent();
   void scanEventMap();
   std::vector<char> getEventBuffer();
@@ -86,6 +89,7 @@ template<class T>   node<T> event::getNode(){
 }  // namespace hipo
 
 namespace hipo {
+
 template <class T>
 hipo::node<T> *event::getBranch(int group, int item) {
   int size = nodes.size();
@@ -96,4 +100,5 @@ hipo::node<T> *event::getBranch(int group, int item) {
   return type;
 }
 }  // namespace hipo
+
 #endif /* EVENT_H */

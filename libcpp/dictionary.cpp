@@ -28,9 +28,13 @@ int schema::getMaxStringLength() {
 
 std::vector<std::string> schema::getEntryList() {
   std::vector<std::string> entries;
-  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin(); it != schemaEntries.end();
-       ++it) {
-    entries.push_back(it->first);
+  /*
+  for (std::map<std::string, std::pair<int,int> >::iterator it=schemaEntries.begin();
+       it!=schemaEntries.end(); ++it){
+         entries.push_back(it->first);
+  }*/
+  for (int i = 0; i < entryNames.size(); i++) {
+    entries.push_back(entryNames[i]);
   }
   return entries;
 }
@@ -58,6 +62,33 @@ int schema::getTypeByString(const char* typestring) {
     return 8;
   }
   return 0;
+}
+
+std::string schema::getTypeStringSimple(int type) {
+  std::string typeString = "unknown";
+  switch (type) {
+    case 1:
+      typeString = "int8_t";
+      break;
+    case 2:
+      typeString = "int16_t";
+      break;
+    case 3:
+      typeString = "int32_t";
+      break;
+    case 4:
+      typeString = "float";
+      break;
+    case 5:
+      typeString = "double";
+      break;
+    case 8:
+      typeString = "int64_t";
+      break;
+    default:
+      break;
+  }
+  return typeString;
 }
 
 std::string schema::getTypeString(int type) {
@@ -97,6 +128,122 @@ std::string schema::getBranchVariable(const char* var, int max) {
     pos = c_var.find_first_of(":", 0);
   }
   return c_var;
+}
+std::string schema::getRootTypeString(int type) {
+  std::string typeString = "unknown";
+  switch (type) {
+    case 1:
+      typeString = "Char_t";
+      break;
+    case 2:
+      typeString = "Short_t";
+      break;
+    case 3:
+      typeString = "Int_t";
+      break;
+    case 4:
+      typeString = "Float_t";
+      break;
+    case 5:
+      typeString = "Double_t";
+      break;
+    case 8:
+      typeString = "Long64_t";
+      break;
+    default:
+      break;
+  }
+  return typeString;
+}
+std::vector<std::string> schema::getRootBranchesCode() {
+  std::vector<std::string> code;
+  char c_type[128];
+  char c_name[128];
+  char c_line[128];
+  std::string scname = getName();
+  int maxLength = getMaxStringLength();
+  std::string format;
+
+  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin(); it != schemaEntries.end();
+       ++it) {
+    std::string type = getTypeString(it->second.second);
+
+    sprintf(c_type, "%-12s", type.c_str());
+
+    // node.append("  *");
+    sprintf(c_name, "*%s_%s", scname.c_str(), it->first.c_str());
+    std::string branch = getBranchVariable(c_name, scname.size());
+    std::string node("   hipo::node");
+    node.append(c_type);
+    node.append(branch);
+    node.append(";");
+    sprintf(c_name, "%s_%s", scname.c_str(), it->first.c_str());
+    branch = getBranchVariable(c_name, scname.size());
+    std::string rootType = getRootTypeString(it->second.second);
+    sprintf(c_line, "   std::vector<%s>   vec_%s;", rootType.c_str(), branch.c_str());
+    // node.append(c_line);
+    code.push_back(node);
+    code.push_back(c_line);
+  }
+
+  sprintf(c_name, "   if(dictionary->hasSchema(\"%s\")==true){", scname.c_str());
+  code.push_back(c_name);
+  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin(); it != schemaEntries.end();
+       ++it) {
+    std::string type = getTypeString(it->second.second);
+    sprintf(c_type, "%-12s", type.c_str());
+
+    sprintf(c_name, "      if(dictionary->hasEntry(\"%s\",\"%s\")==true){", scname.c_str(), it->first.c_str());
+    code.push_back(c_name);
+    sprintf(c_name, "%s_%s", scname.c_str(), it->first.c_str());
+    std::string branch = getBranchVariable(c_name, scname.size());
+    sprintf(c_line, "         %s = reader.getBranch%s(\"%s\",\"%s\");", branch.c_str(), c_type, getName().c_str(),
+            it->first.c_str());
+    code.push_back(c_line);
+
+    sprintf(c_line, "         tree->Branch(\"%s\",&vec_%s);", branch.c_str(), branch.c_str());
+    code.push_back(c_line);
+    code.push_back(std::string("      }"));
+  }
+
+  code.push_back(std::string("   }"));
+  return code;
+}
+std::vector<std::string> schema::getRootFillCode() {
+  std::vector<std::string> code;
+  char c_type[128];
+  char c_name[128];
+  char c_line[128];
+  std::string scname = getName();
+  int maxLength = getMaxStringLength();
+  std::string format;
+  sprintf(c_name, "   if(dictionary->hasSchema(\"%s\")==true){", scname.c_str());
+  code.push_back(c_name);
+  for (std::map<std::string, std::pair<int, int> >::iterator it = schemaEntries.begin(); it != schemaEntries.end();
+       ++it) {
+    std::string type = getTypeStringSimple(it->second.second);
+    sprintf(c_type, "%-12s", type.c_str());
+
+    sprintf(c_name, "      if(dictionary->hasEntry(\"%s\",\"%s\")==true){", scname.c_str(), it->first.c_str());
+    code.push_back(c_name);
+    sprintf(c_name, "%s_%s", scname.c_str(), it->first.c_str());
+    std::string branch = getBranchVariable(c_name, scname.size());
+
+    sprintf(c_line, "         int nsize = %s->getLength();", branch.c_str());
+    code.push_back(c_line);
+    sprintf(c_line, "         vec_%s.clear();", branch.c_str());
+    code.push_back(c_line);
+    sprintf(c_line, "         vec_%s.resize(nsize);", branch.c_str());
+    code.push_back(c_line);
+    sprintf(c_line, "         memcpy(&vec_%s[0],%s->getAddress(),nsize*sizeof(%s));", branch.c_str(), branch.c_str(),
+            type.c_str());
+
+    code.push_back(c_line);
+
+    code.push_back(std::string("      }"));
+  }
+  code.push_back(std::string("   }"));
+  return code;
 }
 
 std::vector<std::string> schema::branchesAccessCode() {
@@ -189,6 +336,10 @@ void dictionary::ls(int mode) {
   }
 }
 
+bool dictionary::hasEntry(const char* name, const char* entry) {
+  if (mapDict.count(name) == 0) return false;
+  return mapDict[name].hasEntry(entry);
+}
 std::vector<std::string> dictionary::getSchemaList() {
   std::vector<std::string> list;
   for (std::map<std::string, hipo::schema>::iterator it = mapDict.begin(); it != mapDict.end(); ++it) {
@@ -223,9 +374,7 @@ void dictionary::parse(std::string dictString) {
       if (type != 0) {
         schema.addEntry(tokens[1].c_str(), item, type);
       } else {
-#ifdef __DEBUG__
         printf("** error ** entry %s int schema %s has undefined type.\n", schema.getName().c_str(), tokens[1].c_str());
-#endif
       }
       /*printf("\t found item %s %s %s\n",tokens[0].c_str(),tokens[1].c_str(),
              tokens[2].c_str());*/
@@ -233,4 +382,5 @@ void dictionary::parse(std::string dictString) {
   }
   mapDict[schema.getName()] = schema;
 }
+
 }  // namespace hipo
