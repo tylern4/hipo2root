@@ -19,9 +19,7 @@ all_files = [
     "bankdefs/hipo/LTCC.json"
 ]
 
-clas6 = ["bankdefs/hipo/CLAS6EVENT.json"]
-
-small = ["bankdefs/hipo/EVENT.json"]
+default = ["bankdefs/mc_particle.json"]
 
 root_check = {
     "int8": "int",
@@ -44,13 +42,14 @@ hipo_check = {
 }
 
 fill_satement = "\n\t\tclas12->Fill();\n"
-#fill_satement = "\n\t\tif(REC_Particle_pid_vec.size() > 0) clas12->Fill();\n"
+
 middle = r"""
   int entry = 0;
   int l = 0;
+  int tot_hipo_events = reader.numEvents();
   while (reader.next() == true) {
-    entry++;
-    if ((entry % 1000) == 0) std::cerr << "\t" << entry << "\r\r" << std::flush;
+    if (!is_batch && (++entry % 10000) == 0)
+      std::cout << "\t" << int(100 * entry / tot_hipo_events) << "%\r\r" << std::flush;
 """
 
 loop = r"""
@@ -70,13 +69,12 @@ ending = r"""
   OutputFile->cd();
   clas12->Write();
   OutputFile->Close();
-
+  if (!is_batch){
     std::chrono::duration<double> elapsed_full =
         (std::chrono::high_resolution_clock::now() - start_full);
     std::cout << "Elapsed time: " << elapsed_full.count() << " s" << std::endl;
-    std::cout << "Sec/Event: " << elapsed_full.count() / entry << std::endl;
     std::cout << "Events/Sec: " << entry / elapsed_full.count() << " Hz" << std::endl;
-
+  }
   return 0;
 }
 """
@@ -94,6 +92,8 @@ begining = r"""/*
 #include <cstdlib>
 #include <iostream>
 #include <vector>
+// Command line options
+#include "clipp.h"
 // ROOT libs
 #include "TFile.h"
 #include "TTree.h"
@@ -102,25 +102,29 @@ begining = r"""/*
 
 int main(int argc, char **argv) {
   auto start_full = std::chrono::high_resolution_clock::now();
-  char InFileName[128];
-  char OutFileName[128];
+  std::string InFileName = "";
+  std::string OutFileName = "";
+  bool is_batch = false;
+  bool print_help = false;
 
-  if (argc == 2) {
-    sprintf(InFileName, "%s", argv[1]);
-    sprintf(OutFileName, "%s.root", argv[1]);
-    std::cout << OutFileName << std::endl;
-  } else if (argc == 3) {
-    sprintf(InFileName, "%s", argv[1]);
-    sprintf(OutFileName, "%s", argv[2]);
-  } else {
-    std::cout << "Please provide a filename to read...." << std::endl;
+  auto cli =
+      (clipp::option("-h", "--help").set(print_help) % "print help",
+       clipp::option("-b", "--batch").set(is_batch) % "Don't show progress and statistics",
+       clipp::value("inputFile.hipo", InFileName), clipp::opt_value("outputFile.root", OutFileName));
+
+  clipp::parse(argc, argv, cli);
+  if (print_help || InFileName == "") {
+    std::cout << clipp::make_man_page(cli, argv[0]);
     exit(0);
   }
-    TFile *OutputFile = new TFile(OutFileName, "RECREATE");
+
+  if (OutFileName == "") OutFileName = InFileName + ".root";
+
+    TFile *OutputFile = new TFile(OutFileName.c_str(), "RECREATE");
     OutputFile->SetCompressionSettings(9);
     TTree *clas12 = new TTree("clas12", "clas12");
   hipo::reader reader;
-  reader.open(InFileName);
+  reader.open(InFileName.c_str());
 """
 
 node = r"""
@@ -187,8 +191,6 @@ if __name__ == '__main__':
         nargs='+',
         help='Specify json file/files for bank information, overrides all other options'
     )
-    parser.add_argument(
-        '--clas6', action='store_true', help="Add banks from clas6")
     parser.add_argument('--BST', action='store_true', help='Add bank BST')
     parser.add_argument('--DC', action='store_true', help='Add bank DC')
     parser.add_argument('--MC', action='store_true', help='Add bank MC')
@@ -219,12 +221,16 @@ if __name__ == '__main__':
         files = all_files
     elif (args.json):
         files = args.json
+        for arg in vars(args):
+            if arg is not 'ALL' and arg is not 'json':
+                if getattr(args, arg):
+                    files.append('bankdefs/hipo/' + str(arg) + '.json')
     else:
         for arg in vars(args):
             if arg is not 'ALL' and arg is not 'json':
                 if getattr(args, arg):
                     files.append('bankdefs/hipo/' + str(arg) + '.json')
     if len(files) == 0:
-        files = small
+        files = default
 
     make_hipo2root(files)
