@@ -40,6 +40,7 @@ class utils {
   static std::string getFileTrailer(const char *code);
   static std::string getSConstruct();
 };
+
 }  // namespace hipo
 
 #endif /* UTILS_H */

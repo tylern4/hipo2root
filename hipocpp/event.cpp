@@ -17,6 +17,15 @@ event::event() {
 
 event::~event() {}
 
+hipo::generic_node *event::getEventGenericBranch(int group, int item) {
+  int size = nodes.size();
+  int key = ((0x00000000 | group) << 16) | ((0x00000000 | item) << 8);
+  registeredNodes[key] = size;
+  hipo::generic_node *type = new hipo::generic_node(group, item);
+  nodes.push_back(type);
+  return type;
+}
+
 hipo::node<int> *event::getIntNode(int group, int item) {
   int size = nodes.size();
   int key = ((0x00000000 | group) << 16) | ((0x00000000 | item) << 8);
@@ -136,8 +145,9 @@ void event::reset() {
 }
 
 int event::getEventNode(int group, int item) {
-  int position = 8;
-  while (position + 8 < dataBuffer.size()) {
+  int position = 16;
+  int eventSize = *(reinterpret_cast<uint32_t *>(&dataBuffer[8]));
+  while (position + 8 < eventSize) {
     uint16_t gid = *(reinterpret_cast<uint16_t *>(&dataBuffer[position]));
     uint8_t iid = *(reinterpret_cast<uint8_t *>(&dataBuffer[position + 2]));
     uint8_t type = *(reinterpret_cast<uint8_t *>(&dataBuffer[position + 3]));
@@ -146,9 +156,9 @@ int event::getEventNode(int group, int item) {
     if (gid == group && iid == item) return position;
     position += (length + 8);
   }
-
   return -1;
 }
+
 std::vector<long> event::getLong(int group, int item) {
   int position = getEventNode(group, item);
   std::vector<long> vector;
@@ -167,6 +177,7 @@ std::vector<long> event::getLong(int group, int item) {
   }
   return vector;
 }
+
 std::vector<int> event::getInt(int group, int item) {
   int position = getEventNode(group, item);
   std::vector<int> vector;
@@ -237,6 +248,13 @@ std::vector<float> event::getFloat(int group, int item) {
         vector.push_back(*ptr);
       }
     }
+    if (type == 5) {
+      int iter = length / 8;
+      for (int i = 0; i < iter; i++) {
+        double *ptr = reinterpret_cast<double *>(&dataBuffer[position + 8 + i * 8]);
+        vector.push_back((float)*ptr);
+      }
+    }
   }
   return vector;
 }
@@ -259,6 +277,7 @@ int event::getNodeType(int address) {
 void event::scanEvent() {
   eventNodes.clear();
   resetNodes();
+  // printf("scanning event\n");
   // int position = 8;
   int position = 16;
   int eventSize = *(reinterpret_cast<uint32_t *>(&dataBuffer[8]));
@@ -298,8 +317,11 @@ void event::scanEvent() {
         default:
           break;
       }
+      nodes[order]->type(type);
       nodes[order]->length(elements);
       nodes[order]->setAddress(&dataBuffer[position + 8]);
+      // nodes[order]->address(&dataBuffer[position+8]);
+
       // printf(" found the key %d %d order = %d\n" , gid,iid, order);
     }
     // printf(" adding node : %4d %4d %X\n",gid,iid,position);

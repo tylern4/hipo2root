@@ -60,12 +60,12 @@ std::string utils::substring(const std::string &str, const char *start_delim, co
 
 void utils::printLogo() {
 #ifdef __DEBUG__
-  std::cout << "************************************************" << std::endl;
+  std::cout << "*************************" << std::endl;
   std::cout << "*         >=<         ---------------------    *" << std::endl;
   std::cout << "*    ,.--'  ''-.      HIPO 3.0 I/O Library     *" << std::endl;
   std::cout << "*    (  )  ',_.'      Jefferson National Lab   *" << std::endl;
   std::cout << "*     Xx'xX           Date: 10/27/2017         *" << std::endl;
-  std::cout << "************************************************" << std::endl;
+  std::cout << "*************************" << std::endl;
   std::cout << std::endl;
 #endif
 }
@@ -144,8 +144,7 @@ std::string utils::getSConstruct() {
   std__string.append("env.Append(CCFLAGS=[\"-O2\",\"-fPIC\",\"-m64\",\"-fmessage-length=0\",\"-g\"])\n");
   std__string.append(
       "env.Append(LIBPATH=[\"/opt/local/lib\",\"/usr/lib\",\"/usr/local/lib\",\"/group/clas12/packages/lz4/"
-      "lib\",\"lib\",\"/"
-      "group/clas12/packages/hipo-io/lib\"])\n");
+      "lib\",\"lib\",\"/group/clas12/packages/hipo-io/lib\"])\n");
   std__string.append(
       "env.Append(CONFIGUREDIR=[\"/group/clas12/packages/lz4/lib\",\"/group/clas12/packages/hipo-io/lib\"])\n");
   std__string.append("#=================================================\n");

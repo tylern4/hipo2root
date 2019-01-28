@@ -8,6 +8,7 @@ hipo::record hipo_FORT_Record_Dictionary;
 hipo::event hipo_FORT_Event;
 
 extern "C" {
+
 void hipo_open_file_(int *nrecords, const char *filename, int length) {
   char *buffer = (char *)malloc(length + 1);
   memcpy(buffer, filename, length);
@@ -22,11 +23,15 @@ void hipo_open_file_(int *nrecords, const char *filename, int length) {
   free(buffer);
 }
 
-int hipo_file_next_() {
+int hipo_file_next_(int *fstatus) {
   bool status = hipo_FORT_Reader.next();
-  if (status == false) return 0;
+  if (status == false) {
+    *fstatus = 12;
+    return 12;
+  }
   hipo_FORT_Reader.getEvent()->scanEventMap();
-  return 1;
+  *fstatus = 0;
+  return 0;
 }
 
 void get_dict_length_(int *len) { *len = hipo_FORT_Record_Dictionary.getEventCount(); }
@@ -62,10 +67,38 @@ void hipo_read_event_(int *n_event) {
   hipo_FORT_Record.readHipoEvent(hipo_FORT_Event, event_index);
 }
 
+void hipo_read_float_(int *group, int *item, int *nread, float *buffer, int *maxRows) {
+  int id_g = *group;
+  int id_i = *item;
+  int max = *maxRows;
+  // printf("READIN FLOAT %d %d \n",*group,*item);
+  std::vector<float> vec = hipo_FORT_Reader.getEvent()->getFloat(id_g, id_i);
+  // printf("RESULT SIZE = %d \n",vec.size());
+  for (int i = 0; i < vec.size(); i++) {
+    if (i < max) buffer[i] = vec[i];
+  }
+  *nread = vec.size();
+}
+
+void hipo_read_int_(int *group, int *item, int *nread, int *buffer, int *maxRows) {
+  int id_g = *group;
+  int id_i = *item;
+  int max = *maxRows;
+  // printf("READIN INT %d %d \n",*group,*item);
+  std::vector<int> vec = hipo_FORT_Reader.getEvent()->getInt(id_g, id_i);
+  // printf("RESULT SIZE = %d \n",vec.size());
+  for (int i = 0; i < vec.size(); i++) {
+    if (i < max) buffer[i] = vec[i];
+  }
+  *nread = vec.size();
+}
+
 void hipo_read_node_float_(int *group, int *item, int *nread, float *buffer) {
   int id_g = *group;
   int id_i = *item;
+  // printf("READIN FLOAT %d %d \n",*group,*item);
   std::vector<float> vec = hipo_FORT_Reader.getEvent()->getFloat(id_g, id_i);
+  // printf("RESULT SIZE = %d \n",vec.size());
   for (int i = 0; i < vec.size(); i++) {
     buffer[i] = vec[i];
   }
@@ -75,7 +108,9 @@ void hipo_read_node_float_(int *group, int *item, int *nread, float *buffer) {
 void hipo_read_node_int_(int *group, int *item, int *nread, int *buffer) {
   int id_g = *group;
   int id_i = *item;
+  // printf("READIN INT %d %d \n",*group,*item);
   std::vector<int> vec = hipo_FORT_Reader.getEvent()->getInt(id_g, id_i);
+  // printf("RESULT SIZE = %d \n",vec.size());
   for (int i = 0; i < vec.size(); i++) {
     buffer[i] = vec[i];
   }

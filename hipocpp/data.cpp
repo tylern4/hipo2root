@@ -254,4 +254,5 @@ void data::getVector(std::vector<int> &pulse, std::vector<char> &encoded) {
 
   }*/
 }
+
 }  // namespace data

@@ -88,7 +88,7 @@ class record {
 
   void readRecord(std::ifstream &stream, long position, int dataOffset);
   void readRecord__(std::ifstream &stream, long position, long recordLength);
-
+  bool readRecord(std::ifstream &stream, long position, int dataOffset, long inputSize);
   int getEventCount();
   int getRecordSizeCompressed();
   void readEvent(std::vector<char> &vec, int index);

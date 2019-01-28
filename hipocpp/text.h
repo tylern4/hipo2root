@@ -42,6 +42,7 @@ class reader {
   std::vector<int> getIntVector();
   std::string getLine();
 };
+
 }  // namespace text
 
 #endif /* TEXT_H */

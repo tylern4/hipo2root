@@ -20,14 +20,20 @@ namespace hipo {
  */
 reader::reader() {
   printWarning();
-  hipoutils.printLogo();
+  // hipoutils.printLogo();
   isRandomAccess = false;
 }
 
 reader::reader(bool ra) {
   printWarning();
-  hipoutils.printLogo();
+  // hipoutils.printLogo();
   isRandomAccess = ra;
+}
+
+reader::reader(const char *infile) {
+  printWarning();
+  isRandomAccess = false;
+  this->open(infile);
 }
 /**
  * Default destructor. Does nothing
@@ -53,9 +59,13 @@ void reader::open(const char *filename) {
   inputStreamSize = inputStream.tellg();
   inputStream.seekg(0, std::ios_base::beg);
   if (inputStream.is_open() == false) {
-    printf("[ERROR] something went wrong with openning file : %s\n", filename);
-    return;
+    std::cerr << "[ERROR] something went wrong with openning file : " << filename << std::endl;
+    exit(1);
   }
+
+  recordsProcessed = 0;
+  eventsProcessed = 0;
+
   readHeader();
   bool status = verifyFile();
   if (status == false) {
@@ -80,15 +90,14 @@ void reader::open(const char *filename) {
     } else {
       sequence.setNextPosition(positionOffset + length);
     }
-#ifdef __DEBUG__
-    printf(" read record = %12ld next %12ld  nevenets = %d length = %d\n", sequence.getPosition(),
-           sequence.getNextPosition(), sequence.getRecordEvents(), length);
-#endif
   }
 
-  readDictionary();
+  // readDictionary();
 }
 
+hipo::generic_node *reader::getGenericBranch(int group, int item) {
+  return inEventStream.getEventGenericBranch(group, item);
+}
 /**
  * Reads the file header. The endiannes is determined for bytes
  * swap. The header structure will be filled with file parameters.
@@ -154,6 +163,11 @@ void reader::readDictionary() {
 
 std::vector<std::string> reader::getDictionary() { return fileDictionary; }
 
+int reader::numEvents() {
+  readRecordIndex();
+  return inReaderIndex.getMaxEvents();
+}
+
 bool reader::next() {
   // printf("random access = %d\n",isRandomAccess);
   if (isRandomAccess == true) {
@@ -176,9 +190,17 @@ bool reader::next() {
     // printf("next() : current event %d has event %d\n",current_event,sequence.hasEvents());
     if (sequence.hasEvents() == false) {
       // printf(" READING NEXT BANCH \n");
-      if (sequence.getNextPosition() < 0) return false;
+      if (sequence.getNextPosition() < 0) {
+        return false;
+      }
       long positionOffset = sequence.getNextPosition();
-      inRecordStream.readRecord(inputStream, positionOffset, 0);
+      // inRecordStream.readRecord(inputStream,positionOffset,0);
+
+      bool status = inRecordStream.readRecord(inputStream, positionOffset, 0, inputStreamSize);
+      recordsProcessed++;
+      if (status == false) {
+        return false;
+      }
       int length = inRecordStream.getRecordSizeCompressed() * 4;
       // printf(" READING DONE %d %d \n",length,inRecordStream.getEventCount());
       sequence.setRecordEvents(inRecordStream.getEventCount());
@@ -194,6 +216,7 @@ bool reader::next() {
     int current_event = sequence.getCurrentEvent();
     // printf("1\n");
     inRecordStream.readHipoEvent(inEventStream, current_event);
+    eventsProcessed++;
     // printf("2\n");
     sequence.setCurrentEvent(current_event + 1);
     return true;
@@ -245,24 +268,22 @@ void reader::readRecordIndex() {
 
     version = (version & 0x000000FF);
     if (version != 6) {
-      printf(" version error : %d\n", version);
+      std::cerr << "version error : " << version << std::endl;
       break;
     }
     if (magic_number != 0xc0da0100 && magic_number != 0x0001dac0) {
-      printf("magic number error : %X\n", (unsigned int)magic_number);
+      std::cerr << "magic number error : " << (unsigned int)magic_number << std::endl;
       break;
     }
 
-    // printf("version = %d , magic number = %X\n",version,(unsigned int) magic_number);
     positionOffset += recIndex.recordLength * 4;
     inputStream.seekg(positionOffset, std::ios::beg);
     recordIndex.push_back(recIndex);
-    // positionOffset +=
     icounter++;
-    /*printf(" next position (%4d) : %16ld file size %ld events = %d\n",
-      icounter,positionOffset,hipoFileSize, recIndex.recordEvents);*/
   }
-  printf("total records = %d  index array = %d\n", icounter, (unsigned int)recordIndex.size());
+#ifdef __DEBUG__
+  std::cout << "total records = "<<icounter<<" index array = " << (unsigned int)recordIndex.size()) << std::endl;
+#endif
 }
 
 hipo::dictionary *reader::getSchemaDictionary() { return &schemaDictionary; }
@@ -275,8 +296,6 @@ void reader::readHeaderRecord(hipo::record &record) {
 
 void reader::readRecord(hipo::record &record, int index) {
   long position = recordIndex[index].recordPosition;
-  // printf("\n\n***** reading record %d with length %d\n",index,recordIndex[index].recordLength*4);
-  // record.readRecord__(inputStream,position,recordIndex[index].recordLength*4);
   record.readRecord(inputStream, position, 0);
 }
 void reader::readRecord(int index) {
@@ -354,9 +373,9 @@ bool reader_index::advance() {
   }
 
   if (recordEvents.size() < currentRecord + 2 + 1) {
-    printf("advance(): Warning, reached the limit of events.\n");
     return false;
   }
+
   currentEvent++;
   currentRecord++;
   currentRecordEvent = 0;
