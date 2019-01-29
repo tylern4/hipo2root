@@ -22,9 +22,15 @@ To choose which banks you would like, instead of copying over all the banks you 
 
     ./hipo2root infile.hipo outfile.root
 
-## TODO
+## Performace
 
--   [x] Allow bank configuration with file.
--   [x] Add banks to directories.
--   [ ] Look into  fixing:
-    -   "note: variable tracking size limit exceeded with -fvar-tracking-assignments, retrying without"
+Taking a skimmed dst file and converting it on Ubuntu 17.10, Intel(R) i7-3770 CPU @ 3.40GHz, reading and writing to an ssd.
+
+| hipo   	| root    |
+|:------:	|:------: |
+| 14G 	  | 11G     |
+
+
+| Conversion time   	| Events/Sec    |
+|:-----------------:	|:------------: |
+| 4080 seconds 	      | 1759 Hz       |
